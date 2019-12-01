@@ -1,0 +1,215 @@
+(pytorch) [kelo@kelo-hp firenet]$ python fire_pytorch.py
+Loading FireNet dataset with (64, 64) dimensions
+Loading images...
+Ok
+x_train shape: (1696, 64, 64, 3)
+1696 train samples
+786 fire
+910 no_fire
+x_val shape: (729, 64, 64, 3)
+729 test samples
+338 fire
+391 no_fire
+num_classes 2 input_shape (64, 64, 3)
+Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1)) True
+ReLU(inplace=True) False
+AvgPool2d(kernel_size=2, stride=2, padding=0) False
+Dropout2d(p=0.5, inplace=False) False
+ConvBlock(
+  (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1))
+  (relu): ReLU(inplace=True)
+  (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (dropout): Dropout2d(p=0.5, inplace=False)
+) False
+Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1)) True
+ReLU(inplace=True) False
+AvgPool2d(kernel_size=2, stride=2, padding=0) False
+Dropout2d(p=0.5, inplace=False) False
+ConvBlock(
+  (conv1): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))
+  (relu): ReLU(inplace=True)
+  (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (dropout): Dropout2d(p=0.5, inplace=False)
+) False
+Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1)) True
+ReLU(inplace=True) False
+AvgPool2d(kernel_size=2, stride=2, padding=0) False
+Dropout2d(p=0.5, inplace=False) False
+ConvBlock(
+  (conv1): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1))
+  (relu): ReLU(inplace=True)
+  (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+  (dropout): Dropout2d(p=0.5, inplace=False)
+) False
+Linear(in_features=2304, out_features=256, bias=True) True
+ReLU(inplace=True) False
+Dropout(p=0.2, inplace=False) False
+Linear(in_features=256, out_features=128, bias=True) True
+Linear(in_features=128, out_features=2, bias=True) True
+FireNet(
+  (block1): ConvBlock(
+    (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1))
+    (relu): ReLU(inplace=True)
+    (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (dropout): Dropout2d(p=0.5, inplace=False)
+  )
+  (block2): ConvBlock(
+    (conv1): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))
+    (relu): ReLU(inplace=True)
+    (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (dropout): Dropout2d(p=0.5, inplace=False)
+  )
+  (block3): ConvBlock(
+    (conv1): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1))
+    (relu): ReLU(inplace=True)
+    (avg_pool): AvgPool2d(kernel_size=2, stride=2, padding=0)
+    (dropout): Dropout2d(p=0.5, inplace=False)
+  )
+  (linear1): Linear(in_features=2304, out_features=256, bias=True)
+  (relu): ReLU(inplace=True)
+  (dropout): Dropout(p=0.2, inplace=False)
+  (linear2): Linear(in_features=256, out_features=128, bias=True)
+  (linear3): Linear(in_features=128, out_features=2, bias=True)
+) False
+Epoch 001/100: Train Loss: 0.0199 Acc: 0.6303 | Val Loss: 0.0187 Acc: 0.7298 | time elapsed: 0m 3s
+Epoch 002/100: Train Loss: 0.0185 Acc: 0.6904 | Val Loss: 0.0177 Acc: 0.7298 | time elapsed: 0m 3s
+Epoch 003/100: Train Loss: 0.0176 Acc: 0.7117 | Val Loss: 0.0160 Acc: 0.7791 | time elapsed: 0m 3s
+Epoch 004/100: Train Loss: 0.0172 Acc: 0.7282 | Val Loss: 0.0155 Acc: 0.7874 | time elapsed: 0m 3s
+Epoch 005/100: Train Loss: 0.0163 Acc: 0.7441 | Val Loss: 0.0144 Acc: 0.8025 | time elapsed: 0m 3s
+Epoch 006/100: Train Loss: 0.0165 Acc: 0.7441 | Val Loss: 0.0147 Acc: 0.8025 | time elapsed: 0m 3s
+Epoch 007/100: Train Loss: 0.0163 Acc: 0.7506 | Val Loss: 0.0142 Acc: 0.8052 | time elapsed: 0m 3s
+Epoch 008/100: Train Loss: 0.0155 Acc: 0.7683 | Val Loss: 0.0142 Acc: 0.8093 | time elapsed: 0m 3s
+Epoch 009/100: Train Loss: 0.0156 Acc: 0.7577 | Val Loss: 0.0138 Acc: 0.8176 | time elapsed: 0m 3s
+Epoch 010/100: Train Loss: 0.0152 Acc: 0.7677 | Val Loss: 0.0139 Acc: 0.8066 | time elapsed: 0m 3s
+Epoch 011/100: Train Loss: 0.0150 Acc: 0.7842 | Val Loss: 0.0128 Acc: 0.8052 | time elapsed: 0m 3s
+Epoch 012/100: Train Loss: 0.0153 Acc: 0.7665 | Val Loss: 0.0133 Acc: 0.8189 | time elapsed: 0m 3s
+Epoch 013/100: Train Loss: 0.0149 Acc: 0.7665 | Val Loss: 0.0137 Acc: 0.8080 | time elapsed: 0m 3s
+Epoch 014/100: Train Loss: 0.0150 Acc: 0.7677 | Val Loss: 0.0146 Acc: 0.8148 | time elapsed: 0m 3s
+Epoch 015/100: Train Loss: 0.0143 Acc: 0.7801 | Val Loss: 0.0125 Acc: 0.8244 | time elapsed: 0m 3s
+Epoch 016/100: Train Loss: 0.0144 Acc: 0.7812 | Val Loss: 0.0127 Acc: 0.8189 | time elapsed: 0m 3s
+Epoch 017/100: Train Loss: 0.0144 Acc: 0.7942 | Val Loss: 0.0132 Acc: 0.8189 | time elapsed: 0m 3s
+Epoch 018/100: Train Loss: 0.0146 Acc: 0.7765 | Val Loss: 0.0137 Acc: 0.8176 | time elapsed: 0m 3s
+Epoch 019/100: Train Loss: 0.0142 Acc: 0.7848 | Val Loss: 0.0137 Acc: 0.8052 | time elapsed: 0m 3s
+Epoch 020/100: Train Loss: 0.0137 Acc: 0.7978 | Val Loss: 0.0133 Acc: 0.8052 | time elapsed: 0m 3s
+Epoch 021/100: Train Loss: 0.0133 Acc: 0.8025 | Val Loss: 0.0126 Acc: 0.8285 | time elapsed: 0m 3s
+Epoch 022/100: Train Loss: 0.0131 Acc: 0.8143 | Val Loss: 0.0131 Acc: 0.8162 | time elapsed: 0m 3s
+Epoch 023/100: Train Loss: 0.0136 Acc: 0.7948 | Val Loss: 0.0126 Acc: 0.8299 | time elapsed: 0m 3s
+Epoch 024/100: Train Loss: 0.0133 Acc: 0.8107 | Val Loss: 0.0125 Acc: 0.8134 | time elapsed: 0m 3s
+Epoch 025/100: Train Loss: 0.0130 Acc: 0.8054 | Val Loss: 0.0127 Acc: 0.8272 | time elapsed: 0m 3s
+Epoch 026/100: Train Loss: 0.0131 Acc: 0.8025 | Val Loss: 0.0126 Acc: 0.8134 | time elapsed: 0m 3s
+Epoch 027/100: Train Loss: 0.0132 Acc: 0.8048 | Val Loss: 0.0125 Acc: 0.8381 | time elapsed: 0m 3s
+Epoch 028/100: Train Loss: 0.0129 Acc: 0.7954 | Val Loss: 0.0120 Acc: 0.8354 | time elapsed: 0m 3s
+Epoch 029/100: Train Loss: 0.0129 Acc: 0.8096 | Val Loss: 0.0123 Acc: 0.8395 | time elapsed: 0m 3s
+Epoch 030/100: Train Loss: 0.0128 Acc: 0.8172 | Val Loss: 0.0123 Acc: 0.8299 | time elapsed: 0m 3s
+Epoch 031/100: Train Loss: 0.0122 Acc: 0.8154 | Val Loss: 0.0118 Acc: 0.8340 | time elapsed: 0m 3s
+Epoch 032/100: Train Loss: 0.0121 Acc: 0.8101 | Val Loss: 0.0118 Acc: 0.8340 | time elapsed: 0m 3s
+Epoch 033/100: Train Loss: 0.0124 Acc: 0.8107 | Val Loss: 0.0120 Acc: 0.8381 | time elapsed: 0m 4s
+Epoch 034/100: Train Loss: 0.0126 Acc: 0.8143 | Val Loss: 0.0118 Acc: 0.8422 | time elapsed: 0m 3s
+Epoch 035/100: Train Loss: 0.0120 Acc: 0.8255 | Val Loss: 0.0125 Acc: 0.8285 | time elapsed: 0m 3s
+Epoch 036/100: Train Loss: 0.0117 Acc: 0.8267 | Val Loss: 0.0117 Acc: 0.8381 | time elapsed: 0m 4s
+Epoch 037/100: Train Loss: 0.0115 Acc: 0.8355 | Val Loss: 0.0123 Acc: 0.8313 | time elapsed: 0m 4s
+Epoch 038/100: Train Loss: 0.0116 Acc: 0.8343 | Val Loss: 0.0122 Acc: 0.8326 | time elapsed: 0m 3s
+Epoch 039/100: Train Loss: 0.0113 Acc: 0.8343 | Val Loss: 0.0113 Acc: 0.8450 | time elapsed: 0m 3s
+Epoch 040/100: Train Loss: 0.0112 Acc: 0.8432 | Val Loss: 0.0112 Acc: 0.8422 | time elapsed: 0m 3s
+Epoch 041/100: Train Loss: 0.0111 Acc: 0.8361 | Val Loss: 0.0118 Acc: 0.8368 | time elapsed: 0m 3s
+Epoch 042/100: Train Loss: 0.0117 Acc: 0.8290 | Val Loss: 0.0111 Acc: 0.8450 | time elapsed: 0m 3s
+Epoch 043/100: Train Loss: 0.0112 Acc: 0.8414 | Val Loss: 0.0113 Acc: 0.8395 | time elapsed: 0m 3s
+Epoch 044/100: Train Loss: 0.0114 Acc: 0.8337 | Val Loss: 0.0109 Acc: 0.8464 | time elapsed: 0m 3s
+Epoch 045/100: Train Loss: 0.0111 Acc: 0.8414 | Val Loss: 0.0113 Acc: 0.8409 | time elapsed: 0m 3s
+Epoch 046/100: Train Loss: 0.0112 Acc: 0.8325 | Val Loss: 0.0125 Acc: 0.8230 | time elapsed: 0m 4s
+Epoch 047/100: Train Loss: 0.0110 Acc: 0.8390 | Val Loss: 0.0107 Acc: 0.8505 | time elapsed: 0m 6s
+Epoch 048/100: Train Loss: 0.0108 Acc: 0.8467 | Val Loss: 0.0115 Acc: 0.8422 | time elapsed: 0m 6s
+Epoch 049/100: Train Loss: 0.0106 Acc: 0.8544 | Val Loss: 0.0107 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 050/100: Train Loss: 0.0101 Acc: 0.8638 | Val Loss: 0.0108 Acc: 0.8464 | time elapsed: 0m 3s
+Epoch 051/100: Train Loss: 0.0099 Acc: 0.8538 | Val Loss: 0.0110 Acc: 0.8477 | time elapsed: 0m 3s
+Epoch 052/100: Train Loss: 0.0110 Acc: 0.8432 | Val Loss: 0.0108 Acc: 0.8587 | time elapsed: 0m 3s
+Epoch 053/100: Train Loss: 0.0097 Acc: 0.8579 | Val Loss: 0.0109 Acc: 0.8628 | time elapsed: 0m 3s
+Epoch 054/100: Train Loss: 0.0100 Acc: 0.8603 | Val Loss: 0.0109 Acc: 0.8326 | time elapsed: 0m 3s
+Epoch 055/100: Train Loss: 0.0098 Acc: 0.8573 | Val Loss: 0.0103 Acc: 0.8683 | time elapsed: 0m 3s
+Epoch 056/100: Train Loss: 0.0095 Acc: 0.8738 | Val Loss: 0.0119 Acc: 0.8381 | time elapsed: 0m 3s
+Epoch 057/100: Train Loss: 0.0096 Acc: 0.8697 | Val Loss: 0.0106 Acc: 0.8560 | time elapsed: 0m 3s
+Epoch 058/100: Train Loss: 0.0092 Acc: 0.8703 | Val Loss: 0.0104 Acc: 0.8519 | time elapsed: 0m 3s
+Epoch 059/100: Train Loss: 0.0092 Acc: 0.8691 | Val Loss: 0.0114 Acc: 0.8477 | time elapsed: 0m 3s
+Epoch 060/100: Train Loss: 0.0094 Acc: 0.8721 | Val Loss: 0.0107 Acc: 0.8505 | time elapsed: 0m 3s
+Epoch 061/100: Train Loss: 0.0091 Acc: 0.8703 | Val Loss: 0.0101 Acc: 0.8738 | time elapsed: 0m 3s
+Epoch 062/100: Train Loss: 0.0097 Acc: 0.8667 | Val Loss: 0.0103 Acc: 0.8656 | time elapsed: 0m 3s
+Epoch 063/100: Train Loss: 0.0092 Acc: 0.8768 | Val Loss: 0.0105 Acc: 0.8615 | time elapsed: 0m 3s
+Epoch 064/100: Train Loss: 0.0085 Acc: 0.8868 | Val Loss: 0.0103 Acc: 0.8642 | time elapsed: 0m 3s
+Epoch 065/100: Train Loss: 0.0091 Acc: 0.8774 | Val Loss: 0.0109 Acc: 0.8587 | time elapsed: 0m 3s
+Epoch 066/100: Train Loss: 0.0095 Acc: 0.8679 | Val Loss: 0.0100 Acc: 0.8724 | time elapsed: 0m 3s
+Epoch 067/100: Train Loss: 0.0089 Acc: 0.8750 | Val Loss: 0.0103 Acc: 0.8642 | time elapsed: 0m 3s
+Epoch 068/100: Train Loss: 0.0086 Acc: 0.8756 | Val Loss: 0.0112 Acc: 0.8573 | time elapsed: 0m 3s
+Epoch 069/100: Train Loss: 0.0083 Acc: 0.8909 | Val Loss: 0.0106 Acc: 0.8628 | time elapsed: 0m 3s
+Epoch 070/100: Train Loss: 0.0080 Acc: 0.8992 | Val Loss: 0.0117 Acc: 0.8546 | time elapsed: 0m 3s
+Epoch 071/100: Train Loss: 0.0088 Acc: 0.8868 | Val Loss: 0.0105 Acc: 0.8601 | time elapsed: 0m 3s
+Epoch 072/100: Train Loss: 0.0078 Acc: 0.8921 | Val Loss: 0.0099 Acc: 0.8738 | time elapsed: 0m 3s
+Epoch 073/100: Train Loss: 0.0081 Acc: 0.8856 | Val Loss: 0.0102 Acc: 0.8628 | time elapsed: 0m 3s
+Epoch 074/100: Train Loss: 0.0077 Acc: 0.8915 | Val Loss: 0.0103 Acc: 0.8601 | time elapsed: 0m 3s
+Epoch 075/100: Train Loss: 0.0077 Acc: 0.8945 | Val Loss: 0.0101 Acc: 0.8697 | time elapsed: 0m 3s
+Epoch 076/100: Train Loss: 0.0075 Acc: 0.9015 | Val Loss: 0.0106 Acc: 0.8656 | time elapsed: 0m 3s
+Epoch 077/100: Train Loss: 0.0074 Acc: 0.8962 | Val Loss: 0.0102 Acc: 0.8656 | time elapsed: 0m 3s
+Epoch 078/100: Train Loss: 0.0077 Acc: 0.8974 | Val Loss: 0.0101 Acc: 0.8820 | time elapsed: 0m 3s
+Epoch 079/100: Train Loss: 0.0071 Acc: 0.9039 | Val Loss: 0.0107 Acc: 0.8615 | time elapsed: 0m 3s
+Epoch 080/100: Train Loss: 0.0068 Acc: 0.9098 | Val Loss: 0.0103 Acc: 0.8642 | time elapsed: 0m 3s
+Epoch 081/100: Train Loss: 0.0071 Acc: 0.9009 | Val Loss: 0.0108 Acc: 0.8656 | time elapsed: 0m 3s
+Epoch 082/100: Train Loss: 0.0064 Acc: 0.9216 | Val Loss: 0.0108 Acc: 0.8642 | time elapsed: 0m 3s
+Epoch 083/100: Train Loss: 0.0065 Acc: 0.9180 | Val Loss: 0.0109 Acc: 0.8779 | time elapsed: 0m 3s
+Epoch 084/100: Train Loss: 0.0070 Acc: 0.9039 | Val Loss: 0.0104 Acc: 0.8628 | time elapsed: 0m 3s
+Epoch 085/100: Train Loss: 0.0063 Acc: 0.9233 | Val Loss: 0.0106 Acc: 0.8697 | time elapsed: 0m 3s
+Epoch 086/100: Train Loss: 0.0070 Acc: 0.9068 | Val Loss: 0.0105 Acc: 0.8724 | time elapsed: 0m 3s
+Epoch 087/100: Train Loss: 0.0068 Acc: 0.9127 | Val Loss: 0.0101 Acc: 0.8779 | time elapsed: 0m 3s
+Epoch 088/100: Train Loss: 0.0067 Acc: 0.9192 | Val Loss: 0.0105 Acc: 0.8628 | time elapsed: 0m 3s
+Epoch 089/100: Train Loss: 0.0065 Acc: 0.9139 | Val Loss: 0.0107 Acc: 0.8656 | time elapsed: 0m 4s
+Epoch 090/100: Train Loss: 0.0061 Acc: 0.9222 | Val Loss: 0.0102 Acc: 0.8587 | time elapsed: 0m 4s
+Epoch 091/100: Train Loss: 0.0064 Acc: 0.9110 | Val Loss: 0.0102 Acc: 0.8697 | time elapsed: 0m 4s
+Epoch 092/100: Train Loss: 0.0056 Acc: 0.9257 | Val Loss: 0.0118 Acc: 0.8642 | time elapsed: 0m 3s
+Epoch 093/100: Train Loss: 0.0051 Acc: 0.9316 | Val Loss: 0.0116 Acc: 0.8683 | time elapsed: 0m 3s
+Epoch 094/100: Train Loss: 0.0062 Acc: 0.9204 | Val Loss: 0.0111 Acc: 0.8519 | time elapsed: 0m 3s
+Epoch 095/100: Train Loss: 0.0058 Acc: 0.9245 | Val Loss: 0.0114 Acc: 0.8573 | time elapsed: 0m 3s
+Epoch 096/100: Train Loss: 0.0065 Acc: 0.9175 | Val Loss: 0.0123 Acc: 0.8381 | time elapsed: 0m 3s
+Epoch 097/100: Train Loss: 0.0052 Acc: 0.9340 | Val Loss: 0.0120 Acc: 0.8601 | time elapsed: 0m 3s
+Epoch 098/100: Train Loss: 0.0058 Acc: 0.9257 | Val Loss: 0.0118 Acc: 0.8532 | time elapsed: 0m 3s
+Epoch 099/100: Train Loss: 0.0058 Acc: 0.9304 | Val Loss: 0.0105 Acc: 0.8683 | time elapsed: 0m 3s
+Epoch 100/100: Train Loss: 0.0062 Acc: 0.9204 | Val Loss: 0.0115 Acc: 0.8505 | time elapsed: 0m 3s
+Training complete in 5m 17s
+Best val Acc: 0.882030
+Loading FireNet-Test dataset with (64, 64) dimensions
+Loading images...
+Ok
+x_test shape: (871, 64, 64, 3)
+871 test samples
+593 fire
+278 no_fire
+num_classes 2 input_shape (64, 64, 3)
+Evaluating model
+Accuracy of the network on the test images: 76.92%
+
+Classification Report
+              precision    recall  f1-score   support
+
+     No Fire       0.62      0.70      0.66       278
+        Fire       0.85      0.80      0.83       593
+
+    accuracy                           0.77       871
+   macro avg       0.74      0.75      0.74       871
+weighted avg       0.78      0.77      0.77       871
+
+(pytorch) [kelo@kelo-hp firenet]$ python pytorch_profile.py
+Register FLOP counter for module Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1))
+Register FLOP counter for module ReLU(inplace=True)
+Register FLOP counter for module AvgPool2d(kernel_size=2, stride=2, padding=0)
+THOP has not implemented counting method for  Dropout2d(p=0.5, inplace=False)
+Register FLOP counter for module Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))
+Register FLOP counter for module ReLU(inplace=True)
+Register FLOP counter for module AvgPool2d(kernel_size=2, stride=2, padding=0)
+THOP has not implemented counting method for  Dropout2d(p=0.5, inplace=False)
+Register FLOP counter for module Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1))
+Register FLOP counter for module ReLU(inplace=True)
+Register FLOP counter for module AvgPool2d(kernel_size=2, stride=2, padding=0)
+THOP has not implemented counting method for  Dropout2d(p=0.5, inplace=False)
+Register FLOP counter for module Linear(in_features=2304, out_features=256, bias=True)
+Register FLOP counter for module ReLU(inplace=True)
+Register FLOP counter for module Dropout(p=0.2, inplace=False)
+Register FLOP counter for module Linear(in_features=256, out_features=128, bias=True)
+Register FLOP counter for module Linear(in_features=128, out_features=2, bias=True)
+FireNet flops, params 9.605M 646.818K

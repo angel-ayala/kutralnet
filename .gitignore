@@ -1,0 +1,11 @@
+# articles for literature review
+/articles
+
+# blacklist datasets
+/datasets/*/*
+/datasets/video_test
+
+# whitelist dataset prep
+!/datasets/*/*.sh
+!/datasets/*/*.py
+!/datasets/*/*.csv
