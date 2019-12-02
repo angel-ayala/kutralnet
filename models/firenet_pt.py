@@ -31,6 +31,8 @@ class FireNet(nn.Module):
         self.linear2 = nn.Linear(256, 128)
         self.linear3 = nn.Linear(128, classes)
         # self.softmax = nn.Softmax(dim=1)
+        # self._init_params()
+    # end __init__
 
     def forward(self, x):
         x = self.block1(x)
@@ -45,3 +47,12 @@ class FireNet(nn.Module):
         # x = self.relu(self.linear3(x))
         # x = self.softmax(x)
         return x
+    # end forward
+
+    # def _init_params(self):
+    #     for m in self.modules():
+    #         if isinstance(m, nn.Conv2d):
+    #             nn.init.xavier_uniform_(m.weight)#, gain=nn.init.calculate_gain('relu'))
+    #             if m.bias is not None:
+    #                 nn.init.zeros_(m.bias)
+    # end _init_params

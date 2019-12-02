@@ -21,7 +21,7 @@ if use_cuda:
     torch.backends.cudnn.benchmark = False
 
 # choose model
-base_model = 'firenet'
+base_model = 'kutralnet'
 config = models_conf[base_model]
 
 img_dims = config['img_dims']

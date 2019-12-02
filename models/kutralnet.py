@@ -70,10 +70,10 @@ def _octconv_bn_final(inp, oup, kernel=3, stride=1, alpha=(0.125, 0.), padding=0
 
 class KutralNet(nn.Module):
     def __init__(self, classes):
-        super(LighterNet, self).__init__()
+        super(KutralNet, self).__init__()
         self.firstBlock = nn.Sequential(
-            nn.Conv2d(in_channels=3, out_channels=32, kernel_size=7, stride=1, padding=0, bias=False),
-            nn.BatchNorm2d(num_features=32),
+            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=7, stride=1, padding=0, bias=False),
+            nn.BatchNorm2d(num_features=64),
             nn.ReLU6(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2, padding=0)
         )
@@ -84,9 +84,9 @@ class KutralNet(nn.Module):
             (.25, 0.)
         ]
 
-        self.firstOctave = _octconv_bn(32, 64, kernel=3, stride=1, alpha=alphas[0])
+        self.firstOctave = _octconv_bn(64, 128, kernel=3, stride=1, alpha=alphas[0])
         self.avg_pool = _AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.middleOctave = _octconv_bn(64, 32, kernel=3, stride=1, alpha=alphas[1])
+        self.middleOctave = _octconv_bn(128, 32, kernel=3, stride=1, alpha=alphas[1])
         self.avg_pool2 = _AvgPool2d(kernel_size=3, stride=2, padding=1)
         self.lastOctave = _octconv_bn_final(32, 64, kernel=3, stride=1, alpha=alphas[2], padding=1)
 
