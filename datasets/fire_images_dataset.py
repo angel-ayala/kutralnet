@@ -7,10 +7,12 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 class FireImagesDataset(Dataset):
-    def __init__(self, name, root_path, csv_file='dataset.csv', transform=None, preload=False):
+    def __init__(self, name, root_path, csv_file='dataset.csv', transform=None,
+        purpose='train', preload=False):
         self.root_path = root_path
         self.csv_file = csv_file
         self.name = name
+        self.purpose = purpose
         self.transform = transform
         self.data = self.read_csv()
 
@@ -42,7 +44,7 @@ class FireImagesDataset(Dataset):
         if self.preload:
             return self.x[idx], self.y[idx]
 
-        return _item(idx)
+        return self._item(idx)
     # end __getitem__
 
     def _item(self, idx):
@@ -66,6 +68,9 @@ class FireImagesDataset(Dataset):
         csv_path = os.path.join(self.root_path, self.csv_file)
         print('Reading file: {}'.format(csv_path))
         dataset_df = pd.read_csv(csv_path)
+
+        if self.purpose is not None and 'purpose' in dataset_df:
+            dataset_df = dataset_df[dataset_df['purpose'] == self.purpose]
 
         return dataset_df
     # read_csv
@@ -98,20 +103,6 @@ class CustomNormalize:
         return self.__class__.__name__ + '([{}, {}])'.format(self.a, self.b)
     # end __repr__
 # end CustomNormalize
-
-class ZeroCentered:
-    def __init__(self, value=255):
-        self.value = value
-    # end __init__
-
-    def __call__(self, tensor):
-        return tensor / self.value
-    # end __call__
-
-    def __repr__(self):
-        return self.__class__.__name__ + '({})'.format(self.value)
-    # end __repr__
-# end ZeroCentered
 
 if __name__ == '__main__':
     data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'FireNetDataset')

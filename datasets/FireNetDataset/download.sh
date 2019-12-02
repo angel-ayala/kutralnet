@@ -19,6 +19,12 @@ printf "OK\n"
 printf "Training/NoFire/nofire631.jpg "
 mogrify -format jpg "Training/NoFire/nofire631.jpg"
 printf "OK\n"
+printf "Training/NoFire/nofire650.jpg "
+mogrify -format jpg "Training/NoFire/nofire650.jpg"
+printf "OK\n"
+printf "Training/NoFire/nf1238.jpg "
+mogrify -format jpg "Training/NoFire/nf1238.jpg"
+printf "OK\n"
 
 printf "Done!\n"
 

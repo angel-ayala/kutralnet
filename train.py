@@ -1,18 +1,18 @@
 import os
 import numpy as np
-
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torchvision import transforms
-from datasets import FireImagesDataset, CustomNormalize, ZeroCentered
-from utils.nadam_optim import Nadam
+from datasets import FireImagesDataset
 from utils.training import train_model, plot_history
+from utils.models import models_conf
+
+from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
+from models.resnet import resnet_sharma
+from models.kutralnet import KutralNet
 
 # Seed
 seed_val = 666
-use_cuda = True
+use_cuda = torch.cuda.is_available()
 torch.manual_seed(seed_val)
 np.random.seed(seed_val)
 
@@ -20,43 +20,53 @@ if use_cuda:
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-# img_dims = (68, 68)
-img_dims = (96, 96)
-model_name = 'model_octfiresnet.pth'
+# choose model
+base_model = 'firenet'
+config = models_conf[base_model]
+
+img_dims = config['img_dims']
+model_name = config['model_name']
 
 # train config
 batch_size = 32
-validation_split = .3
 shuffle_dataset = True
 epochs = 100
 
 # common preprocess
-transform_compose = transforms.Compose([
-           transforms.Resize(img_dims), #redimension
-           transforms.ToTensor(),
-           # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) # values [-1, 1]
-           # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) # values ~[-1, 1]
-           # CustomNormalize((0, 1))
-           ZeroCentered()
-        ])
+transform_compose = config['preprocess']
 
 # dataset read
 data_path = os.path.join('.', 'datasets', 'FireNetDataset')
-dataset = FireImagesDataset(name='FireNet', root_path=data_path,
+train_data = FireImagesDataset(name='FireNet', root_path=data_path,
             transform=transform_compose, preload=True)
+val_data = FireImagesDataset(name='FireNet', root_path=data_path,
+            purpose='test', transform=transform_compose, preload=True)
 
-num_classes = len(dataset.labels)
+num_classes = len(train_data.labels)
 
-# model parameters
-model = OctFiResNet(classes=num_classes)
+# model selection
+if base_model == 'firenet':
+    model = FireNet(classes=num_classes)
+elif base_model == 'octfiresnet':
+    model = OctFiResNet(classes=num_classes)
+elif base_model == 'resnet':
+    model = resnet_sharma(classes=num_classes)
+elif base_model == 'kutralnet':
+    model = KutralNet(classes=num_classes)
+else:
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
+
 print(model)
 
 # optimizers
-criterion = nn.CrossEntropyLoss()
-optimizer = Nadam(model.parameters())#, lr=0.0001)#, eps=1e-7)#, eps=None)
+criterion = config['criterion'] #nn.CrossEntropyLoss()
+opt_args = {'params': model.parameters()}
+opt_args.update(config['optimizer_params'])
+optimizer = config['optimizer'](**opt_args)
 
-history, best_model = train_model(model, criterion, optimizer, dataset, epochs=epochs, batch_size=batch_size,
-            validation_split=validation_split, shuffle_dataset=shuffle_dataset, use_cuda=use_cuda)
+history, best_model = train_model(model, criterion, optimizer, train_data, val_data, epochs=epochs,
+            batch_size=batch_size, shuffle_dataset=shuffle_dataset,
+            use_cuda=use_cuda)
 
 torch.save(best_model, 'models/saved/' + model_name)
 plot_history(history)

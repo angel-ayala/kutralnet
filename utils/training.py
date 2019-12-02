@@ -6,32 +6,19 @@ from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report
 from torch.utils.data.sampler import SubsetRandomSampler
 
-def train_model(model, criterion, optimizer, dataset, epochs=100, batch_size=32,
-                validation_split=.2, shuffle_dataset=True, use_cuda=True):
-    # Creating data indices for training and validation splits:
-    dataset_size = len(dataset)
-    indices = list(range(dataset_size))
-    split = int(np.floor(validation_split * dataset_size))
-
-    if shuffle_dataset:
-        np.random.shuffle(indices)
-
-    train_indices, val_indices = indices[split:], indices[:split]
-
-    # Creating PT data samplers and loaders:
-    train_sampler = SubsetRandomSampler(train_indices)
-    valid_sampler = SubsetRandomSampler(val_indices)
-
-    train_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
-                                               sampler=train_sampler, num_workers=2)
-    validation_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
-                                                    sampler=valid_sampler, num_workers=2)
+def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, batch_size=32,
+                shuffle_dataset=True, use_cuda=True):
+    # prepare dataset
+    train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,
+                                                shuffle=shuffle_dataset, num_workers=2)
+    validation_loader = torch.utils.data.DataLoader(val_data, batch_size=batch_size,
+                                                shuffle=shuffle_dataset, num_workers=2)
 
     if use_cuda:
         model.cuda()
 
     data_loaders = {"train": train_loader, "val": validation_loader}
-    data_lengths = {"train": len(train_loader) * batch_size, "val": len(validation_loader) * batch_size}
+    data_lengths = {"train": len(train_data), "val": len(val_data)}
     print('data_lengths', data_lengths)
 
     since = time.time()

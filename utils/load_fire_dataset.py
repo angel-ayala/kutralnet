@@ -76,9 +76,7 @@ def read_dataset_from_csv(dataset_path, csv_name='dataset.csv', resize=None, val
         return np.array(x_train), np.array(y_train)
 # read_dataset_from_csv
 
-def load_fismo_dataset(fismo_path, val_split=True, width_resize=224, height_resize=224, debug=False):
-    # resize params
-    resize = (width_resize, height_resize)
+def load_fismo_dataset(fismo_path, val_split=True, resize=(224, 224), debug=False):
     # load images
     print('Loading FiSmo with', resize, 'dimension')
     return read_dataset_from_csv(fismo_path,
@@ -87,9 +85,7 @@ def load_fismo_dataset(fismo_path, val_split=True, width_resize=224, height_resi
                             debug=debug)
 # end load_fismo_dataset
 
-def load_firesense_dataset(firesense_path, val_split=True, width_resize=224, height_resize=224, debug=False):
-    # resize params
-    resize = (width_resize, height_resize)
+def load_firesense_dataset(firesense_path, val_split=True, resize=(224, 224), debug=False):
     # load images
     print('Loading FireSense with', resize, 'dimension')
     return read_dataset_from_csv(firesense_path,
@@ -98,9 +94,7 @@ def load_firesense_dataset(firesense_path, val_split=True, width_resize=224, hei
                                 debug=debug)
 # end load_firesense_dataset
 
-def load_cairfire_dataset(cairfire_path, val_split=True, width_resize=224, height_resize=224, debug=False):
-    # resize params
-    resize = (width_resize, height_resize)
+def load_cairfire_dataset(cairfire_path, val_split=True, resize=(224, 224), debug=False):
     # load images
     print('Loading CairFire with', resize, 'dimension')
     return read_dataset_from_csv(cairfire_path,
@@ -109,9 +103,7 @@ def load_cairfire_dataset(cairfire_path, val_split=True, width_resize=224, heigh
                                 debug=debug)
 # end load_cairfire_dataset
 
-def load_firenet_dataset(firenet_path, val_split=True, width_resize=224, height_resize=224, debug=False):
-    # resize params
-    resize = (width_resize, height_resize)
+def load_firenet_dataset(firenet_path, val_split=True, resize=(224, 224), debug=False):
     # load images
     print('Loading FireNet with', resize, 'dimension')
     return read_dataset_from_csv(firenet_path,
@@ -120,9 +112,7 @@ def load_firenet_dataset(firenet_path, val_split=True, width_resize=224, height_
                                 debug=debug)
 # end load_firenet_dataset
 
-def load_firenet_test_dataset(firenet_path, val_split=False, width_resize=224, height_resize=224, debug=False):
-    # resize params
-    resize = (width_resize, height_resize)
+def load_firenet_test_dataset(firenet_path, val_split=False, resize=(224, 224), debug=False):
     # load images
     print('Loading FireNet-Test with', resize, 'dimension')
     return read_dataset_from_csv(firenet_path,
