@@ -13,13 +13,29 @@ from keras.models import load_model
 from datasets import FireNetDataset
 from models.firenet_tf import firenet_tf
 from sklearn.metrics import classification_report
+from utils.training import plot_history
 
-must_train = False
+# Set a seed value
+seed_value= 666 # 1. Set `PYTHONHASHSEED` environment variable at a fixed value
+os.environ['PYTHONHASHSEED']=str(seed_value)# 2. Set `python` built-in pseudo-random generator at a fixed value
+import random
+random.seed(seed_value)# 3. Set `numpy` pseudo-random generator at a fixed value
+np.random.seed(seed_value)# 4. Set `tensorflow` pseudo-random generator at a fixed value
+import tensorflow as tf
+tf.set_random_seed(seed_value)# 5. For layers that introduce randomness like dropout, make sure to set seed values
+# model.add(Dropout(0.25, seed=seed_value))#6 Configure a new global `tensorflow` session
+from keras import backend as K
+session_conf = tf.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
+sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
+K.set_session(sess)
+
+
+must_train = True
 must_test = True
 
 ### Training
 if must_train:
-    dt = FireNetDataset(size=(64,64))
+    dt = FireNetDataset(size=(64,64), debug=True)
     x_train, y_train, x_val, y_val = dt.load_train_val()
 
     # Normalize data.
@@ -81,22 +97,7 @@ if must_train:
 
     # model.save('models/saved/firenet_tf.h5')
 
-
-    plt.plot(history.history['acc'])
-    plt.plot(history.history['val_acc'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
-
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
+    plot_history(history.history)
 
 ### Test
 if must_test:

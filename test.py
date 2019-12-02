@@ -5,7 +5,7 @@ import torch
 from torchvision import transforms
 from datasets import FireImagesDataset, CustomNormalize
 from utils.training import test_model
-from models.octave_resnet import OctFiResNet
+from models.octfiresnet import OctFiResNet
 
 # Seed
 seed_val = 666
@@ -41,4 +41,4 @@ num_classes = len(dataset.labels)
 model = OctFiResNet(classes=num_classes)
 model.load_state_dict(torch.load('models/saved/' + model_name))
 
-test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda):
+test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)

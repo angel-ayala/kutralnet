@@ -41,6 +41,8 @@ def train_model(model, criterion, optimizer, dataset, epochs=100, batch_size=32,
     history = {}
     history['loss'] = []
     history['acc'] = []
+    history['val_loss'] = []
+    history['val_acc'] = []
 
     for epoch in range(epochs):
         print('Epoch {:03d}/{:03d}'.format(epoch +1, epochs), end=": ")
@@ -87,8 +89,12 @@ def train_model(model, criterion, optimizer, dataset, epochs=100, batch_size=32,
 
             epoch_loss = running_loss / data_lengths[phase]
             epoch_acc = running_acc / data_lengths[phase]
-            history['loss'].append(epoch_loss)
-            history['acc'].append(epoch_acc)
+
+            loss_key = 'loss' if phase == 'train' else 'val_loss'
+            acc_key = 'acc' if phase == 'train' else 'val_acc'
+            history[loss_key].append(epoch_loss)
+            history[acc_key].append(epoch_acc)
+
             print('{} Loss: {:.4f}'.format(phase.capitalize(), epoch_loss), 'Acc: {:.4f}'.format(epoch_acc), end=" | ")
             # deep copy the model
             if phase == 'val' and epoch_acc > best_acc:
@@ -105,6 +111,7 @@ def train_model(model, criterion, optimizer, dataset, epochs=100, batch_size=32,
     print('Best val Acc: {:4f}'.format(best_acc))
 
     return history, best_model_wts
+# end train_model
 
 def test_model(model, dataset, batch_size=32, use_cuda=True):
     test_loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
@@ -155,6 +162,8 @@ def test_model(model, dataset, batch_size=32, use_cuda=True):
     print('Classification Report')
     print(class_report)
 
+# end test_model
+
 def show_samples(data):
     fig = plt.figure()
 
@@ -174,3 +183,22 @@ def show_samples(data):
         if i == 3:
             plt.show()
             break
+# end show_samples
+
+def plot_history(history):
+    plt.plot(history['acc'])
+    plt.plot(history['val_acc'])
+    plt.title('Model accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Training', 'Validation'], loc='upper left')
+    plt.show()
+
+    plt.plot(history['loss'])
+    plt.plot(history['val_loss'])
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Training', 'Validation'], loc='upper left')
+    plt.show()
+# end plot_history

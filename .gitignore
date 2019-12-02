@@ -9,3 +9,5 @@
 !/datasets/*/*.sh
 !/datasets/*/*.py
 !/datasets/*/*.csv
+
+__pycache__

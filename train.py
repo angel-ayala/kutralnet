@@ -5,10 +5,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import transforms
-from datasets import FireImagesDataset, CustomNormalize
+from datasets import FireImagesDataset, CustomNormalize, ZeroCentered
 from utils.nadam_optim import Nadam
-from utils.training import train_model
-from models.octave_resnet import OctFiResNet
+from utils.training import train_model, plot_history
+from models.octfiresnet import OctFiResNet
 
 # Seed
 seed_val = 666
@@ -26,7 +26,7 @@ model_name = 'model_octfiresnet.pth'
 
 # train config
 batch_size = 32
-validation_split = .2
+validation_split = .3
 shuffle_dataset = True
 epochs = 100
 
@@ -36,13 +36,14 @@ transform_compose = transforms.Compose([
            transforms.ToTensor(),
            # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)) # values [-1, 1]
            # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) # values ~[-1, 1]
-           CustomNormalize((0, 1))
+           # CustomNormalize((0, 1))
+           ZeroCentered()
         ])
 
 # dataset read
 data_path = os.path.join('.', 'datasets', 'FireNetDataset')
 dataset = FireImagesDataset(name='FireNet', root_path=data_path,
-            transform=transform_compose)
+            transform=transform_compose, preload=True)
 
 num_classes = len(dataset.labels)
 
@@ -58,3 +59,4 @@ history, best_model = train_model(model, criterion, optimizer, dataset, epochs=e
             validation_split=validation_split, shuffle_dataset=shuffle_dataset, use_cuda=use_cuda)
 
 torch.save(best_model, 'models/saved/' + model_name)
+plot_history(history)
