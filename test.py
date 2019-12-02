@@ -7,6 +7,9 @@ from datasets import FireImagesDataset, CustomNormalize
 from utils.training import test_model
 from utils.models import models_conf
 from models.firenet_pt import FireNet
+from models.octfiresnet import octfiresnet
+from models.resnet import resnet_sharma
+from models.kutralnet import KutralNet
 
 # Seed
 seed_val = 666
