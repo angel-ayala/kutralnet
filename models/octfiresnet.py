@@ -44,17 +44,12 @@ class Bottleneck(nn.Module):
 
     def forward(self, x):
         identity = x
-        # print('original pre identity')#, identity[0].size(), identity[1].size())
         x = self.conv1(x)
-        # print('original post conv1')
         x = self.conv2(x)
-        # print('original post conv2')
         x = self.conv3(x)
-        # print('original post conv3')
 
         if self.downsample is not None:
             identity = self.downsample(identity)
-            # print('original post downsample')
 
         x += identity
         x = F.relu(x)
@@ -111,7 +106,6 @@ class _BatchNorm2d(nn.Module):
                 affine=True,
                 track_running_stats=True):
         super(_BatchNorm2d, self).__init__()
-        # alpha_in, alpha_out = x if isinstance(x, tuple) else (x, None)
 
         alpha_out = alpha[1] if type(alpha) in [tuple, list] else alpha
         hf_ch = int(num_features * (1 - alpha_out))
@@ -189,9 +183,6 @@ class OctconvBottleneck(nn.Module):
         block1_alpha = block3_alpha = alpha
         final_out_channels = int(out_channels * expansion)
 
-        # print('in_channels: {}, out_channels: {}, alpha: {}, stride: {}, downsample_shortcut: {}, first_block: {}, last_block: {}, expansion: {}'.format(
-        # in_channels, out_channels, alpha, stride, downsample_shortcut, first_block, last_block, expansion))
-
         if first_block:
             block1_alpha = (0., block1_alpha[1])
         else:
@@ -211,42 +202,16 @@ class OctconvBottleneck(nn.Module):
         self.downsample = octconv_bn(in_channels, final_out_channels, kernel=1, stride=stride,
                         alpha=block3_alpha, activation=False) if downsample_shortcut else None
 
-        # print('block1_alpha', block1_alpha)
-        # print('block3_alpha', block3_alpha, downsample_shortcut)
 
     def forward(self, x):
-        # print('-'*20)
-        # identity_h = x[0] if type(x) is tuple else x
-        # identity_l = x[1] if type(x) is tuple else None
         identity = x
-        # print(identity_h.shape[1] == self.in_channels['high'])
 
-        # if identity[0] is not None:
-        #     print(identity[0].size())
-        # if identity[1] is not None:
-        #     print(identity[1].size())
-        # print('pre identity')
-
-        # x_h, x_l = self.conv1(x)
         x = self.conv1(x)
-        # print('post conv1', x[0].size(), x[1].size())
-
-        # x_h, x_l = self.conv2((x_h, x_l))
         x = self.conv2(x)
-        # print('post conv2', x[0].size(), x[1].size())
-
-        # x_h, x_l = self.conv3((x_h, x_l))
         x = self.conv3(x)
-        # print('post conv3', x[0].size(), x[1].size())
-        # print('post conv3', x_h.size(), x_l.size())
 
         if self.downsample is not None:
             identity = self.downsample(identity)
-            # print('post downsample')
-            # if identity[0] is not None:
-            #     print(identity[0].size())
-            # if identity[0] is not None:
-            #     print(identity[0].size())
 
         # shortcut
         x_h, x_l = x if isinstance(x, tuple) else (x, None)
@@ -255,25 +220,14 @@ class OctconvBottleneck(nn.Module):
         x_h += identity_h
         x_l = x_l + identity_l if identity_l is not None else None
 
-        # print('post shortcut')
-        # if x_h is not None:
-        #     print(x_h.size())
-        # if x_l is not None:
-        #     print(x_l.size())
-
         x_h = F.relu(x_h)
         x_l = F.relu(x_l) if x_l is not None else None
-        # print('post activation')
         x = (x_h, x_l) if x_l is not None else x_h
+
         return x
 
 class OctaveResNet(nn.Module):
     def __init__(self, layers,
-                 # include_top=True,
-                 # weights=None,
-                 # input_tensor=None,
-                 # input_shape=None,
-                 # pooling=None,
                  classes=1000,
                  alpha=(.5, .5),
                  expansion=1,
@@ -388,11 +342,6 @@ class OctaveResNet(nn.Module):
 
 class OctFiResNet(OctaveResNet):
     def __init__(self, layers=[4, 2],
-                 # include_top=True,
-                 # weights=None,
-                 # input_tensor=None,
-                 # input_shape=None,
-                 # pooling=None,
                  classes=2,
                  alpha=(.25, .25),
                  expansion=4,

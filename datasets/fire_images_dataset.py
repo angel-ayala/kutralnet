@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 
 class FireImagesDataset(Dataset):
-    def __init__(self, name, root_path, csv_file='dataset.csv', transform=None, purpose='train'):
+    def __init__(self, name, root_path, csv_file='dataset.csv', transform=None, purpose='train', preload=False):
         self.root_path = root_path
         self.csv_file = csv_file
         self.name = name
@@ -27,6 +27,9 @@ class FireImagesDataset(Dataset):
                 'name': 'Fire'
             }
         }
+        self.preload = preload
+        if self.preload:
+            self._preload()
     # end __init__
 
     def __len__(self):
@@ -36,6 +39,9 @@ class FireImagesDataset(Dataset):
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
+
+        if self.preload:
+            return self.x[idx], self.y[idx]
 
         img_path = os.path.join(self.root_path,
                                 self.data.iloc[idx]['folder_path'],
@@ -63,6 +69,16 @@ class FireImagesDataset(Dataset):
 
         return dataset_df
     # read_csv
+
+    def _preload(self):
+        self.x = []
+        self.y = []
+
+        for i in range(len(self.data)):
+            item = self.__getitem__(i)
+            self.x.append(item[0])
+            self.y.append(item[1])
+    # end _preload
 
 # end FireImagesDataset
 
