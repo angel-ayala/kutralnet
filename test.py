@@ -6,8 +6,9 @@ from torchvision import transforms
 from datasets import FireImagesDataset, CustomNormalize
 from utils.training import test_model
 from utils.models import models_conf
+
 from models.firenet_pt import FireNet
-from models.octfiresnet import octfiresnet
+from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
 from models.kutralnet import KutralNet
 
@@ -23,8 +24,11 @@ if use_cuda:
 
 # choose model
 base_model = 'kutralnet'
+# test config
+batch_size = 32
+preload_data = True # load dataset on-memory
+# model pre-configuration
 config = models_conf[base_model]
-
 img_dims = config['img_dims']
 model_name = config['model_name']
 
@@ -34,10 +38,8 @@ transform_compose = config['preprocess']
 # dataset read
 data_path = os.path.join('.', 'datasets', 'FireNetDataset')
 dataset = FireImagesDataset(name='FireNet', root_path=data_path, csv_file='test_dataset.csv',
-            transform=transform_compose, preload=True)
+            transform=transform_compose, preload=preload_data)
 
-# test config
-batch_size = 32
 num_classes = len(dataset.labels)
 
 # model selection
@@ -52,6 +54,8 @@ elif base_model == 'kutralnet':
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 
-model.load_state_dict(torch.load('models/saved/' + model_name))
+model_path = os.path.join('.', 'models', 'saved', model_name)
+print('Loading model {}'.format(model_path))
+model.load_state_dict(torch.load(model_path))
 
 test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)

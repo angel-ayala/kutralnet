@@ -12,12 +12,14 @@ class ConvBlock(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.avg_pool = nn.AvgPool2d(2)
         self.dropout = nn.Dropout2d(p=.5)
+    # end __init__
 
     def forward(self, x):
         x = self.relu(self.conv1(x))
         x = self.avg_pool(x)
         return self.dropout(x)
-
+    # end forward
+# end ConvBlock
 
 class FireNet(nn.Module):
     def __init__(self, classes):
@@ -56,3 +58,4 @@ class FireNet(nn.Module):
     #             if m.bias is not None:
     #                 nn.init.zeros_(m.bias)
     # end _init_params
+# end FireNet

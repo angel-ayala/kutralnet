@@ -464,3 +464,429 @@ Classification Report
        Fire       0.97      0.90      0.93       593
 
 avg / total       0.92      0.91      0.92       871
+
+
+Seed = 666
+
+Train on 1696 samples, validate on 729 samples
+Epoch 1/100
+1696/1696 [==============================] - 21s 13ms/step - loss: 0.5321 - acc: 0.7529 - val_loss: 0.5917 - val_acc: 0.7366
+
+Epoch 00001: val_acc improved from -inf to 0.73663, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 2/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.3384 - acc: 0.8579 - val_loss: 0.4021 - val_acc: 0.8313
+
+Epoch 00002: val_acc improved from 0.73663 to 0.83128, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 3/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.2736 - acc: 0.8815 - val_loss: 0.7013 - val_acc: 0.6763
+
+Epoch 00003: val_acc did not improve from 0.83128
+Epoch 4/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.2208 - acc: 0.9116 - val_loss: 0.4875 - val_acc: 0.8134
+
+Epoch 00004: val_acc did not improve from 0.83128
+Epoch 5/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1749 - acc: 0.9322 - val_loss: 0.7534 - val_acc: 0.7010
+
+Epoch 00005: val_acc did not improve from 0.83128
+Epoch 6/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1555 - acc: 0.9428 - val_loss: 0.4134 - val_acc: 0.8450
+
+Epoch 00006: val_acc improved from 0.83128 to 0.84499, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 7/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1398 - acc: 0.9440 - val_loss: 0.7995 - val_acc: 0.7668
+
+Epoch 00007: val_acc did not improve from 0.84499
+Epoch 8/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1107 - acc: 0.9629 - val_loss: 1.9348 - val_acc: 0.5514
+
+Epoch 00008: val_acc did not improve from 0.84499
+Epoch 9/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1037 - acc: 0.9623 - val_loss: 0.6343 - val_acc: 0.7956
+
+Epoch 00009: val_acc did not improve from 0.84499
+Epoch 10/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.1033 - acc: 0.9546 - val_loss: 0.3042 - val_acc: 0.8985
+
+Epoch 00010: val_acc improved from 0.84499 to 0.89849, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 11/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0659 - acc: 0.9764 - val_loss: 0.2567 - val_acc: 0.9204
+
+Epoch 00011: val_acc improved from 0.89849 to 0.92044, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 12/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0660 - acc: 0.9758 - val_loss: 0.8140 - val_acc: 0.7750
+
+Epoch 00012: val_acc did not improve from 0.92044
+Epoch 13/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0722 - acc: 0.9746 - val_loss: 0.3823 - val_acc: 0.8601
+
+Epoch 00013: val_acc did not improve from 0.92044
+Epoch 14/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0644 - acc: 0.9782 - val_loss: 0.6180 - val_acc: 0.7490
+
+Epoch 00014: val_acc did not improve from 0.92044
+Epoch 15/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0700 - acc: 0.9782 - val_loss: 0.3058 - val_acc: 0.8861
+
+Epoch 00015: val_acc did not improve from 0.92044
+Epoch 16/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0393 - acc: 0.9876 - val_loss: 0.5453 - val_acc: 0.8628
+
+Epoch 00016: val_acc did not improve from 0.92044
+Epoch 17/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0459 - acc: 0.9853 - val_loss: 0.6943 - val_acc: 0.7833
+
+Epoch 00017: val_acc did not improve from 0.92044
+Epoch 18/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0346 - acc: 0.9882 - val_loss: 0.4323 - val_acc: 0.8615
+
+Epoch 00018: val_acc did not improve from 0.92044
+Epoch 19/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0385 - acc: 0.9900 - val_loss: 1.1541 - val_acc: 0.7750
+
+Epoch 00019: val_acc did not improve from 0.92044
+Epoch 20/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0339 - acc: 0.9923 - val_loss: 0.5196 - val_acc: 0.8848
+
+Epoch 00020: val_acc did not improve from 0.92044
+Epoch 21/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0335 - acc: 0.9882 - val_loss: 0.3864 - val_acc: 0.8957
+
+Epoch 00021: val_acc did not improve from 0.92044
+Epoch 22/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0491 - acc: 0.9811 - val_loss: 0.2871 - val_acc: 0.9136
+
+Epoch 00022: val_acc did not improve from 0.92044
+Epoch 23/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0702 - acc: 0.9746 - val_loss: 0.3054 - val_acc: 0.9122
+
+Epoch 00023: val_acc did not improve from 0.92044
+Epoch 24/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0313 - acc: 0.9888 - val_loss: 0.4068 - val_acc: 0.8930
+
+Epoch 00024: val_acc did not improve from 0.92044
+Epoch 25/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0315 - acc: 0.9900 - val_loss: 0.3443 - val_acc: 0.9218
+
+Epoch 00025: val_acc improved from 0.92044 to 0.92181, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 26/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0379 - acc: 0.9870 - val_loss: 0.4214 - val_acc: 0.8848
+
+Epoch 00026: val_acc did not improve from 0.92181
+Epoch 27/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0242 - acc: 0.9929 - val_loss: 0.2322 - val_acc: 0.9383
+
+Epoch 00027: val_acc improved from 0.92181 to 0.93827, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 28/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0111 - acc: 0.9988 - val_loss: 0.2304 - val_acc: 0.9369
+
+Epoch 00028: val_acc did not improve from 0.93827
+Epoch 29/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0114 - acc: 0.9988 - val_loss: 0.2447 - val_acc: 0.9438
+
+Epoch 00029: val_acc improved from 0.93827 to 0.94376, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 30/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0067 - acc: 0.9988 - val_loss: 0.2507 - val_acc: 0.9479
+
+Epoch 00030: val_acc improved from 0.94376 to 0.94787, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 31/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0105 - acc: 0.9971 - val_loss: 0.2535 - val_acc: 0.9355
+
+Epoch 00031: val_acc did not improve from 0.94787
+Epoch 32/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0100 - acc: 0.9976 - val_loss: 0.3579 - val_acc: 0.9095
+
+Epoch 00032: val_acc did not improve from 0.94787
+Epoch 33/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0104 - acc: 0.9982 - val_loss: 0.2550 - val_acc: 0.9396
+
+Epoch 00033: val_acc did not improve from 0.94787
+Epoch 34/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0050 - acc: 1.0000 - val_loss: 0.2254 - val_acc: 0.9410
+
+Epoch 00034: val_acc did not improve from 0.94787
+Epoch 35/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0147 - acc: 0.9953 - val_loss: 0.4829 - val_acc: 0.9122
+
+Epoch 00035: val_acc did not improve from 0.94787
+Epoch 36/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0781 - acc: 0.9794 - val_loss: 0.4519 - val_acc: 0.9067
+
+Epoch 00036: val_acc did not improve from 0.94787
+Epoch 37/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0288 - acc: 0.9882 - val_loss: 0.6152 - val_acc: 0.8765
+
+Epoch 00037: val_acc did not improve from 0.94787
+Epoch 38/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0102 - acc: 0.9982 - val_loss: 0.5386 - val_acc: 0.8903
+
+Epoch 00038: val_acc did not improve from 0.94787
+Epoch 39/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0120 - acc: 0.9959 - val_loss: 0.3428 - val_acc: 0.9259
+
+Epoch 00039: val_acc did not improve from 0.94787
+Epoch 40/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0570 - acc: 0.9776 - val_loss: 0.6044 - val_acc: 0.8903
+
+Epoch 00040: val_acc did not improve from 0.94787
+Epoch 41/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0238 - acc: 0.9935 - val_loss: 0.4017 - val_acc: 0.9067
+
+Epoch 00041: val_acc did not improve from 0.94787
+Epoch 42/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0100 - acc: 0.9971 - val_loss: 0.5637 - val_acc: 0.8875
+
+Epoch 00042: val_acc did not improve from 0.94787
+Epoch 43/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0136 - acc: 0.9959 - val_loss: 0.5936 - val_acc: 0.8889
+
+Epoch 00043: val_acc did not improve from 0.94787
+Epoch 44/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0155 - acc: 0.9953 - val_loss: 0.2465 - val_acc: 0.9479
+
+Epoch 00044: val_acc did not improve from 0.94787
+Epoch 45/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0036 - acc: 0.9988 - val_loss: 0.2437 - val_acc: 0.9561
+
+Epoch 00045: val_acc improved from 0.94787 to 0.95610, saving model to /content/drive/My Drive/models/test/model_firenet_self_000.h5
+Epoch 46/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0022 - acc: 1.0000 - val_loss: 0.2465 - val_acc: 0.9534
+
+Epoch 00046: val_acc did not improve from 0.95610
+Epoch 47/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0178 - acc: 0.9947 - val_loss: 0.5227 - val_acc: 0.8875
+
+Epoch 00047: val_acc did not improve from 0.95610
+Epoch 48/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0079 - acc: 0.9959 - val_loss: 0.3207 - val_acc: 0.9232
+
+Epoch 00048: val_acc did not improve from 0.95610
+Epoch 49/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0242 - acc: 0.9900 - val_loss: 0.4645 - val_acc: 0.8944
+
+Epoch 00049: val_acc did not improve from 0.95610
+Epoch 50/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0290 - acc: 0.9906 - val_loss: 0.3549 - val_acc: 0.9081
+
+Epoch 00050: val_acc did not improve from 0.95610
+Epoch 51/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0234 - acc: 0.9900 - val_loss: 0.5591 - val_acc: 0.9012
+
+Epoch 00051: val_acc did not improve from 0.95610
+Epoch 52/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0398 - acc: 0.9876 - val_loss: 0.5966 - val_acc: 0.8519
+
+Epoch 00052: val_acc did not improve from 0.95610
+Epoch 53/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0160 - acc: 0.9959 - val_loss: 0.3534 - val_acc: 0.9396
+
+Epoch 00053: val_acc did not improve from 0.95610
+Epoch 54/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0093 - acc: 0.9976 - val_loss: 0.3849 - val_acc: 0.9300
+
+Epoch 00054: val_acc did not improve from 0.95610
+Epoch 55/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0230 - acc: 0.9941 - val_loss: 1.5920 - val_acc: 0.7394
+
+Epoch 00055: val_acc did not improve from 0.95610
+Epoch 56/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0631 - acc: 0.9800 - val_loss: 0.3502 - val_acc: 0.9026
+
+Epoch 00056: val_acc did not improve from 0.95610
+Epoch 57/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0077 - acc: 0.9988 - val_loss: 0.2651 - val_acc: 0.9424
+
+Epoch 00057: val_acc did not improve from 0.95610
+Epoch 58/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0087 - acc: 0.9971 - val_loss: 0.4220 - val_acc: 0.9232
+
+Epoch 00058: val_acc did not improve from 0.95610
+Epoch 59/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0148 - acc: 0.9965 - val_loss: 0.3689 - val_acc: 0.9122
+
+Epoch 00059: val_acc did not improve from 0.95610
+Epoch 60/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0106 - acc: 0.9959 - val_loss: 0.4245 - val_acc: 0.9218
+
+Epoch 00060: val_acc did not improve from 0.95610
+Epoch 61/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0079 - acc: 0.9976 - val_loss: 0.3829 - val_acc: 0.8999
+
+Epoch 00061: val_acc did not improve from 0.95610
+Epoch 62/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0031 - acc: 1.0000 - val_loss: 0.2959 - val_acc: 0.9451
+
+Epoch 00062: val_acc did not improve from 0.95610
+Epoch 63/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0061 - acc: 0.9982 - val_loss: 0.3352 - val_acc: 0.9410
+
+Epoch 00063: val_acc did not improve from 0.95610
+Epoch 64/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0022 - acc: 0.9994 - val_loss: 0.4245 - val_acc: 0.9232
+
+Epoch 00064: val_acc did not improve from 0.95610
+Epoch 65/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0017 - acc: 1.0000 - val_loss: 0.2617 - val_acc: 0.9465
+
+Epoch 00065: val_acc did not improve from 0.95610
+Epoch 66/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0024 - acc: 0.9988 - val_loss: 0.2658 - val_acc: 0.9424
+
+Epoch 00066: val_acc did not improve from 0.95610
+Epoch 67/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0143 - acc: 0.9947 - val_loss: 0.3957 - val_acc: 0.9369
+
+Epoch 00067: val_acc did not improve from 0.95610
+Epoch 68/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0058 - acc: 0.9982 - val_loss: 0.2623 - val_acc: 0.9383
+
+Epoch 00068: val_acc did not improve from 0.95610
+Epoch 69/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0147 - acc: 0.9959 - val_loss: 0.3709 - val_acc: 0.9300
+
+Epoch 00069: val_acc did not improve from 0.95610
+Epoch 70/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0059 - acc: 0.9982 - val_loss: 0.4423 - val_acc: 0.9246
+
+Epoch 00070: val_acc did not improve from 0.95610
+Epoch 71/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0031 - acc: 0.9988 - val_loss: 0.2272 - val_acc: 0.9520
+
+Epoch 00071: val_acc did not improve from 0.95610
+Epoch 72/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0227 - acc: 0.9929 - val_loss: 0.3120 - val_acc: 0.9232
+
+Epoch 00072: val_acc did not improve from 0.95610
+Epoch 73/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0343 - acc: 0.9894 - val_loss: 2.2483 - val_acc: 0.6392
+
+Epoch 00073: val_acc did not improve from 0.95610
+Epoch 74/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0563 - acc: 0.9805 - val_loss: 0.7106 - val_acc: 0.8957
+
+Epoch 00074: val_acc did not improve from 0.95610
+Epoch 75/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0308 - acc: 0.9917 - val_loss: 1.2960 - val_acc: 0.7846
+
+Epoch 00075: val_acc did not improve from 0.95610
+Epoch 76/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0128 - acc: 0.9959 - val_loss: 0.2992 - val_acc: 0.9204
+
+Epoch 00076: val_acc did not improve from 0.95610
+Epoch 77/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0072 - acc: 0.9982 - val_loss: 0.4341 - val_acc: 0.9012
+
+Epoch 00077: val_acc did not improve from 0.95610
+Epoch 78/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0048 - acc: 0.9994 - val_loss: 0.3282 - val_acc: 0.9314
+
+Epoch 00078: val_acc did not improve from 0.95610
+Epoch 79/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0034 - acc: 0.9994 - val_loss: 0.4047 - val_acc: 0.9287
+
+Epoch 00079: val_acc did not improve from 0.95610
+Epoch 80/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0021 - acc: 1.0000 - val_loss: 0.2915 - val_acc: 0.9465
+
+Epoch 00080: val_acc did not improve from 0.95610
+Epoch 81/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0020 - acc: 1.0000 - val_loss: 0.3508 - val_acc: 0.9424
+
+Epoch 00081: val_acc did not improve from 0.95610
+Epoch 82/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0023 - acc: 1.0000 - val_loss: 0.2426 - val_acc: 0.9520
+
+Epoch 00082: val_acc did not improve from 0.95610
+Epoch 83/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0042 - acc: 0.9988 - val_loss: 0.3185 - val_acc: 0.9328
+
+Epoch 00083: val_acc did not improve from 0.95610
+Epoch 84/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0018 - acc: 1.0000 - val_loss: 0.2738 - val_acc: 0.9479
+
+Epoch 00084: val_acc did not improve from 0.95610
+Epoch 85/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0014 - acc: 1.0000 - val_loss: 0.2411 - val_acc: 0.9520
+
+Epoch 00085: val_acc did not improve from 0.95610
+Epoch 86/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0018 - acc: 0.9994 - val_loss: 0.3462 - val_acc: 0.9355
+
+Epoch 00086: val_acc did not improve from 0.95610
+Epoch 87/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0026 - acc: 1.0000 - val_loss: 0.3009 - val_acc: 0.9396
+
+Epoch 00087: val_acc did not improve from 0.95610
+Epoch 88/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0014 - acc: 0.9994 - val_loss: 0.3306 - val_acc: 0.9342
+
+Epoch 00088: val_acc did not improve from 0.95610
+Epoch 89/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0021 - acc: 0.9994 - val_loss: 0.3412 - val_acc: 0.9342
+
+Epoch 00089: val_acc did not improve from 0.95610
+Epoch 90/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0016 - acc: 1.0000 - val_loss: 0.3239 - val_acc: 0.9369
+
+Epoch 00090: val_acc did not improve from 0.95610
+Epoch 91/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0433 - acc: 0.9888 - val_loss: 0.8411 - val_acc: 0.8505
+
+Epoch 00091: val_acc did not improve from 0.95610
+Epoch 92/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0288 - acc: 0.9876 - val_loss: 0.5353 - val_acc: 0.9067
+
+Epoch 00092: val_acc did not improve from 0.95610
+Epoch 93/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0206 - acc: 0.9935 - val_loss: 0.4286 - val_acc: 0.9246
+
+Epoch 00093: val_acc did not improve from 0.95610
+Epoch 94/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0214 - acc: 0.9941 - val_loss: 0.4401 - val_acc: 0.9081
+
+Epoch 00094: val_acc did not improve from 0.95610
+Epoch 95/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0197 - acc: 0.9923 - val_loss: 0.3649 - val_acc: 0.9246
+
+Epoch 00095: val_acc did not improve from 0.95610
+Epoch 96/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0078 - acc: 0.9982 - val_loss: 0.5126 - val_acc: 0.9150
+
+Epoch 00096: val_acc did not improve from 0.95610
+Epoch 97/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0095 - acc: 0.9965 - val_loss: 0.3494 - val_acc: 0.9396
+
+Epoch 00097: val_acc did not improve from 0.95610
+Epoch 98/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0028 - acc: 0.9994 - val_loss: 0.3061 - val_acc: 0.9451
+
+Epoch 00098: val_acc did not improve from 0.95610
+Epoch 99/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0024 - acc: 0.9994 - val_loss: 0.8623 - val_acc: 0.8697
+
+Epoch 00099: val_acc did not improve from 0.95610
+Epoch 100/100
+1696/1696 [==============================] - 8s 5ms/step - loss: 0.0204 - acc: 0.9923 - val_loss: 0.4242 - val_acc: 0.9204
+
+Epoch 00100: val_acc did not improve from 0.95610
+Saved at /content/drive/My Drive/models/test/validation_firenet_self.csv
+
+
+FireNet-Test dataset loading..
+Loading FireNet-Test with (96, 96) dimension
+Loading images...
+Ok
+x_test shape: (871, 96, 96, 3)
+871 test samples
+593 fire
+278 no_fire
+Evaluating model_firenet_self_000.h5
+0.8369690011481056
+              precision    recall  f1-score   support
+
+     No Fire       0.72      0.81      0.76       278
+        Fire       0.90      0.85      0.88       593
+
+    accuracy                           0.84       871
+   macro avg       0.81      0.83      0.82       871
+weighted avg       0.84      0.84      0.84       871

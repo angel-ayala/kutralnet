@@ -14,6 +14,7 @@ class FireImagesDataset(Dataset):
         self.name = name
         self.purpose = purpose
         self.transform = transform
+        self.preload = preload
         self.data = self.read_csv()
 
         self.labels = {
@@ -28,7 +29,7 @@ class FireImagesDataset(Dataset):
                 'name': 'Fire'
             }
         }
-        self.preload = preload
+
         if self.preload:
             self._preload()
     # end __init__
@@ -66,7 +67,7 @@ class FireImagesDataset(Dataset):
     def read_csv(self):
         # csv read
         csv_path = os.path.join(self.root_path, self.csv_file)
-        print('Reading file: {}'.format(csv_path))
+        print('Reading from file: {} (on-memory={})'.format(csv_path, self.preload))
         dataset_df = pd.read_csv(csv_path)
 
         if self.purpose is not None and 'purpose' in dataset_df:

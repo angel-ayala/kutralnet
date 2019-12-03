@@ -6,67 +6,25 @@ Test acc: Y
 import torch.nn as nn
 import torch.nn.functional as F
 from octconv import OctConv2d
+from .octave import _BatchNorm2d
+from .octave import _AvgPool2d
+from .octave import _SELU
+from .octave import _octconv_bn
 
-class _BatchNorm2d(nn.Module):
-    def __init__(self, num_features, alpha=(0.25, 0.25), eps=1e-5, momentum=0.1, affine=True,
-                 track_running_stats=True):
-        super(_BatchNorm2d, self).__init__()
-        alpha_in = alpha[1]
-        hf_ch = int(num_features * (1 - alpha_in))
-        lf_ch = num_features - hf_ch
-        self.bnh = nn.BatchNorm2d(hf_ch)
-        self.bnl = nn.BatchNorm2d(lf_ch)
-
-    def forward(self, x):
-        hf, lf = x
-        return self.bnh(hf), self.bnl(lf)
-
-class _SELU(nn.SELU):
-    def forward(self, x):
-        hf, lf = x
-        hf = super(_SELU, self).forward(hf)
-        lf = super(_SELU, self).forward(lf)
-        return hf, lf
-
-class _ReLU6(nn.ReLU6):
-    def forward(self, x):
-        hf, lf = x
-        hf = super(_ReLU6, self).forward(hf)
-        lf = super(_ReLU6, self).forward(lf)
-        return hf, lf
-
-class _AvgPool2d(nn.AvgPool2d):
-    def forward(self, x):
-        hf, lf = x
-        hf = super(_AvgPool2d, self).forward(hf)
-        lf = super(_AvgPool2d, self).forward(lf)
-        return hf, lf
-
-class _MaxPool2d(nn.MaxPool2d):
-    def forward(self, x):
-        hf, lf = x
-        hf = super(_MaxPool2d, self).forward(hf)
-        lf = super(_MaxPool2d, self).forward(lf)
-        return hf, lf
-
-def _octconv_bn(inp, oup, kernel=3, stride=1, alpha=(0.125, 0.125), padding=0, activation=True):
-    mods = []
-    mods.append(OctConv2d(in_channels=inp, out_channels=oup, kernel_size=kernel,
-              stride=stride, alpha=alpha, padding=padding))
-    mods.append(_BatchNorm2d(oup, alpha=alpha))
-
-    if activation:
-        mods.append(_SELU(inplace=True))
-
-    return nn.Sequential(*mods)
-
-def _octconv_bn_final(inp, oup, kernel=3, stride=1, alpha=(0.125, 0.), padding=0):
-    return nn.Sequential(
-        OctConv2d(in_channels=inp, out_channels=oup, kernel_size=kernel,
-                  stride=stride, alpha=alpha, padding=padding),
-        nn.BatchNorm2d(oup),
-        nn.SELU(inplace=True)
-    )
+def octconv_bn(in_channels,
+                out_channels,
+                kernel=3,
+                stride=1,
+                alpha=(.25, .25),
+                padding=0,
+                dilation=1,
+                groups=1,
+                bias=False,
+                activation=True):
+    return _octconv_bn(in_channels, out_channels, kernel=kernel,
+                    stride=stride, alpha=alpha, padding=padding,
+                    dilation=dilation, groups=groups, bias=bias,
+                    activation=activation, act_layer=_SELU)
 
 class KutralNet(nn.Module):
     def __init__(self, classes):
@@ -84,11 +42,12 @@ class KutralNet(nn.Module):
             (.25, 0.)
         ]
 
-        self.firstOctave = _octconv_bn(64, 128, kernel=3, stride=1, alpha=alphas[0])
+        self.firstOctave = octconv_bn(64, 128, kernel=3, stride=1, alpha=alphas[0])
         self.avg_pool = _AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.middleOctave = _octconv_bn(128, 32, kernel=3, stride=1, alpha=alphas[1])
+        self.middleOctave = octconv_bn(128, 32, kernel=3, stride=1, alpha=alphas[1], groups=4)
         self.avg_pool2 = _AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.lastOctave = _octconv_bn_final(32, 64, kernel=3, stride=1, alpha=alphas[2], padding=1)
+        self.lastOctave = octconv_bn(32, 64, kernel=3, stride=1, alpha=alphas[2], padding=1)
+        self.global_pool = nn.AdaptiveAvgPool2d((1, 1))
 
         self.classifier = nn.Sequential(
             nn.Dropout(0.2),
@@ -120,7 +79,7 @@ class KutralNet(nn.Module):
         if debug:
             print('x.size()', x.size(2))
         # global average pooling
-        x = F.avg_pool2d(x, x.size(2))
+        x = self.global_pool(x)
         x = x.flatten(start_dim=1)
         x = self.classifier(x)
         return x

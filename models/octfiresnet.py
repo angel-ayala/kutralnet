@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from octconv import OctConv2d
-
+from .octave import _octconv_bn
 
 def _conv_bn_relu(in_channels,
                 out_channels,
@@ -21,10 +21,12 @@ def _conv_bn_relu(in_channels,
         padding=padding, bias=bias)
     ]
     layers.append(nn.BatchNorm2d(out_channels))
+
     if activation:
         layers.append(nn.ReLU(inplace=True))
 
     return nn.Sequential(*layers)
+# end _conv_bn_relu
 
 class Bottleneck(nn.Module):
     def __init__(self, in_channels,
@@ -40,7 +42,7 @@ class Bottleneck(nn.Module):
         self.conv3 = _conv_bn_relu(out_channels, final_filters, kernel_size=1, activation=False)
 
         self.downsample = nn.Conv2d(out_channels, final_filters, kernel_size=1, stride=stride, bias=False) if downsample_shortcut else None
-
+    # end __init__
 
     def forward(self, x):
         identity = x
@@ -54,120 +56,8 @@ class Bottleneck(nn.Module):
         x += identity
         x = F.relu(x)
         return x
-
-
-def _bottleneck_original(ip, filters, strides=(1, 1), downsample_shortcut=False,
-                         expansion=4):
-
-    final_filters = int(filters * expansion)
-
-    shortcut = ip
-
-    x = _conv_bn_relu(ip, filters, kernel_size=(1, 1))
-    x = _conv_bn_relu(x, filters, kernel_size=(3, 3), strides=strides)
-    x = _conv_bn_relu(x, final_filters, kernel_size=(1, 1), activation=False)
-
-    if downsample_shortcut:
-        shortcut = _conv_block(shortcut, final_filters, kernel_size=(1, 1),
-                               strides=strides)
-
-    x = add([x, shortcut])
-    x = ReLU()(x)
-
-    return x
-
-def octconv(in_channels, #ip,
-            out_channels, #filters,
-            kernel_size=3, #(3, 3),
-            stride=1, #(1, 1),
-            alpha=(.5, .5),
-            padding='same',
-            # dilation=None,
-            bias=False):
-    if padding == 'same':
-        padding = (kernel_size -1) // 2
-    elif type(padding) == int:
-        padding = padding
-
-    return OctConv2d(in_channels,
-                 out_channels,
-                 kernel_size,
-                 stride=stride,
-                 padding=padding,
-                 alpha=alpha,
-                 bias=bias)
-
-class _BatchNorm2d(nn.Module):
-    def __init__(self,
-                num_features,
-                alpha=(0.5, 0.5),
-                eps=1e-5,
-                momentum=0.1,
-                affine=True,
-                track_running_stats=True):
-        super(_BatchNorm2d, self).__init__()
-
-        alpha_out = alpha[1] if type(alpha) in [tuple, list] else alpha
-        hf_ch = int(num_features * (1 - alpha_out))
-        lf_ch = num_features - hf_ch
-        self.bnh = nn.BatchNorm2d(hf_ch)
-        self.bnl = nn.BatchNorm2d(lf_ch)
-
-    def forward(self, x):
-        if type(x) is tuple:
-            hf, lf = x
-            return self.bnh(hf), self.bnl(lf)
-        else:
-            return self.bnh(x)
-
-class _ReLU(nn.ReLU):
-    def forward(self, x):
-        if type(x) is tuple:
-            hf, lf = x
-            hf = super(_ReLU, self).forward(hf)
-            lf = super(_ReLU, self).forward(lf)
-            return hf, lf
-        else:
-            return super(_ReLU, self).forward(x)
-
-def octconv_bn(in_channels,
-                out_channels,
-                kernel=3,
-                stride=1,
-                alpha=(.5, .5),
-                padding='same',
-                # dilation=None,
-                bias=False,
-                activation=True):
-    mods = []
-    mods.append(octconv(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel,
-                stride=stride, alpha=alpha, padding=padding,
-                # dilation=None,
-                bias=bias))
-    mods.append(_BatchNorm2d(out_channels, alpha=alpha))
-
-    if activation:
-        mods.append(_ReLU(inplace=True))
-
-    return nn.Sequential(*mods)
-
-def octconv_bn_final(in_channels,
-                out_channels,
-                kernel=3,
-                stride=1,
-                alpha=(.5, 0.),
-                padding='same',
-                # dilation=None,
-                bias=False,
-                activation=True):
-    return nn.Sequential(
-        octconv(in_channels=in_channels, out_channels=out_channels, kernel_size=kernel,
-                    stride=stride, alpha=alpha, padding=padding,
-                    # dilation=None,
-                    bias=bias),
-        nn.BatchNorm2d(out_channels),
-        nn.ReLU(inplace=True)
-    )
+    # end forward
+# end Bottleneck
 
 class OctconvBottleneck(nn.Module):
     def __init__(self,
@@ -191,17 +81,17 @@ class OctconvBottleneck(nn.Module):
         if last_block:
             block3_alpha = (block3_alpha[0], 0.)
 
-        self.conv1 = octconv_bn(in_channels, out_channels, kernel=1, alpha=block1_alpha)
-        self.conv2 = octconv_bn(out_channels, out_channels, kernel=3, stride=stride, alpha=alpha)
-        self.conv3 = octconv_bn(out_channels, final_out_channels, kernel=1, alpha=block3_alpha,
+        self.conv1 = _octconv_bn(in_channels, out_channels, kernel=1, alpha=block1_alpha)
+        self.conv2 = _octconv_bn(out_channels, out_channels, kernel=3, stride=stride, alpha=alpha)
+        self.conv3 = _octconv_bn(out_channels, final_out_channels, kernel=1, alpha=block3_alpha,
                                 activation=False)
 
         if first_block:
             block3_alpha = (0., block3_alpha[1])
 
-        self.downsample = octconv_bn(in_channels, final_out_channels, kernel=1, stride=stride,
+        self.downsample = _octconv_bn(in_channels, final_out_channels, kernel=1, stride=stride,
                         alpha=block3_alpha, activation=False) if downsample_shortcut else None
-
+    # end __init__
 
     def forward(self, x):
         identity = x
@@ -225,6 +115,8 @@ class OctconvBottleneck(nn.Module):
         x = (x_h, x_l) if x_l is not None else x_h
 
         return x
+    # end forward
+# end OctconvBottleneck
 
 class OctaveResNet(nn.Module):
     def __init__(self, layers,
@@ -327,7 +219,7 @@ class OctaveResNet(nn.Module):
         #             nn.init.constant_(m.bn3.weight, 0)
         #         elif isinstance(m, BasicBlock):
         #             nn.init.constant_(m.bn2.weight, 0)
-
+    # end __init__
 
     def forward(self, x):
         x = self.first_block(x)
@@ -339,21 +231,22 @@ class OctaveResNet(nn.Module):
         x = self.fc(x)
 
         return x
+    # end forward
+# end OctaveResNet
 
 class OctFiResNet(OctaveResNet):
-    def __init__(self, layers=[4, 2],
-                 classes=2,
+    def __init__(self,classes=2,
                  alpha=(.25, .25),
                  expansion=4,
                  initial_filters=64,
                  initial_strides=False,
                  **kwargs):
-        super(OctFiResNet, self).__init__(layers=layers,
+        super(OctFiResNet, self).__init__(layers=[4, 2],
                 classes=classes,
                 alpha=alpha,
                 expansion=expansion,
                 initial_filters=initial_filters,
                 initial_strides=initial_strides,
                  **kwargs)
-
+    # end __init__
 # end OctFiResNet

@@ -21,16 +21,16 @@ if use_cuda:
     torch.backends.cudnn.benchmark = False
 
 # choose model
-base_model = 'kutralnet'
-config = models_conf[base_model]
-
-img_dims = config['img_dims']
-model_name = config['model_name']
-
+base_model = 'octfiresnet'
 # train config
 batch_size = 32
-shuffle_dataset = True
 epochs = 100
+shuffle_dataset = True
+preload_data = False # load dataset on-memory
+# model pre-configuration
+config = models_conf[base_model]
+img_dims = config['img_dims']
+model_name = config['model_name']
 
 # common preprocess
 transform_compose = config['preprocess']
@@ -38,9 +38,9 @@ transform_compose = config['preprocess']
 # dataset read
 data_path = os.path.join('.', 'datasets', 'FireNetDataset')
 train_data = FireImagesDataset(name='FireNet', root_path=data_path,
-            transform=transform_compose, preload=True)
+            transform=transform_compose, preload=preload_data)
 val_data = FireImagesDataset(name='FireNet', root_path=data_path,
-            purpose='test', transform=transform_compose, preload=True)
+            purpose='test', transform=transform_compose, preload=preload_data)
 
 num_classes = len(train_data.labels)
 
@@ -68,5 +68,8 @@ history, best_model = train_model(model, criterion, optimizer, train_data, val_d
             batch_size=batch_size, shuffle_dataset=shuffle_dataset,
             use_cuda=use_cuda)
 
-torch.save(best_model, 'models/saved/' + model_name)
+model_path = os.path.join('.', 'models', 'saved', model_name)
+print('Saving model {}'.format(model_path))
+torch.save(best_model, model_path)
+
 plot_history(history)
