@@ -5,7 +5,7 @@ Test acc: Y
 """
 import torch.nn as nn
 import torch.nn.functional as F
-from octconv import OctConv2d
+# from octconv import OctConv2d
 from .octave import _BatchNorm2d
 from .octave import _AvgPool2d
 from .octave import _SELU
@@ -44,7 +44,7 @@ class KutralNet(nn.Module):
 
         self.firstOctave = octconv_bn(64, 128, kernel=3, stride=1, alpha=alphas[0])
         self.avg_pool = _AvgPool2d(kernel_size=3, stride=2, padding=1)
-        self.middleOctave = octconv_bn(128, 32, kernel=3, stride=1, alpha=alphas[1], groups=4)
+        self.middleOctave = octconv_bn(128, 32, kernel=3, stride=1, alpha=alphas[1])
         self.avg_pool2 = _AvgPool2d(kernel_size=3, stride=2, padding=1)
         self.lastOctave = octconv_bn(32, 64, kernel=3, stride=1, alpha=alphas[2], padding=1)
         self.global_pool = nn.AdaptiveAvgPool2d((1, 1))
@@ -53,7 +53,7 @@ class KutralNet(nn.Module):
             nn.Dropout(0.2),
             nn.Linear(64, classes)
         )
-        self._init_params()
+        # self._init_params()
 
     def forward(self, x):
         debug = False

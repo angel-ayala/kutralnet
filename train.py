@@ -60,16 +60,20 @@ print(model)
 
 # optimizers
 criterion = config['criterion'] #nn.CrossEntropyLoss()
-opt_args = {'params': model.parameters()}
+opt_args = {'params': model.parameters(),'eps': 1e-7}
 opt_args.update(config['optimizer_params'])
 optimizer = config['optimizer'](**opt_args)
+sched_args = {'optimizer': optimizer, 'T_max': 100, 'eta_min':1e-4}
+sched_args.update(config['scheduler_params'])
+scheduler = conf['scheduler'](**sched_args)
 
 history, best_model = train_model(model, criterion, optimizer, train_data, val_data, epochs=epochs,
-            batch_size=batch_size, shuffle_dataset=shuffle_dataset,
+            batch_size=batch_size, shuffle_dataset=shuffle_dataset, scheduler=scheduler,
             use_cuda=use_cuda)
 
-model_path = os.path.join('.', 'models', 'saved', model_name)
+folder_path = os.path.join('.', 'models', 'saved')
+model_path = os.path.join(folder_path, model_name)
 print('Saving model {}'.format(model_path))
 torch.save(best_model, model_path)
 
-plot_history(history)
+plot_history(history, base_name=base_model, folder_path=folder_path)

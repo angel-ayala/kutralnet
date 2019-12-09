@@ -47,7 +47,7 @@ class _ReLU6(nn.ReLU6):
             lf = super(_ReLU6, self).forward(lf)
             return hf, lf
         else:
-            return super(_ReLU, self).forward(x)
+            return super(_ReLU6, self).forward(x)
     # end forward
 # end _ReLU6
 

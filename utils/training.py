@@ -7,7 +7,7 @@ from sklearn.metrics import classification_report
 from torch.utils.data.sampler import SubsetRandomSampler
 
 def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, batch_size=32,
-                shuffle_dataset=True, use_cuda=True):
+                shuffle_dataset=True, scheduler=None, use_cuda=True):
     # prepare dataset
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,
                                                 shuffle=shuffle_dataset, num_workers=2)
@@ -87,6 +87,11 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
+
+        if scheduler is not None:
+            scheduler.step()
+            for param_group in optimizer.param_groups:
+                print('lr: {:.6f}'.format(param_group['lr']))
 
         epoch_elapsed = time.time() - epoch_time
         print('time elapsed: {:.0f}m {:.0f}s'.format(
@@ -172,7 +177,7 @@ def show_samples(data):
             break
 # end show_samples
 
-def plot_history(history):
+def plot_history(history, base_name='model',folder_path=None):
     plt.plot(history['acc'])
     plt.plot(history['val_acc'])
     plt.title('Model accuracy')
@@ -180,6 +185,10 @@ def plot_history(history):
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc='upper left')
     plt.show()
+    
+    if folder_path is not None:
+        path = folder_path + '/' + base_name + '_accuracy.png'
+        plt.savefig(path)
 
     plt.plot(history['loss'])
     plt.plot(history['val_loss'])
@@ -188,4 +197,8 @@ def plot_history(history):
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc='upper left')
     plt.show()
+
+    if folder_path is not None:
+        path = folder_path + '/' + base_name + '_loss.png'
+        plt.savefig(path)
 # end plot_history
