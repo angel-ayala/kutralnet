@@ -25,6 +25,7 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
 
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
+    best_ep = 0
     history = {}
     history['loss'] = []
     history['acc'] = []
@@ -86,6 +87,7 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
             # deep copy the model
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
+                best_ep = epoch +1
                 best_model_wts = copy.deepcopy(model.state_dict())
 
         if scheduler is not None:
@@ -100,7 +102,7 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
-    print('Best val Acc: {:4f}'.format(best_acc))
+    print('Best accuracy on epoch {}: {:4f}'.format(best_ep, best_acc))
 
     return history, best_model_wts
 # end train_model
@@ -184,11 +186,12 @@ def plot_history(history, base_name='model',folder_path=None):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc='upper left')
-    plt.show()
-    
+
     if folder_path is not None:
         path = folder_path + '/' + base_name + '_accuracy.png'
         plt.savefig(path)
+
+    plt.show()
 
     plt.plot(history['loss'])
     plt.plot(history['val_loss'])
@@ -196,9 +199,10 @@ def plot_history(history, base_name='model',folder_path=None):
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc='upper left')
-    plt.show()
 
     if folder_path is not None:
         path = folder_path + '/' + base_name + '_loss.png'
         plt.savefig(path)
+
+    plt.show()
 # end plot_history

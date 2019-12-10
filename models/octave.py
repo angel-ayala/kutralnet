@@ -51,6 +51,18 @@ class _ReLU6(nn.ReLU6):
     # end forward
 # end _ReLU6
 
+class _LeakyReLU(nn.LeakyReLU):
+    def forward(self, x):
+        if type(x) is tuple:
+            hf, lf = x
+            hf = super(_LeakyReLU, self).forward(hf)
+            lf = super(_LeakyReLU, self).forward(lf)
+            return hf, lf
+        else:
+            return super(_LeakyReLU, self).forward(x)
+    # end forward
+# end _LeakyReLU
+
 class _SELU(nn.SELU):
     def forward(self, x):
         if type(x) is tuple:
