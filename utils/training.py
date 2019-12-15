@@ -2,6 +2,7 @@ import time
 import copy
 import torch
 import numpy as np
+import pandas as pd
 from matplotlib import pyplot as plt
 from sklearn.metrics import classification_report
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -81,7 +82,7 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
             loss_key = 'loss' if phase == 'train' else 'val_loss'
             acc_key = 'acc' if phase == 'train' else 'val_acc'
             history[loss_key].append(epoch_loss)
-            history[acc_key].append(epoch_acc)
+            history[acc_key].append(epoch_acc.item())
 
             print('{} Loss: {:.4f}'.format(phase.capitalize(), epoch_loss), 'Acc: {:.4f}'.format(epoch_acc), end=" | ")
             # deep copy the model
@@ -104,7 +105,7 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
         time_elapsed // 60, time_elapsed % 60))
     print('Best accuracy on epoch {}: {:4f}'.format(best_ep, best_acc))
 
-    return history, best_model_wts
+    return history, best_model_wts, time_elapsed
 # end train_model
 
 def test_model(model, dataset, batch_size=32, use_cuda=True):
@@ -206,3 +207,8 @@ def plot_history(history, base_name='model',folder_path=None):
 
     plt.show()
 # end plot_history
+
+def save_history(history, file_path='history.csv'):
+    df = pd.DataFrame(data=history)
+    df.to_csv(file_path)
+    return True
