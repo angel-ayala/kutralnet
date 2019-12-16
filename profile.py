@@ -3,7 +3,7 @@ from thop import profile, count_hooks, clever_format
 from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
-from models.kutralnet import KutralNet
+# from models.kutralnet import KutralNet
 from utils.models import models_conf, get_config
 
 num_classes = 2
@@ -46,15 +46,15 @@ flops, params = profile(model, verbose=False,
 flops, params = clever_format([flops, params], "%.3f")
 print('ResnetMod 224x224 flops, params', flops, params)
 
-# choose model
-base_model = 'kutralnet'
-# model pre-configuration
-img_dims = get_config(base_model)['img_dims']
-
-model = KutralNet(classes=num_classes)
-input = torch.randn(1, 3, img_dims[0], img_dims[1])
-flops, params = profile(model, verbose=False,
-        inputs=(input, ),
-        custom_ops={torch.nn.Dropout2d: None})
-flops, params = clever_format([flops, params], "%.3f")
-print('KutralNet 64x64 flops, params', flops, params)
+# # choose model
+# base_model = 'kutralnet'
+# # model pre-configuration
+# img_dims = get_config(base_model)['img_dims']
+#
+# model = KutralNet(classes=num_classes)
+# input = torch.randn(1, 3, img_dims[0], img_dims[1])
+# flops, params = profile(model, verbose=False,
+#         inputs=(input, ),
+#         custom_ops={torch.nn.Dropout2d: None})
+# flops, params = clever_format([flops, params], "%.3f")
+# print('KutralNet 64x64 flops, params', flops, params)

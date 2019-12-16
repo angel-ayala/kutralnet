@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import pandas as pd
 
-def read_and_preprocess(img_path, resize=(244, 244), color_fix=True):
+def read_and_preprocess(img_path, resize=(224, 224), color_fix=True):
     img = cv2.imread(img_path)
     if color_fix:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -121,3 +121,7 @@ def load_firenet_test_dataset(firenet_path, val_split=False, resize=(224, 224), 
                                 csv_name='test_dataset.csv',
                                 debug=debug)
 # end load_firenet_dataset
+
+def preprocess(batch):
+    return batch.astype('float32') / 255.
+# end preprocess

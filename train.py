@@ -82,6 +82,7 @@ optimizer = config['optimizer'](**opt_args)
 scheduler = None
 
 folder_path = os.path.join('.', 'models', 'saved')
+print('Initiating training, models will be saved at {}'.format(folder_path))
 # logs
 with open(os.path.join(folder_path, 'log_{}.log'.format(base_model)), 'w') as f:
         with redirect_stdout(f):

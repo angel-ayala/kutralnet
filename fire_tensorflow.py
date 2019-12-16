@@ -4,16 +4,19 @@ Best val Acc: 0.93553
 Test Acc: 0.91389
 """
 import os
+import time
 import numpy as np
-# from keras import utils
 from matplotlib import pyplot as plt
 from keras.callbacks import ModelCheckpoint, CSVLogger
 from keras.models import load_model
 
-from datasets import FireNetDataset
-from models.firenet_tf import firenet_tf
 from sklearn.metrics import classification_report
+from models.firenet_tf import firenet_tf
+from utils.dataset import load_fismo_dataset
+from utils.dataset import load_firenet_test_dataset
+from utils.dataset import preprocess
 from utils.training import plot_history
+from contextlib import redirect_stdout
 
 # Set a seed value
 seed_value= 666
@@ -38,15 +41,18 @@ K.set_session(sess)
 
 must_train = True
 must_test = True
+save_path = os.path.join('.', 'models', 'saved')
+base_model = 'firenet_tf'
 
 ### Training
 if must_train:
-    dt = FireNetDataset(size=(64,64), debug=True)
-    x_train, y_train, x_val, y_val = dt.load_train_val()
+
+    fismo_path = os.path.join('.', 'datasets', 'FiSmoDataset')
+    x_train, y_train, x_val, y_val = load_fismo_dataset(fismo_path, resize=(64,64))
 
     # Normalize data.
-    x_train = dt.preprocess(x_train)
-    x_val = dt.preprocess(x_val)
+    x_train = preprocess(x_train)
+    x_val = preprocess(x_val)
 
     # summary
     print('x_train shape:', x_train.shape)
@@ -59,7 +65,7 @@ if must_train:
     print(y_val[y_val==1].shape[0], 'fire')
     print(y_val[y_val==0].shape[0], 'no_fire')
 
-    num_classes = len(dt.classes)
+    num_classes = 2
     input_shape = x_train.shape[1:]
     print('num_classes', num_classes, 'input_shape', input_shape)
 
@@ -98,20 +104,38 @@ if must_train:
     model.summary()
     # exit()
     #
-    history = model.fit(x_train, y_train, batch_size=32, epochs=100,
-                        validation_data=(x_val, y_val), callbacks=prepare_callbacks('models/saved', 'firenet_tf'))
+    print('Initiating training, models will be saved at {}'.format(save_path))
+    time_elapsed = 0
+    since = time.time()
+    with open(os.path.join(save_path, 'log_{}.log'.format(base_model)), 'w') as f:
+        with redirect_stdout(f):
+            # since = time.time()
+            history = model.fit(x_train, y_train, batch_size=32, epochs=100,
+                    validation_data=(x_val, y_val), callbacks=prepare_callbacks(save_path, base_model))
 
-    # model.save('models/saved/firenet_tf.h5')
+            best_idx = np.argmax(history.history['val_acc'])
+            best_acc = history.history['val_acc'][best_idx]
 
-    plot_history(history.history)
+            time_elapsed = time.time() - since
+            print('Training complete in {:.0f}m {:.0f}s'.format(
+                time_elapsed // 60, time_elapsed % 60))
+            print('Best accuracy on epoch {}: {:4f}'.format(best_idx, best_acc))
+
+    print('Training complete in {:.0f}m {:.0f}s'.format(
+        time_elapsed // 60, time_elapsed % 60))
+    print('Best accuracy on epoch {}: {:4f}'.format(best_idx, best_acc))
+
+    plot_history(history.history, base_name=base_model, folder_path=save_path)
+
 
 ### Test
 if must_test:
-    dt = FireNetDataset(size=(64,64))
-    x_test, y_test = dt.load_test()
+
+    firenet_path = os.path.join('.', 'datasets', 'FireNetDataset')
+    x_test, y_test = load_firenet_test_dataset(firenet_path, resize=(64,64))
 
     # Normalize data.
-    x_test = dt.preprocess(x_test)
+    x_test = preprocess(x_test)
 
     # summary
     print('x_test shape:', x_test.shape)
@@ -119,7 +143,7 @@ if must_test:
     print(y_test[y_test==1].shape[0], 'fire')
     print(y_test[y_test==0].shape[0], 'no_fire')
 
-    num_classes = len(dt.classes)
+    num_classes = 2
     input_shape = x_test.shape[1:]
     print('num_classes', num_classes, 'input_shape', input_shape)
 
@@ -127,10 +151,9 @@ if must_test:
     model.compile(loss='sparse_categorical_crossentropy',
                   optimizer='adam',
                   metrics=['accuracy'])
-    model.load_weights('models/saved/model_firenet_tf.h5')
+    model.load_weights(os.path.join(save_path, 'model_{}.h5'.format(base_model)))
 
     score = model.evaluate(x_test, y_test, verbose=2)
-    print(score)
 
     #Confusion Matrix and Classification Report
     y_pred = model.predict(x_test, verbose=0)
@@ -141,5 +164,8 @@ if must_test:
     class_report = classification_report(y_test, y_pred,
                             target_names=target_names)#, output_dict=True)
 
-    print('Classification Report')
-    print(class_report)
+    with open(os.path.join(folder_path, 'log_{}.log'.format(base_model)), 'w') as f:
+        with redirect_stdout(f):
+            print(score)
+            print('Classification Report')
+            print(class_report)
