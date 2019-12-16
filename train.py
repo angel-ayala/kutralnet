@@ -86,7 +86,7 @@ scheduler = None
 
 # folder for save results
 folder_name = '{}_{}'.format(base_model, time.time())
-folder_path = os.path.join('.', 'models', 'saved', )
+folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 if not os.path.exists(folder_path):
     os.makedirs(folder_path)
