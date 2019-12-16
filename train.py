@@ -85,7 +85,7 @@ optimizer = config['optimizer'](**opt_args)
 scheduler = None
 
 # folder for save results
-folder_name = '{}_{}'.format(base_model, time.time())
+folder_name = '{}_{}'.format(base_model, int(time.time()))
 folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 if not os.path.exists(folder_path):
@@ -93,7 +93,7 @@ if not os.path.exists(folder_path):
 
 print('Initiating training, models will be saved at {}'.format(folder_path))
 # logs
-with open(os.path.join(folder_path, 'log_{}.log'.format(base_model)), 'w') as f:
+with open(os.path.join(folder_path, 'training.log'), 'w') as f:
         with redirect_stdout(f):
             print(model)
             # training metrics
@@ -106,7 +106,7 @@ model_path = os.path.join(folder_path, model_name)
 print('Saving model {}'.format(model_path))
 torch.save(best_model, model_path)
 # metrics save
-history_path = os.path.join(folder_path, 'history_{}.csv'.format(base_model))
+history_path = os.path.join(folder_path, 'history.csv')
 save_history(history, file_path=history_path)
 
-plot_history(history, base_name=base_model, folder_path=folder_path)
+plot_history(history, folder_path=folder_path)

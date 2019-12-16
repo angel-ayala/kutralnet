@@ -1,3 +1,4 @@
+import os
 import time
 import copy
 import torch
@@ -5,7 +6,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
-from torch.utils.data.sampler import SubsetRandomSampler
 
 def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, batch_size=32,
                 shuffle_dataset=True, scheduler=None, use_cuda=True):
@@ -180,7 +180,7 @@ def show_samples(data):
             break
 # end show_samples
 
-def plot_history(history, base_name='model',folder_path=None):
+def plot_history(history, folder_path=None):
     plt.plot(history['acc'])
     plt.plot(history['val_acc'])
     plt.title('Model accuracy')
@@ -189,8 +189,7 @@ def plot_history(history, base_name='model',folder_path=None):
     plt.legend(['Training', 'Validation'], loc='upper left')
 
     if folder_path is not None:
-        path = folder_path + '/' + base_name + '_accuracy.png'
-        plt.savefig(path)
+        plt.savefig(os.path.join(folder_path, 'accuracy.png'))
 
     plt.show()
 
@@ -202,8 +201,7 @@ def plot_history(history, base_name='model',folder_path=None):
     plt.legend(['Training', 'Validation'], loc='upper left')
 
     if folder_path is not None:
-        path = folder_path + '/' + base_name + '_loss.png'
-        plt.savefig(path)
+        plt.savefig(os.path.join(folder_path, 'loss.png'))
 
     plt.show()
 # end plot_history
