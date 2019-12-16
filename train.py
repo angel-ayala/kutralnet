@@ -1,10 +1,13 @@
 import os
-import numpy as np
+import time
 import torch
 import argparse
+import numpy as np
 from contextlib import redirect_stdout
 from datasets import FireImagesDataset
-from utils.training import train_model, plot_history, save_history
+from utils.training import train_model
+from utils.training import plot_history
+from utils.training import save_history
 from utils.models import models_conf
 
 from models.firenet_pt import FireNet
@@ -81,7 +84,13 @@ optimizer = config['optimizer'](**opt_args)
 # scheduler = conf['scheduler'](**sched_args)
 scheduler = None
 
-folder_path = os.path.join('.', 'models', 'saved')
+# folder for save results
+folder_name = '{}_{}'.format(base_model, time.time())
+folder_path = os.path.join('.', 'models', 'saved', )
+
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
+
 print('Initiating training, models will be saved at {}'.format(folder_path))
 # logs
 with open(os.path.join(folder_path, 'log_{}.log'.format(base_model)), 'w') as f:
