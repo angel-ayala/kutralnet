@@ -3,7 +3,7 @@ import copy
 import torch
 import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 from torch.utils.data.sampler import SubsetRandomSampler
 
