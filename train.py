@@ -50,15 +50,16 @@ img_dims = config['img_dims']
 model_name = config['model_name']
 
 # common preprocess
-transform_compose = config['preprocess']
+transform_train = config['preprocess_train']
+transform_val = config['preprocess_val']
 
 # dataset read
 dataset_name = args.dataset + 'Dataset'
 data_path = os.path.join('.', 'datasets', dataset_name)
 train_data = FireImagesDataset(name=args.dataset, root_path=data_path,
-            transform=transform_compose, preload=preload_data)
+            transform=transform_train, preload=preload_data)
 val_data = FireImagesDataset(name=args.dataset, root_path=data_path,
-            purpose='test', transform=transform_compose, preload=preload_data)
+            purpose='test', transform=transform_val, preload=preload_data)
 
 num_classes = len(train_data.labels)
 

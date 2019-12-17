@@ -11,7 +11,7 @@ from utils.models import models_conf
 from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
-from models.kutralnet import KutralNet
+# from models.kutralnet import KutralNet
 
 # Seed
 seed_val = 666
@@ -34,7 +34,7 @@ img_dims = config['img_dims']
 model_name = config['model_name']
 
 # common preprocess
-transform_compose = config['preprocess']
+transform_compose = config['preprocess_test']
 
 # dataset read
 data_path = os.path.join('.', 'datasets', 'FireNetDataset')
@@ -50,8 +50,8 @@ elif base_model == 'octfiresnet':
     model = OctFiResNet(classes=num_classes)
 elif base_model == 'resnet':
     model = resnet_sharma(classes=num_classes)
-elif base_model == 'kutralnet':
-    model = KutralNet(classes=num_classes)
+# elif base_model == 'kutralnet':
+#     model = KutralNet(classes=num_classes)
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 

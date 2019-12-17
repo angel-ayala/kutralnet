@@ -11,7 +11,15 @@ models_conf = {
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {'eps': 1e-6},
-        'preprocess': transforms.Compose([
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((64, 64)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((64, 64)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
                        transforms.Resize((64, 64)), #redimension
                        transforms.ToTensor()
                     ]),
@@ -24,7 +32,15 @@ models_conf = {
         'criterion': CrossEntropyLoss(),
         'optimizer': Nadam,
         'optimizer_params': {'lr': 1e-4, 'eps': 1e-7},
-        'preprocess': transforms.Compose([
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((96, 96)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((96, 96)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
                        transforms.Resize((96, 96)), #redimension
                        transforms.ToTensor()
                     ]),
@@ -37,7 +53,15 @@ models_conf = {
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {},
-        'preprocess': transforms.Compose([
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((224, 224)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((224, 224)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
                        transforms.Resize((224, 224)), #redimension
                        transforms.ToTensor()
                     ]),
@@ -45,15 +69,22 @@ models_conf = {
         'scheduler_params': {}
     },
     'kutralnet': {
-        'img_dims': (64, 64),
+        'img_dims': (84, 84),
         'model_name': 'model_kutralnet.pth',
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {},
-        'preprocess': transforms.Compose([
-                       transforms.Resize((64, 64)), #redimension
-                       transforms.ToTensor(),
-                       CustomNormalize((-1, 1))
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
                     ]),
         'scheduler': optim.lr_scheduler.CosineAnnealingLR,
         'scheduler_params': {}
