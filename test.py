@@ -2,6 +2,7 @@ import os
 import numpy as np
 
 import torch
+from contextlib import redirect_stdout
 from torchvision import transforms
 from datasets import FireImagesDataset, CustomNormalize
 from utils.training import test_model
@@ -58,4 +59,6 @@ model_path = os.path.join('.', 'models', 'saved', model_name)
 print('Loading model {}'.format(model_path))
 model.load_state_dict(torch.load(model_path))
 
-test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)
+with open(os.path.join(folder_path, 'training.log'), 'a+') as f:
+    with redirect_stdout(f):
+        test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)

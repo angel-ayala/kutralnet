@@ -157,6 +157,9 @@ def test_model(model, dataset, batch_size=32, use_cuda=True):
     print('Classification Report')
     print(class_report)
 
+    return classification_report(Y_test, y_pred,
+                            target_names=target_names, output_dict=True)
+
 # end test_model
 
 def show_samples(data):
