@@ -86,7 +86,7 @@ models_conf = {
                        transforms.Resize((84, 84)), #redimension
                        transforms.ToTensor()
                     ]),
-        'scheduler': optim.lr_scheduler.CosineAnnealingLR,
+        'scheduler': None,#optim.lr_scheduler.CosineAnnealingLR,
         'scheduler_params': {}
     }
 }
