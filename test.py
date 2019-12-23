@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from contextlib import redirect_stdout
 from torchvision import transforms
-from datasets import FireImagesDataset, CustomNormalize
+from datasets import available_datasets
 from utils.training import test_model
 from utils.models import models_conf
 
@@ -25,23 +25,28 @@ if use_cuda:
 
 # choose model
 base_model = 'kutralnet'
+version = 0
 # test config
 batch_size = 32
 preload_data = True # load dataset on-memory
 # model pre-configuration
 config = models_conf[base_model]
 img_dims = config['img_dims']
-model_name = config['model_name']
+model_name = config['model_name'])
 
 # common preprocess
 transform_compose = config['preprocess_test']
 
 # dataset read
-data_path = os.path.join('.', 'datasets', 'FireNetDataset')
-dataset = FireImagesDataset(name='FireNet', root_path=data_path, csv_file='test_dataset.csv',
-            transform=transform_compose, preload=preload_data)
+dataset_name = 'firenet_test'
+test_dataset = available_datasets[dataset_name]
+dataset = test_dataset(transform=transform_compose, preload=preload_data)
 
 num_classes = len(dataset.labels)
+
+# folder of save results
+folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
+folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 # model selection
 if base_model == 'firenet':
@@ -55,7 +60,7 @@ elif base_model == 'kutralnet':
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 
-model_path = os.path.join('.', 'models', 'saved', model_name)
+model_path = os.path.join(folder_path, model_name)
 print('Loading model {}'.format(model_path))
 model.load_state_dict(torch.load(model_path))
 

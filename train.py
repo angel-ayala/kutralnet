@@ -4,7 +4,7 @@ import torch
 import argparse
 import numpy as np
 from contextlib import redirect_stdout
-from datasets import FireImagesDataset
+from datasets import available_datasets
 from utils.training import train_model
 from utils.training import plot_history
 from utils.training import save_history
@@ -13,16 +13,16 @@ from utils.models import models_conf
 from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
-# from models.kutralnet import KutralNet
+from models.kutralnet import KutralNet
 
 parser = argparse.ArgumentParser(description='Fire classification training')
 parser.add_argument('--base_model', metavar='BM', default='kutralnet',
                     help='modelo a entrenar')
 parser.add_argument('--epochs', metavar='E', default=100, type=int,
                     help='number of maximum iterations')
-parser.add_argument('--preload_data', metavar='PD', default=False, type=bool,
+parser.add_argument('--preload_data', metavar='PD', default=0, type=bool,
                     help='cargar dataset on-memory')
-parser.add_argument('--dataset', metavar='D', default='FiSmo',
+parser.add_argument('--dataset', metavar='D', default='fismo',
                     help='seleccion de dataset')
 args = parser.parse_args()
 
@@ -39,6 +39,7 @@ if use_cuda:
 
 # choose model
 base_model = args.base_model#'octfiresnet'
+version = 0
 # train config
 batch_size = 32
 epochs = args.epochs#100
@@ -54,12 +55,10 @@ transform_train = config['preprocess_train']
 transform_val = config['preprocess_val']
 
 # dataset read
-dataset_name = args.dataset + 'Dataset'
-data_path = os.path.join('.', 'datasets', dataset_name)
-train_data = FireImagesDataset(name=args.dataset, root_path=data_path,
-            transform=transform_train, preload=preload_data)
-val_data = FireImagesDataset(name=args.dataset, root_path=data_path,
-            purpose='test', transform=transform_val, preload=preload_data)
+dataset_name = args.dataset
+base_dataset = available_datasets[dataset_name]
+train_data = base_dataset(transform=transform_train, preload=preload_data)
+val_data = base_dataset(purpose='val', transform=transform_val, preload=preload_data)
 
 num_classes = len(train_data.labels)
 
@@ -70,8 +69,8 @@ elif base_model == 'octfiresnet':
     model = OctFiResNet(classes=num_classes)
 elif base_model == 'resnet':
     model = resnet_sharma(classes=num_classes)
-# elif base_model == 'kutralnet':
-#     model = KutralNet(classes=num_classes)
+elif base_model == 'kutralnet':
+    model = KutralNet(classes=num_classes)
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 
@@ -86,7 +85,7 @@ optimizer = config['optimizer'](**opt_args)
 scheduler = None
 
 # folder for save results
-folder_name = '{}_{}'.format(base_model, int(time.time()))
+folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
 folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 if not os.path.exists(folder_path):

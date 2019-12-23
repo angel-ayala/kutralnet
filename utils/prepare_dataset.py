@@ -98,7 +98,7 @@ def split_dataframe(dataframe, quantity):
 
     # purpose labeling
     dataframe['purpose'] = 'train'
-    dataframe.loc[dataframe.tail(quantity).index, 'purpose'] = 'test'
+    dataframe.loc[dataframe.tail(quantity).index, 'purpose'] = 'val'
 
     return dataframe
 # end split_dataframe
@@ -225,7 +225,7 @@ def prepare_bowfire_df(fismo_path):
     return bowfire_df
 # end prepare_bowfire_df
 
-def prepare_fismo_df(fismo_path):
+def prepare_fismo_ds(fismo_path):
     print('Starting FiSmo dataset preparation....')
     # FlickrFireSmoke
     print('Preparing FlickrFireSmoke...')
@@ -276,7 +276,7 @@ def prepare_fismo_df(fismo_path):
     save_dataframe(fismo_df, fismo_path)
 # end prepare_fismo_df
 
-def prepare_cairfire_df(cairfire_path):
+def prepare_cairfire_ds(cairfire_path):
     # CairFire fire
     fire_path = os.path.join(cairfire_path, 'fire')
 
@@ -317,7 +317,7 @@ def prepare_cairfire_df(cairfire_path):
     save_dataframe(cairfire_df, cairfire_path)
 # end prepare_cairfire_df
 
-def prepare_firenet_df(firenet_path):
+def prepare_firenet_ds(firenet_path):
     # FireNet fire
     fire_path = os.path.join(firenet_path, 'Training', 'Fire')
 
@@ -362,7 +362,7 @@ def prepare_firenet_df(firenet_path):
     save_dataframe(firenet_df, firenet_path)
 # end prepare_firenet_df
 
-def prepare_firenet_test_df(firenet_path):
+def prepare_firenet_test_ds(firenet_path):
     # FireNet test fire
     test_path = os.path.join(firenet_path, 'Test')
     fire_folders = glob.glob(os.path.join(test_path, 'Fire*'))
@@ -403,10 +403,10 @@ def prepare_firenet_test_df(firenet_path):
     print(firenet_test_df['class'].value_counts())
 
     # freeze processing saving at csv
-    save_dataframe(firenet_test_df, firenet_path, filename='test_dataset.csv')
+    save_dataframe(firenet_test_df, firenet_path, filename='dataset_test.csv')
 # end prepare_firenet_df
 
-def prepare_firesense_df(firesense_path):
+def prepare_firesense_ds(firesense_path):
     # frames extract
     # fire videos
     fs_path = os.path.join(firesense_path, 'fire')
@@ -461,18 +461,150 @@ def prepare_firesense_df(firesense_path):
     save_dataframe(firesense_df, firesense_path)
 # end prepare_firesense_df
 
+def prepare_fismo_balanced_df(fismo_path):
+    # FlickFire
+    flickr_fire_dt = os.path.join(fismo_path, 'Flickr-Fire')
+
+    # load fire ids from txt
+    txt_path = os.path.join(flickr_fire_dt, 'flamesId.txt')
+    tmp_df = pd.read_csv(txt_path,
+                        header=None,
+                        names=['image_id'])
+
+    # add class column
+    tmp_df['class'] = fire_label
+
+    # add folder path
+    folder_path = os.path.join('Flickr-Fire', 'Flickr-Fire_flame')
+    tmp_df.insert(0, 'folder_path', folder_path)
+
+    # tmp allocation
+    fire_df = tmp_df
+    fire_df.drop_duplicates(subset='image_id', inplace=True)
+
+    # load fire ids from txt
+    txt_path = os.path.join(flickr_fire_dt, 'notFlamesId.txt')
+    tmp_df = pd.read_csv(txt_path,
+                        header=None,
+                        names=['image_id'])
+
+    # add class column
+    tmp_df['class'] = no_fire_label
+
+    # add folder path
+    folder_path = os.path.join('Flickr-FireSmoke', 'imgs')
+    tmp_df.insert(0, 'folder_path', folder_path)
+    # balance with fire images number
+    tmp_df = tmp_df[:len(fire_df)]
+
+    # dataset's  dataframe
+    balanced_fismo_df = pd.concat([fire_df, tmp_df])
+
+    # removes duplicates
+    balanced_fismo_df.drop_duplicates(subset=['folder_path', 'image_id'], inplace=True)
+    # print(balanced_fismo_df)
+    return balanced_fismo_df
+# end prepare_fismo_balanced_df
+
+def prepare_fismo_balanced_ds(fismo_path):
+    balanced_fismo_df = prepare_fismo_balanced_df(fismo_path)
+
+    # classes count
+    classes_qt = balanced_fismo_df['class'].value_counts()
+
+    print('Splitting dataset...')
+    # fire dataset validation split
+    test_size = .2
+    test_qt = math.ceil(classes_qt[fire_label] * test_size)
+
+    # class separation
+    fire_df = balanced_fismo_df.loc[balanced_fismo_df['class'] == fire_label]
+    fire_df = split_dataframe(fire_df, test_qt)
+
+    # no fire dataset validation split
+    test_qt = math.ceil(classes_qt[no_fire_label] * test_size)
+
+    # class separation
+    no_fire_df = balanced_fismo_df.loc[balanced_fismo_df['class'] == no_fire_label]
+    no_fire_df = split_dataframe(no_fire_df, test_qt)
+
+    # concat splitted dataset
+    balanced_fismo_df = pd.concat([fire_df, no_fire_df])
+
+    # order data reset
+    balanced_fismo_df.sort_values(['folder_path', 'image_id'], inplace=True)
+    balanced_fismo_df.reset_index(drop=True, inplace=True)
+    # summary
+    print(balanced_fismo_df)
+    print(balanced_fismo_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
+
+    # freeze processing saving at csv
+    save_dataframe(balanced_fismo_df, fismo_path, filename='dataset_balanced.csv')
+# end prepare_fismo_balanced_ds
+
+def prepare_fismo_balanced_black_ds(fismo_path):
+    balanced_fismo_df = prepare_fismo_balanced_df(fismo_path)
+
+    print('Splitting dataset...')
+    test_size = .2
+
+    # fire dataset validation split
+    # class separation
+    fire_df = balanced_fismo_df.loc[balanced_fismo_df['class'] == fire_label]
+    test_qt = math.ceil(len(fire_df) * test_size)
+    fire_df = split_dataframe(fire_df, test_qt)
+
+    # no fire dataset validation split
+    # class separation
+    no_fire_df = balanced_fismo_df.loc[balanced_fismo_df['class'] == no_fire_label]
+    number_imgs = len(no_fire_df)
+    # replace for black images
+    black_imgs = int(number_imgs * .1) # 10% replacement
+    print('black_imgs', black_imgs)
+    number_imgs -= black_imgs
+
+    no_fire_df = no_fire_df[:number_imgs]
+    test_qt = math.ceil(number_imgs * test_size)
+    no_fire_df = split_dataframe(no_fire_df, test_qt)
+
+    black_test = int(black_imgs * test_size)
+    black_rows = [ ['..', 'black.jpg', no_fire_label, 'train'] for i in range(black_imgs)]
+    black_df = pd.DataFrame(data=black_rows, columns=['folder_path', 'image_id', 'class', 'purpose'])
+    black_df.loc[black_df.tail(black_test).index, 'purpose'] = 'val'
+    # shufle data and reset
+    black_df = black_df.sample(frac=1.)
+    black_df.reset_index(drop=True, inplace=True)
+
+    # concat splitted dataset
+    balanced_fismo_df = pd.concat([fire_df, no_fire_df])
+
+    # order data reset
+    balanced_fismo_df.sort_values(['folder_path', 'image_id'], inplace=True)
+    balanced_fismo_df = pd.concat([balanced_fismo_df, black_df])
+    balanced_fismo_df.reset_index(drop=True, inplace=True)
+    # summary
+    print(balanced_fismo_df)
+    print(balanced_fismo_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
+
+    # freeze processing saving at csv
+    save_dataframe(balanced_fismo_df, fismo_path, filename='dataset_balanced_black.csv')
+# end prepare_fismo_balanced_black_ds
+
 if __name__ == '__main__':
-    root_path = os.getcwd()
+    root_path = os.path.dirname(os.path.abspath(__file__))
     print('Root path in', root_path)
 
     datasets_root = os.path.join(root_path, '..', 'datasets')
-
-    fismo_dt = os.path.join(datasets_root, 'FiSmo-Images')
+    
     firenet_dt = os.path.join(datasets_root, 'FireNetDataset')
-    firesense_dt = os.path.join(datasets_root, 'FireSenseDataset')
-    cairfire_dt = os.path.join(datasets_root, 'CairDataset')
+    fismo_dt = os.path.join(datasets_root, 'FiSmoDataset')
+    # firesense_dt = os.path.join(datasets_root, 'FireSenseDataset')
+    # cairfire_dt = os.path.join(datasets_root, 'CairDataset')
 
-    prepare_fismo_df(fismo_dt)
-    prepare_firenet_df(firenet_dt)
-    prepare_cairfire_df(cairfire_dt)
-    prepare_firesense_df(firesense_dt)
+    prepare_firenet_ds(firenet_dt)
+    prepare_firenet_test_ds(firenet_dt)
+    prepare_fismo_ds(fismo_dt)
+    prepare_fismo_balanced_ds(fismo_dt)
+    prepare_fismo_balanced_black_ds(fismo_dt)
+    # prepare_cairfire_ds(cairfire_dt)
+    # prepare_firesense_ds(firesense_dt)

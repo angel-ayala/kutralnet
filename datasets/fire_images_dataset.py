@@ -88,6 +88,49 @@ class FireImagesDataset(Dataset):
 
 # end FireImagesDataset
 
+root_path = os.path.dirname(os.path.abspath(__file__))
+class FireNetDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FireNet', root_path=os.path.join(root_path, 'FireNetDataset'),
+            csv_file='dataset.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FireNetDataset
+
+class FireNetTestDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FireNet-Test', root_path=os.path.join(root_path, 'FireNetDataset'),
+            csv_file='dataset_test.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FireNetTestDataset
+
+class FiSmoDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FiSmo', root_path=os.path.join(root_path, 'FiSmoDataset'),
+            csv_file='dataset.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FiSmoDataset
+
+class FiSmoBalancedDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FiSmoBalanced', root_path=os.path.join(root_path, 'FiSmoBalancedDataset'),
+            csv_file='dataset_balanced.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FiSmoBalancedDataset
+
+class FiSmoBlackDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FiSmoBlack', root_path=os.path.join(root_path, 'FiSmoBlackDataset'),
+            csv_file='dataset_black.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FiSmoBlackDataset
+
+class FiSmoBalancedBlackDataset(FireImagesDataset):
+    def __init__(self, transform=None, purpose='train', preload=False):
+        super().__init__(name='FiSmoBalancedBlack', root_path=os.path.join(root_path, 'FiSmoBalancedBlackDataset'),
+            csv_file='dataset_balanced_black.csv', transform=transform, purpose=purpose, preload=preload)
+    # end __init__
+# end FiSmoBalancedBlackDataset
+
 class CustomNormalize:
     def __init__(self, interval=(0, 1)):
         self.a = interval[0]
