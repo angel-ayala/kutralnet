@@ -10,4 +10,7 @@
 !/datasets/*/*.py
 !/datasets/*/*.csv
 
+# saved models
+/models/saved
+
 */__pycache__/*

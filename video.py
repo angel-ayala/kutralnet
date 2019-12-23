@@ -12,7 +12,7 @@ from utils.models import models_conf
 from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
-# from models.kutralnet import KutralNet
+from models.kutralnet import KutralNet
 
 parser = argparse.ArgumentParser(description='Fire classification training')
 parser.add_argument('--base_model', metavar='BM', default='kutralnet',
@@ -23,6 +23,8 @@ parser.add_argument('--weights_path', metavar='W', default=os.path.join('.', 'mo
 #                     help='number of maximum iterations')
 # parser.add_argument('--preload_data', metavar='PD', default=False, type=bool,
 #                     help='cargar dataset on-memory')
+parser.add_argument('--dataset', metavar='D', default='fismo',
+                    help='seleccion de dataset de entrenamiento')
 parser.add_argument('--video_source', metavar='V', default='0',
                     help='seleccion de video')
 args = parser.parse_args()
@@ -53,8 +55,8 @@ elif base_model == 'octfiresnet':
     model = OctFiResNet(classes=num_classes)
 elif base_model == 'resnet':
     model = resnet_sharma(classes=num_classes)
-# elif base_model == 'kutralnet':
-#     model = KutralNet(classes=num_classes)
+elif base_model == 'kutralnet':
+    model = KutralNet(classes=num_classes)
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 
@@ -66,17 +68,21 @@ else:
         'slow_motion_fire_blaze_from_the_bottom_stock_video_footage_cPYaQ-_MKt0_360p.mp4'
         # 'raw_video_shows_how_fast_texas_wildfire_spread_m67ZokFYl2A_360p.mp4'
         # 'slow_motion_with_fire_W0iMjuRXYZo_360p.mp4'
-        #'dalma_400240.mp4'
-        #'gwanak_400240.mp4'
-        #'nofire_400240.mp4'
-        #'inside_the_fire_zvPa_yEEd4E_360p.mp4'
+        # 'dalma_400240.mp4'
+        # 'gwanak_400240.mp4'
+        # 'nofire_400240.mp4'
+        # 'inside_the_fire_zvPa_yEEd4E_360p.mp4'
         )#'FireSenseDataset', 'Fire', 'posVideo2.871.avi')
 # video_path = 0
-print('Loading', video_path)
+print('Loading video source', video_path)
 
-# models_root = os.path.join(root_path, 'models', 'saved')
+# folder for save results
+training_dataset = args.dataset
+folder_name = '{}_{}'.format(base_model, training_dataset)
 models_root = args.weights_path
-model_path = os.path.join(models_root, model_name)
+folder_path = os.path.join(models_root, folder_name)
+model_path = os.path.join(folder_path, model_name)
+print('Loading model', model_path)
 
 # net = FireNet(num_classes)
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))

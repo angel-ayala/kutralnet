@@ -79,10 +79,12 @@ criterion = config['criterion'] #nn.CrossEntropyLoss()
 opt_args = {'params': model.parameters()}#,'eps': 1e-7}
 opt_args.update(config['optimizer_params'])
 optimizer = config['optimizer'](**opt_args)
-# sched_args = {'optimizer': optimizer, 'T_max': 100, 'eta_min':1e-4}
-# sched_args.update(config['scheduler_params'])
-# scheduler = conf['scheduler'](**sched_args)
 scheduler = None
+
+if conf['scheduler'] is not None:
+    sched_args = {'optimizer': optimizer}
+    sched_args.update(config['scheduler_params'])
+    scheduler = conf['scheduler'](**sched_args)
 
 # folder for save results
 folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
