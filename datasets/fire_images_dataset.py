@@ -112,21 +112,21 @@ class FiSmoDataset(FireImagesDataset):
 
 class FiSmoBalancedDataset(FireImagesDataset):
     def __init__(self, transform=None, purpose='train', preload=False):
-        super().__init__(name='FiSmoBalanced', root_path=os.path.join(root_path, 'FiSmoBalancedDataset'),
+        super().__init__(name='FiSmoBalanced', root_path=os.path.join(root_path, 'FiSmoDataset'),
             csv_file='dataset_balanced.csv', transform=transform, purpose=purpose, preload=preload)
     # end __init__
 # end FiSmoBalancedDataset
 
 class FiSmoBlackDataset(FireImagesDataset):
     def __init__(self, transform=None, purpose='train', preload=False):
-        super().__init__(name='FiSmoBlack', root_path=os.path.join(root_path, 'FiSmoBlackDataset'),
+        super().__init__(name='FiSmoBlack', root_path=os.path.join(root_path, 'FiSmoDataset'),
             csv_file='dataset_black.csv', transform=transform, purpose=purpose, preload=preload)
     # end __init__
 # end FiSmoBlackDataset
 
 class FiSmoBalancedBlackDataset(FireImagesDataset):
     def __init__(self, transform=None, purpose='train', preload=False):
-        super().__init__(name='FiSmoBalancedBlack', root_path=os.path.join(root_path, 'FiSmoBalancedBlackDataset'),
+        super().__init__(name='FiSmoBalancedBlack', root_path=os.path.join(root_path, 'FiSmoDataset'),
             csv_file='dataset_balanced_black.csv', transform=transform, purpose=purpose, preload=preload)
     # end __init__
 # end FiSmoBalancedBlackDataset
