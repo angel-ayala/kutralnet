@@ -103,10 +103,10 @@ def _octconv(in_channels, #ip,
             out_channels, #filters,
             kernel_size=3, #(3, 3),
             stride=1, #(1, 1),
-            alpha=(.5, .5),
             padding='same',
+            alpha=(.5, .5),
             dilation=1,
-            groups=1,
+            groups=False,
             bias=False):
     if padding == 'same':
         padding = (kernel_size -1) // 2
@@ -131,7 +131,7 @@ def _octconv_bn(in_channels,
                 alpha=(.5, .5),
                 padding='same',
                 dilation=1,
-                groups=1,
+                groups=False,
                 bias=False,
                 activation=True,
                 act_layer=_ReLU):
@@ -146,3 +146,33 @@ def _octconv_bn(in_channels,
 
     return nn.Sequential(*mods)
 # end _octconv_bn
+
+class OctConvBlock(nn.Module):
+    def __init__(self, in_channels,
+                out_channels,
+                kernel_size=3,
+                stride=1,
+                alpha=(.25, .25),
+                padding=0,
+                dilation=1,
+                groups=False,
+                bias=False,
+                activation=None,
+                batch_norm=None):
+        super(OctConvBlock, self).__init__()
+        self.conv = OctConv2d(in_channels, out_channels, kernel_size,
+                            stride=stride, padding=padding, alpha=alpha,
+                            dilation=dilation, groups=groups, bias=bias)
+        self.bn = batch_norm
+        self.act = activation
+    # end __init__
+
+    def forward(self, x):
+        x = self.conv(x)
+        if self.bn is not None:
+            x = self.bn(x)
+        if self.act is not None:
+            x = self.act(x)
+        return x
+    # end forward
+# end OctConvBlock

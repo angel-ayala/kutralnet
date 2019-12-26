@@ -91,7 +91,19 @@ models_conf = {
     }
 }
 
+
 def get_config(base_model):
+    models_conf['kutralnetoct'] = models_conf['kutralnet']
+    models_conf['kutralnetoct']['model_name'] = 'model_kutralnetoct.pth'
+    models_conf['kutralnetoct']['scheduler'] = None
+
+    models_conf['kutralnet_mobile'] = models_conf['kutralnet']
+    models_conf['kutralnet_mobile']['model_name'] = 'model_kutralnet_mobile.pth'
+    models_conf['kutralnet_mobile']['scheduler'] = None
+
+    models_conf['kutralnet_mobileoct'] = models_conf['kutralnet']
+    models_conf['kutralnet_mobileoct']['model_name'] = 'model_kutralnet_mobileoct.pth'
+    models_conf['kutralnet_mobileoct']['scheduler'] = None
     return models_conf[base_model]
 
 # visualize activations

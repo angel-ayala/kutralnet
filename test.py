@@ -12,6 +12,9 @@ from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
 from models.kutralnet import KutralNet
+from models.kutralnetoct import KutralNetOct
+from models.kutralnet_mobile import KutralNetMobile
+from models.kutralnet_mobileoct import KutralNetMobileOct
 
 # Seed
 seed_val = 666
@@ -57,6 +60,12 @@ elif base_model == 'resnet':
     model = resnet_sharma(classes=num_classes)
 elif base_model == 'kutralnet':
     model = KutralNet(classes=num_classes)
+elif base_model == 'kutralnetoct':
+    model = KutralNetOct(classes=num_classes)
+elif base_model == 'kutralnet_mobile':
+    model = KutralNetMobile(classes=num_classes)
+elif base_model == 'kutralnet_mobileoct':
+    model = KutralNetMobileOct(classes=num_classes)
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
 

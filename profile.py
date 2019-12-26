@@ -4,6 +4,9 @@ from models.firenet_pt import FireNet
 from models.octfiresnet import OctFiResNet
 from models.resnet import resnet_sharma
 from models.kutralnet import KutralNet
+from models.kutralnetoct import KutralNetOct
+from models.kutralnet_mobile import KutralNetMobile
+from models.kutralnet_mobileoct import KutralNetMobileOct
 from utils.models import models_conf, get_config
 
 num_classes = 2
@@ -18,7 +21,7 @@ flops, params = profile(model, verbose=False,
         inputs=(input, ),
         custom_ops={torch.nn.Dropout2d: None})
 flops, params = clever_format([flops, params], "%.3f")
-print('FireNet 64x64 flops, params', flops, params)
+print('FireNet', img_dims, 'flops, params', flops, params)
 
 # choose model
 base_model = 'octfiresnet'
@@ -31,7 +34,7 @@ flops, params = profile(model, verbose=False,
         inputs=(input, ),
         custom_ops={torch.nn.Dropout2d: None})
 flops, params = clever_format([flops, params], "%.3f")
-print('OctFiResNet 96x96 flops, params', flops, params)
+print('OctFiResNet', img_dims, 'flops, params', flops, params)
 
 # choose model
 base_model = 'resnet'
@@ -44,7 +47,7 @@ flops, params = profile(model, verbose=False,
         inputs=(input, ),
         custom_ops={torch.nn.Dropout2d: None})
 flops, params = clever_format([flops, params], "%.3f")
-print('ResnetMod 224x224 flops, params', flops, params)
+print('ResnetMod', img_dims, 'flops, params', flops, params)
 
 # choose model
 base_model = 'kutralnet'
@@ -57,4 +60,45 @@ flops, params = profile(model, verbose=False,
         inputs=(input, ),
         custom_ops={torch.nn.Dropout2d: None})
 flops, params = clever_format([flops, params], "%.3f")
-print('KutralNet 84x84 flops, params', flops, params)
+print('KutralNet', img_dims, 'flops, params', flops, params)
+
+# choose model
+base_model = 'kutralnet'
+# model pre-configuration
+img_dims = get_config(base_model)['img_dims']
+
+model = KutralNetOct(classes=num_classes)
+input = torch.randn(1, 3, img_dims[0], img_dims[1])
+flops, params = profile(model, verbose=False,
+        inputs=(input, ),
+        custom_ops={torch.nn.Dropout2d: None})
+flops, params = clever_format([flops, params], "%.3f")
+print('KutralNetOct', img_dims, 'flops, params', flops, params)
+
+# choose model
+base_model = 'kutralnet'
+# model pre-configuration
+img_dims = get_config(base_model)['img_dims']
+
+model = KutralNetMobile(classes=num_classes)
+# print('KutralNetLite', model)
+input = torch.randn(1, 3, img_dims[0], img_dims[1])
+flops, params = profile(model, verbose=False,
+        inputs=(input, ),
+        custom_ops={torch.nn.Dropout2d: None})
+flops, params = clever_format([flops, params], "%.3f")
+print('KutralNetMobile', img_dims, 'flops, params', flops, params)
+
+# choose model
+base_model = 'kutralnet'
+# model pre-configuration
+img_dims = get_config(base_model)['img_dims']
+
+model = KutralNetMobileOct(classes=num_classes)
+# print('KutralNetLiteOct', model)
+input = torch.randn(1, 3, img_dims[0], img_dims[1])
+flops, params = profile(model, verbose=False,
+        inputs=(input, ),
+        custom_ops={torch.nn.Dropout2d: None})
+flops, params = clever_format([flops, params], "%.3f")
+print('KutralNetMobileOct', img_dims, 'flops, params', flops, params)
