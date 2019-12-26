@@ -8,6 +8,8 @@ models_conf = {
     'firenet': {
         'img_dims': (64, 64),
         'model_name': 'model_firenet.pth',
+        'class_name': 'FireNet',
+        'module_name': 'models.firenet_pt',
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {'eps': 1e-6},
@@ -29,6 +31,8 @@ models_conf = {
     'octfiresnet': {
         'img_dims': (96, 96),
         'model_name': 'model_octfiresnet.pth',
+        'class_name': 'OctFiResNet',
+        'module_name': 'models.octfiresnet',
         'criterion': CrossEntropyLoss(),
         'optimizer': Nadam,
         'optimizer_params': {'lr': 1e-4, 'eps': 1e-7},
@@ -50,6 +54,8 @@ models_conf = {
     'resnet': {
         'img_dims': (224, 224),
         'model_name': 'model_resnet.pth',
+        'class_name': 'resnet_sharma',
+        'module_name': 'models.resnet',
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {},
@@ -71,6 +77,8 @@ models_conf = {
     'kutralnet': {
         'img_dims': (84, 84),
         'model_name': 'model_kutralnet.pth',
+        'class_name': 'KutralNet',
+        'module_name': 'models.kutralnet',
         'criterion': CrossEntropyLoss(),
         'optimizer': optim.Adam,
         'optimizer_params': {},
@@ -96,14 +104,21 @@ def get_config(base_model):
     models_conf['kutralnetoct'] = models_conf['kutralnet']
     models_conf['kutralnetoct']['model_name'] = 'model_kutralnetoct.pth'
     models_conf['kutralnetoct']['scheduler'] = None
+    models_conf['kutralnetoct']['class_name'] = 'KutralNetOct'
+    models_conf['kutralnetoct']['module_name'] = 'models.kutralnetoct'
 
     models_conf['kutralnet_mobile'] = models_conf['kutralnet']
     models_conf['kutralnet_mobile']['model_name'] = 'model_kutralnet_mobile.pth'
     models_conf['kutralnet_mobile']['scheduler'] = None
+    models_conf['kutralnetoct']['class_name'] = 'KutralNetMobile'
+    models_conf['kutralnetoct']['module_name'] = 'models.kutralnet_mobile'
 
     models_conf['kutralnet_mobileoct'] = models_conf['kutralnet']
     models_conf['kutralnet_mobileoct']['model_name'] = 'model_kutralnet_mobileoct.pth'
     models_conf['kutralnet_mobileoct']['scheduler'] = None
+    models_conf['kutralnetoct']['class_name'] = 'KutralNetMobileOct'
+    models_conf['kutralnetoct']['module_name'] = 'models.kutralnet_mobileoct'
+
     return models_conf[base_model]
 
 # visualize activations
