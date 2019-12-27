@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import importlib
 
 import torch
 from contextlib import redirect_stdout
@@ -8,13 +9,6 @@ from datasets import available_datasets
 from utils.training import test_model
 from utils.models import models_conf
 
-from models.firenet_pt import FireNet
-from models.octfiresnet import OctFiResNet
-from models.resnet import resnet_sharma
-from models.kutralnet import KutralNet
-from models.kutralnetoct import KutralNetOct
-from models.kutralnet_mobile import KutralNetMobile
-from models.kutralnet_mobileoct import KutralNetMobileOct
 
 # Seed
 seed_val = 666
@@ -52,22 +46,11 @@ folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
 folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 # model selection
-if base_model == 'firenet':
-    model = FireNet(classes=num_classes)
-elif base_model == 'octfiresnet':
-    model = OctFiResNet(classes=num_classes)
-elif base_model == 'resnet':
-    model = resnet_sharma(classes=num_classes)
-elif base_model == 'kutralnet':
-    model = KutralNet(classes=num_classes)
-elif base_model == 'kutralnetoct':
-    model = KutralNetOct(classes=num_classes)
-elif base_model == 'kutralnet_mobile':
-    model = KutralNetMobile(classes=num_classes)
-elif base_model == 'kutralnet_mobileoct':
-    model = KutralNetMobileOct(classes=num_classes)
+if base_model in models_conf:
+    module = importlib.import_module(config['module_name'])
+    fire_model = getattr(module, config['class_name'])
 else:
-    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
 
 model_path = os.path.join(folder_path, model_name)
 print('Loading model {}'.format(model_path))

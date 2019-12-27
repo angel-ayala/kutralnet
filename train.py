@@ -2,6 +2,7 @@ import os
 import time
 import torch
 import argparse
+import importlib
 import numpy as np
 from contextlib import redirect_stdout
 from datasets import available_datasets
@@ -9,14 +10,6 @@ from utils.training import train_model
 from utils.training import plot_history
 from utils.training import save_history
 from utils.models import models_conf
-
-from models.firenet_pt import FireNet
-from models.octfiresnet import OctFiResNet
-from models.resnet import resnet_sharma
-from models.kutralnet import KutralNet
-from models.kutralnetoct import KutralNetOct
-from models.kutralnet_mobile import KutralNetMobile
-from models.kutralnet_mobileoct import KutralNetMobileOct
 
 parser = argparse.ArgumentParser(description='Fire classification training')
 parser.add_argument('--base_model', metavar='BM', default='kutralnet',
@@ -66,22 +59,11 @@ val_data = base_dataset(purpose='val', transform=transform_val, preload=preload_
 num_classes = len(train_data.labels)
 
 # model selection
-if base_model == 'firenet':
-    model = FireNet(classes=num_classes)
-elif base_model == 'octfiresnet':
-    model = OctFiResNet(classes=num_classes)
-elif base_model == 'resnet':
-    model = resnet_sharma(classes=num_classes)
-elif base_model == 'kutralnet':
-    model = KutralNet(classes=num_classes)
-elif base_model == 'kutralnetoct':
-    model = KutralNetOct(classes=num_classes)
-elif base_model == 'kutralnet_mobile':
-    model = KutralNetMobile(classes=num_classes)
-elif base_model == 'kutralnet_mobileoct':
-    model = KutralNetMobileOct(classes=num_classes)
+if base_model in models_conf:
+    module = importlib.import_module(config['module_name'])
+    fire_model = getattr(module, config['class_name'])
 else:
-    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
 
 # optimizers
 criterion = config['criterion'] #nn.CrossEntropyLoss()

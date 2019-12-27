@@ -27,8 +27,10 @@ models_conf = {
                     ]),
         'scheduler': None,
         'scheduler_params': {}
-    },
-    'octfiresnet': {
+    }
+}
+
+models_conf['octfiresnet'] = {
         'img_dims': (96, 96),
         'model_name': 'model_octfiresnet.pth',
         'class_name': 'OctFiResNet',
@@ -50,8 +52,9 @@ models_conf = {
                     ]),
         'scheduler': None,
         'scheduler_params': {}
-    },
-    'resnet': {
+    }
+
+models_conf['resnet'] = {
         'img_dims': (224, 224),
         'model_name': 'model_resnet.pth',
         'class_name': 'resnet_sharma',
@@ -73,8 +76,9 @@ models_conf = {
                     ]),
         'scheduler': None,
         'scheduler_params': {}
-    },
-    'kutralnet': {
+    }
+
+models_conf['kutralnet'] = {
         'img_dims': (84, 84),
         'model_name': 'model_kutralnet.pth',
         'class_name': 'KutralNet',
@@ -97,28 +101,82 @@ models_conf = {
         'scheduler': optim.lr_scheduler.StepLR,
         'scheduler_params': { 'step_size':85 }
     }
-}
+
+models_conf['kutralnetoct'] = {
+        'img_dims': (84, 84),
+        'model_name': 'model_kutralnetoct.pth',
+        'class_name': 'KutralNetOct',
+        'module_name': 'models.kutralnetoct',
+        'criterion': CrossEntropyLoss(),
+        'optimizer': optim.Adam,
+        'optimizer_params': {},
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'scheduler': None,
+        'scheduler_params': {}
+    }
+
+models_conf['kutralnet_mobile'] =  {
+        'img_dims': (84, 84),
+        'model_name': 'model_kutralnet_mobile.pth',
+        'class_name': 'KutralNetMobile',
+        'module_name': 'models.kutralnet_mobile',
+        'criterion': CrossEntropyLoss(),
+        'optimizer': optim.Adam,
+        'optimizer_params': {},
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'scheduler': None,
+        'scheduler_params': {}
+    }
+
+models_conf['kutralnet_mobileoct'] = {
+        'img_dims': (84, 84),
+        'model_name': 'model_kutralnet_mobileoct.pth',
+        'class_name': 'KutralNetMobileOct',
+        'module_name': 'models.kutralnet_mobileoct',
+        'criterion': CrossEntropyLoss(),
+        'optimizer': optim.Adam,
+        'optimizer_params': {},
+        'preprocess_train': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_val': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'preprocess_test': transforms.Compose([
+                       transforms.Resize((84, 84)), #redimension
+                       transforms.ToTensor()
+                    ]),
+        'scheduler': None,
+        'scheduler_params': {}
+    }
+
 
 
 def get_config(base_model):
-    models_conf['kutralnetoct'] = models_conf['kutralnet']
-    models_conf['kutralnetoct']['model_name'] = 'model_kutralnetoct.pth'
-    models_conf['kutralnetoct']['scheduler'] = None
-    models_conf['kutralnetoct']['class_name'] = 'KutralNetOct'
-    models_conf['kutralnetoct']['module_name'] = 'models.kutralnetoct'
-
-    models_conf['kutralnet_mobile'] = models_conf['kutralnet']
-    models_conf['kutralnet_mobile']['model_name'] = 'model_kutralnet_mobile.pth'
-    models_conf['kutralnet_mobile']['scheduler'] = None
-    models_conf['kutralnetoct']['class_name'] = 'KutralNetMobile'
-    models_conf['kutralnetoct']['module_name'] = 'models.kutralnet_mobile'
-
-    models_conf['kutralnet_mobileoct'] = models_conf['kutralnet']
-    models_conf['kutralnet_mobileoct']['model_name'] = 'model_kutralnet_mobileoct.pth'
-    models_conf['kutralnet_mobileoct']['scheduler'] = None
-    models_conf['kutralnetoct']['class_name'] = 'KutralNetMobileOct'
-    models_conf['kutralnetoct']['module_name'] = 'models.kutralnet_mobileoct'
-
     return models_conf[base_model]
 
 # visualize activations
