@@ -20,6 +20,8 @@ parser.add_argument('--preload_data', metavar='PD', default=0, type=bool,
                     help='cargar dataset on-memory')
 parser.add_argument('--dataset', metavar='D', default='fismo',
                     help='seleccion de dataset')
+parser.add_argument('--version', metavar='VER', default=None,
+                    help='version del entrenamiento')
 args = parser.parse_args()
 
 
@@ -35,7 +37,7 @@ if use_cuda:
 
 # choose model
 base_model = args.base_model#'octfiresnet'
-version = 0
+version = args.version
 # train config
 batch_size = 32
 epochs = args.epochs#100
@@ -62,6 +64,7 @@ num_classes = len(train_data.labels)
 if base_model in models_conf:
     module = importlib.import_module(config['module_name'])
     fire_model = getattr(module, config['class_name'])
+    model = fire_model(classes=num_classes)
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
 
@@ -78,7 +81,9 @@ if conf['scheduler'] is not None:
     scheduler = conf['scheduler'](**sched_args)
 
 # folder for save results
-folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
+final_folder = dataset_name if version is None else '{}_{}'.format(dataset_name, version)
+folder_name = os.path.join(base_model, final_folder)
+# folder_name = '{}_{}_{}'.format(base_model, dataset_name, version)
 folder_path = os.path.join('.', 'models', 'saved', folder_name)
 
 if not os.path.exists(folder_path):

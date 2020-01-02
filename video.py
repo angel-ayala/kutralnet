@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
 import cv2
+import argparse
+import importlib
 import numpy as np
 import torch
 import torch.nn.functional as F
 from timeit import default_timer as timer
-import argparse
-
+from datasets import available_datasets
+from utils.training import test_model
 from utils.models import models_conf
-
-from models.firenet_pt import FireNet
-from models.octfiresnet import OctFiResNet
-from models.resnet import resnet_sharma
-from models.kutralnet import KutralNet
 
 parser = argparse.ArgumentParser(description='Fire classification training')
 parser.add_argument('--base_model', metavar='BM', default='kutralnet',
@@ -27,6 +24,8 @@ parser.add_argument('--dataset', metavar='D', default='fismo',
                     help='seleccion de dataset de entrenamiento')
 parser.add_argument('--video_source', metavar='V', default='0',
                     help='seleccion de video')
+parser.add_argument('--model_version', metavar='MODELVER', default=None,
+                    help='seleccion de modelo')
 args = parser.parse_args()
 
 # constant
@@ -49,16 +48,12 @@ model_name = config['model_name']
 num_classes = 2
 
 # model selection
-if base_model == 'firenet':
-    model = FireNet(classes=num_classes)
-elif base_model == 'octfiresnet':
-    model = OctFiResNet(classes=num_classes)
-elif base_model == 'resnet':
-    model = resnet_sharma(classes=num_classes)
-elif base_model == 'kutralnet':
-    model = KutralNet(classes=num_classes)
+if base_model in models_conf:
+    module = importlib.import_module(config['module_name'])
+    fire_model = getattr(module, config['class_name'])
+    model = fire_model(classes=num_classes)
 else:
-    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
 
 # video
 if args.video_source == '0':
@@ -78,11 +73,13 @@ print('Loading video source', video_path)
 
 # folder for save results
 training_dataset = args.dataset
-folder_name = '{}_{}'.format(base_model, training_dataset)
+version = args.model_version
+final_folder = training_dataset if version is None else '{}_{}'.format(training_dataset, version)
+folder_name = os.path.join(base_model, final_folder)
 models_root = args.weights_path
 folder_path = os.path.join(models_root, folder_name)
 model_path = os.path.join(folder_path, model_name)
-print('Loading model', model_path)
+print('Loading model', model_path, 'trained with', training_dataset)
 
 # net = FireNet(num_classes)
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
@@ -114,7 +111,7 @@ def init_capture(path):
             pred = model(torch.from_numpy(image.transpose((0, 3, 1, 2))))
             pred = F.softmax(pred, dim=1)
 
-        print('pred', pred)
+        print('frame: {:05d} = '.format(i), 'pred', pred)
         accuracy = pred[0]
         nofire_perc = '{}: {:.2f}%'.format(labels[0], accuracy[0]*100)
         fire_perc = '{}: {:.2f}%'.format(labels[1], accuracy[1]*100)

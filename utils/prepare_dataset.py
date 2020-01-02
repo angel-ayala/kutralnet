@@ -276,47 +276,6 @@ def prepare_fismo_ds(fismo_path):
     save_dataframe(fismo_df, fismo_path)
 # end prepare_fismo_df
 
-def prepare_cairfire_ds(cairfire_path):
-    # CairFire fire
-    fire_path = os.path.join(cairfire_path, 'fire')
-
-    # fire dataframe
-    fire_df = pd.DataFrame()
-    fire_df['image_id'] = os.listdir(fire_path)
-    fire_df['class'] = fire_label
-    fire_df.insert(0, 'folder_path', 'fire')
-
-    # fire dataset validation split
-    test_qt = 51
-    fire_df = split_dataframe(fire_df, test_qt)
-
-    # CairFire no fire
-    no_fire_path = os.path.join(cairfire_path, 'no_fire')
-
-    # no fire dataframe
-    no_fire_df = pd.DataFrame()
-    no_fire_df['image_id'] = os.listdir(no_fire_path)
-    no_fire_df['class'] = no_fire_label
-    no_fire_df.insert(0, 'folder_path', 'no_fire')
-
-    # fire dataset validation split
-    test_qt = 51
-    no_fire_df = split_dataframe(no_fire_df, test_qt)
-
-    # concat splitted dataset
-    cairfire_df = pd.concat([fire_df, no_fire_df])
-
-    # order data reset
-    cairfire_df.sort_values(['folder_path', 'image_id'], inplace=True)
-    cairfire_df.reset_index(drop=True, inplace=True)
-
-    # summary
-    print(cairfire_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
-
-    # freeze processing saving at csv
-    save_dataframe(cairfire_df, cairfire_path)
-# end prepare_cairfire_df
-
 def prepare_firenet_ds(firenet_path):
     # FireNet fire
     fire_path = os.path.join(firenet_path, 'Training', 'Fire')
@@ -360,7 +319,7 @@ def prepare_firenet_ds(firenet_path):
 
     # freeze processing saving at csv
     save_dataframe(firenet_df, firenet_path)
-# end prepare_firenet_df
+# end prepare_firenet_ds
 
 def prepare_firenet_test_ds(firenet_path):
     # FireNet test fire
@@ -404,62 +363,8 @@ def prepare_firenet_test_ds(firenet_path):
 
     # freeze processing saving at csv
     save_dataframe(firenet_test_df, firenet_path, filename='dataset_test.csv')
-# end prepare_firenet_df
+# end prepare_firenet_test_ds
 
-def prepare_firesense_ds(firesense_path):
-    # frames extract
-    # fire videos
-    fs_path = os.path.join(firesense_path, 'fire')
-    to_img_path = os.path.join(fs_path, 'imgs')
-    extract_frames_to_folder(fs_path, prefix='fire', save_folder=to_img_path)
-    # no fire videos
-    fs_path = os.path.join(firesense_path, 'no_fire')
-    to_img_path = os.path.join(fs_path, 'imgs')
-    extract_frames_to_folder(fs_path, prefix='no_fire', save_folder=to_img_path)
-
-    # FireSense fire
-    fire_path = os.path.join(firesense_path, 'fire', 'imgs')
-
-    # fire dataframe
-    fire_df = pd.DataFrame()
-    fire_df['image_id'] = os.listdir(fire_path)
-    fire_df['class'] = fire_label
-    fire_df.insert(0, 'folder_path', os.path.join('fire', 'imgs'))
-    fire_df.drop_duplicates(subset='image_id', inplace=True)
-
-    # fire dataset validation split
-    test_size = .2
-    test_qt = math.ceil(len(fire_df) * test_size)
-    fire_df = split_dataframe(fire_df, test_qt)
-
-    # FireSense no fire
-    no_fire_path = os.path.join(firesense_path, 'no_fire', 'imgs')
-
-    # fire dataframe
-    no_fire_df = pd.DataFrame()
-    no_fire_df['image_id'] = os.listdir(no_fire_path)
-    no_fire_df['class'] = no_fire_label
-    no_fire_df.insert(0, 'folder_path', os.path.join('no_fire', 'imgs'))
-    no_fire_df.drop_duplicates(subset='image_id', inplace=True)
-
-    # fire dataset validation split
-    test_size = .2
-    test_qt = math.ceil(len(no_fire_df) * test_size)
-    no_fire_df = split_dataframe(no_fire_df, test_qt)
-
-    # concat splitted dataset
-    firesense_df = pd.concat([fire_df, no_fire_df])
-
-    # order data reset
-    firesense_df.sort_values(['folder_path', 'image_id'], inplace=True)
-    firesense_df.reset_index(drop=True, inplace=True)
-
-    # summary
-    print(firesense_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
-
-    # freeze processing saving at csv
-    save_dataframe(firesense_df, firesense_path)
-# end prepare_firesense_df
 
 def prepare_fismo_balanced_df(fismo_path):
     # FlickFire
@@ -538,7 +443,7 @@ def prepare_fismo_balanced_ds(fismo_path):
     print(balanced_fismo_df)
     print(balanced_fismo_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
 
-    # freeze processing saving at csv
+    # freeze image processing saving at csv
     save_dataframe(balanced_fismo_df, fismo_path, filename='dataset_balanced.csv')
 # end prepare_fismo_balanced_ds
 
@@ -586,7 +491,7 @@ def prepare_fismo_balanced_black_ds(fismo_path):
     print(balanced_fismo_df)
     print(balanced_fismo_df.groupby(['class', 'purpose']).agg({'purpose': ['count']}))
 
-    # freeze processing saving at csv
+    # freeze image processing saving as csv
     save_dataframe(balanced_fismo_df, fismo_path, filename='dataset_balanced_black.csv')
 # end prepare_fismo_balanced_black_ds
 
@@ -595,16 +500,11 @@ if __name__ == '__main__':
     print('Root path in', root_path)
 
     datasets_root = os.path.join(root_path, '..', 'datasets')
-    
     firenet_dt = os.path.join(datasets_root, 'FireNetDataset')
     fismo_dt = os.path.join(datasets_root, 'FiSmoDataset')
-    # firesense_dt = os.path.join(datasets_root, 'FireSenseDataset')
-    # cairfire_dt = os.path.join(datasets_root, 'CairDataset')
 
     prepare_firenet_ds(firenet_dt)
     prepare_firenet_test_ds(firenet_dt)
     prepare_fismo_ds(fismo_dt)
     prepare_fismo_balanced_ds(fismo_dt)
     prepare_fismo_balanced_black_ds(fismo_dt)
-    # prepare_cairfire_ds(cairfire_dt)
-    # prepare_firesense_ds(firesense_dt)

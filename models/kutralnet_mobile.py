@@ -5,7 +5,7 @@ from torchvision.models.mobilenet import ConvBNReLU
 
 class InvertedResidual(nn.Module):
     """
-    Taked from the PyTorch repository
+    Taken from the PyTorch repository
     https://github.com/pytorch/vision/blob/master/torchvision/models/mobilenet.py
     """
     def __init__(self, inp, oup, stride, expand_ratio):

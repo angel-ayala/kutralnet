@@ -1,6 +1,3 @@
-# articles for literature review
-/articles
-
 # blacklist datasets
 /datasets/*/*
 /datasets/video_test
