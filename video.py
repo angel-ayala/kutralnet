@@ -16,10 +16,6 @@ parser.add_argument('--base_model', metavar='BM', default='kutralnet',
                     help='modelo a entrenar')
 parser.add_argument('--weights_path', metavar='W', default=os.path.join('.', 'models', 'saved'),
                     help='parametros del modelo')
-# parser.add_argument('--epochs', metavar='E', default=100, type=int,
-#                     help='number of maximum iterations')
-# parser.add_argument('--preload_data', metavar='PD', default=False, type=bool,
-#                     help='cargar dataset on-memory')
 parser.add_argument('--dataset', metavar='D', default='fismo',
                     help='seleccion de dataset de entrenamiento')
 parser.add_argument('--video_source', metavar='V', default='0',

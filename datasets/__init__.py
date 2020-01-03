@@ -11,7 +11,7 @@ __all__ = ['FireImagesDataset', 'CustomNormalize', 'FireNetDataset', 'FireNetTes
 
 available_datasets = {
     'firenet': FireNetDataset,
-    'firenet_test': FireNetDataset,
+    'firenet_test': FireNetTestDataset,
     'fismo': FiSmoDataset,
     'fismo_balanced': FiSmoBalancedDataset,
     'fismo_black': FiSmoBlackDataset,
