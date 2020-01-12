@@ -5,7 +5,6 @@ import torch
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import classification_report
 
 def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, batch_size=32,
                 shuffle_dataset=True, scheduler=None, use_cuda=True):
@@ -141,24 +140,13 @@ def test_model(model, dataset, batch_size=32, use_cuda=True):
             y_pred.extend(predicted.tolist())
 
     time_elapsed = time.time() - since
+    test_accuracy = 100 * correct / total
     print('Completed in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
-
-    target_names = [ dataset.labels[label]['name'] for label in dataset.labels ]
-    print('target_names', target_names)
-
-    class_report = classification_report(Y_test, y_pred,
-                            target_names=target_names)#, output_dict=True)
-
     print('Accuracy of the network on the test images: {:.2f}%'.format(
-        100 * correct / total))
+            test_accuracy))
 
-    # print('Confusion Matrix', confusion)
-    print('Classification Report')
-    print(class_report)
-
-    return classification_report(Y_test, y_pred,
-                            target_names=target_names, output_dict=True)
+    return np.array(Y_test), np.array(y_pred), test_accuracy
 
 # end test_model
 

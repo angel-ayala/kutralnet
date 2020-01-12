@@ -118,7 +118,7 @@ def load_firenet_test_dataset(firenet_path, val_split=False, resize=(224, 224), 
     return read_dataset_from_csv(firenet_path,
                                 val_split=val_split,
                                 resize=resize,
-                                csv_name='test_dataset.csv',
+                                csv_name='dataset_test.csv',
                                 debug=debug)
 # end load_firenet_dataset
 

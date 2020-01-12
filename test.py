@@ -70,6 +70,17 @@ model_path = os.path.join(folder_path, model_name)
 print('Loading model {}'.format(model_path))
 model.load_state_dict(torch.load(model_path))
 
+Y_test, y_pred, test_accuracy = test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)
+
 with open(os.path.join(folder_path, 'training.log'), 'a+') as f:
     with redirect_stdout(f):
-        test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)
+        # test report
+        target_names = [ dataset.labels[label]['name'] for label in dataset.labels ]
+        print('target_names', target_names)
+
+        class_report = classification_report(Y_test, y_pred,
+                                target_names=target_names)#, output_dict=True)
+
+        # print('Confusion Matrix', confusion)
+        print('Classification Report')
+        print(class_report)
