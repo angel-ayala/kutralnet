@@ -7,8 +7,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from timeit import default_timer as timer
-from datasets import available_datasets
-from utils.training import test_model
 from utils.models import models_conf
 
 parser = argparse.ArgumentParser(description='Fire classification training')
@@ -40,7 +38,7 @@ base_model = args.base_model#'octfiresnet'
 # model pre-configuration
 config = models_conf[base_model]
 img_dims = config['img_dims']
-model_name = config['model_name']
+model_path = config['model_path']
 num_classes = 2
 
 # model selection
@@ -74,7 +72,7 @@ final_folder = training_dataset if version is None else '{}_{}'.format(training_
 folder_name = os.path.join(base_model, final_folder)
 models_root = args.weights_path
 folder_path = os.path.join(models_root, folder_name)
-model_path = os.path.join(folder_path, model_name)
+model_path = os.path.join(folder_path, model_path)
 print('Loading model', model_path, 'trained with', training_dataset)
 
 # net = FireNet(num_classes)

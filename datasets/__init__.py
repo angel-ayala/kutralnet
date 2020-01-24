@@ -10,10 +10,28 @@ from .fire_images_dataset import FiSmoBalancedBlackDataset
 __all__ = ['FireImagesDataset', 'CustomNormalize', 'FireNetDataset', 'FireNetTestDataset', 'FiSmoDataset', 'FiSmoBalancedDataset', 'FiSmoBlackDataset', 'FiSmoBalancedBlackDataset']
 
 available_datasets = {
-    'firenet': FireNetDataset,
-    'firenet_test': FireNetTestDataset,
-    'fismo': FiSmoDataset,
-    'fismo_balanced': FiSmoBalancedDataset,
-    'fismo_black': FiSmoBlackDataset,
-    'fismo_balanced_black': FiSmoBalancedBlackDataset
+    'firenet': {
+        'name': 'FireNet',
+        'class': FireNetDataset
+    },
+    'firenet_test': {
+        'name': 'FireNet Test',
+        'class': FireNetTestDataset
+    },
+    'fismo': {
+        'name': 'FiSmo',
+        'class': FiSmoDataset
+    },
+    'fismo_balanced': {
+        'name': 'FiSmoB',
+        'class': FiSmoBalancedDataset
+    },
+    'fismo_black': {
+        'name': 'FiSmoA',
+        'class': FiSmoBlackDataset
+    },
+    'fismo_balanced_black': {
+        'name': 'FiSmoBA',
+        'class': FiSmoBalancedBlackDataset
+    }
 }

@@ -46,7 +46,7 @@ preload_data = bool(args.preload_data)#False # load dataset on-memory
 # model pre-configuration
 config = models_conf[base_model]
 img_dims = config['img_dims']
-model_name = config['model_name']
+model_path = config['model_path']
 
 # common preprocess
 transform_train = config['preprocess_train']
@@ -54,7 +54,7 @@ transform_val = config['preprocess_val']
 
 # dataset read
 dataset_name = args.dataset
-base_dataset = available_datasets[dataset_name]
+base_dataset = available_datasets[dataset_name]['class']
 train_data = base_dataset(transform=transform_train, preload=preload_data)
 val_data = base_dataset(purpose='val', transform=transform_val, preload=preload_data)
 
@@ -100,7 +100,7 @@ with open(os.path.join(folder_path, 'training.log'), 'w') as f:
                         use_cuda=use_cuda)
 
 # model save
-model_path = os.path.join(folder_path, model_name)
+model_path = os.path.join(folder_path, model_path)
 print('Saving model {}'.format(model_path))
 torch.save(best_model, model_path)
 # metrics save

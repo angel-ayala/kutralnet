@@ -40,14 +40,14 @@ preload_data = bool(args.preload_data) # load dataset on-memory
 # model pre-configuration
 config = models_conf[base_model]
 img_dims = config['img_dims']
-model_name = config['model_name'])
+model_path = config['model_path'])
 
 # common preprocess
 transform_compose = config['preprocess_test']
 
 # dataset read
 dataset_name = args.dataset
-test_dataset = available_datasets[dataset_name]
+test_dataset = available_datasets[dataset_name]['class']
 dataset = test_dataset(transform=transform_compose, preload=preload_data)
 
 num_classes = len(dataset.labels)
@@ -66,7 +66,7 @@ if base_model in models_conf:
 else:
     raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
 
-model_path = os.path.join(folder_path, model_name)
+model_path = os.path.join(folder_path, model_path)
 print('Loading model {}'.format(model_path))
 model.load_state_dict(torch.load(model_path))
 
