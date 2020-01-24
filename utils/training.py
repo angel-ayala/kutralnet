@@ -137,7 +137,7 @@ def test_model(model, dataset, batch_size=32, use_cuda=True):
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
             Y_test.extend(labels.tolist())
-            y_pred.extend(predicted.tolist())
+            y_pred.extend(torch.nn.functional.softmax(outputs, dim=1).tolist())
 
     time_elapsed = time.time() - since
     test_accuracy = 100 * correct / total

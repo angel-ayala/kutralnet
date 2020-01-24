@@ -72,7 +72,7 @@ model.load_state_dict(torch.load(model_path))
 
 Y_test, y_pred, test_accuracy = test_model(model, dataset, batch_size=batch_size, use_cuda=use_cuda)
 
-with open(os.path.join(folder_path, 'training.log'), 'a+') as f:
+with open(os.path.join(folder_path, 'test.log'), 'a+') as f:
     with redirect_stdout(f):
         # test report
         target_names = [ dataset.labels[label]['name'] for label in dataset.labels ]
