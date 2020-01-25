@@ -1,0 +1,165 @@
+KutralNetMobile(
+  (firstBlock): Sequential(
+    (0): Conv2d(3, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): LeakyReLU(negative_slope=0.01, inplace=True)
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (block1): InvertedResidual(
+    (conv): Sequential(
+      (0): ConvBNReLU(
+        (0): Conv2d(32, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (1): ConvBNReLU(
+        (0): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=128, bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (2): Conv2d(128, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (block2): InvertedResidual(
+    (conv): Sequential(
+      (0): ConvBNReLU(
+        (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (1): ConvBNReLU(
+        (0): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), groups=256, bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (2): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (block3): InvertedResidual(
+    (conv): Sequential(
+      (0): ConvBNReLU(
+        (0): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (1): ConvBNReLU(
+        (0): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), groups=512, bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU6(inplace=True)
+      )
+      (2): Conv2d(512, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+      (3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (down_sample): Sequential(
+    (0): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (global_pool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (classifier): Linear(in_features=64, out_features=2, bias=True)
+)
+data_lengths {'train': 4850, 'val': 1213}
+Epoch 001/100: Train Loss: 0.0141 Acc: 0.7901 | Val Loss: 0.0147 Acc: 0.7881 | time elapsed: 0m 3s
+Epoch 002/100: Train Loss: 0.0122 Acc: 0.8252 | Val Loss: 0.0131 Acc: 0.8129 | time elapsed: 0m 3s
+Epoch 003/100: Train Loss: 0.0110 Acc: 0.8478 | Val Loss: 0.0146 Acc: 0.7931 | time elapsed: 0m 3s
+Epoch 004/100: Train Loss: 0.0100 Acc: 0.8654 | Val Loss: 0.0120 Acc: 0.8318 | time elapsed: 0m 3s
+Epoch 005/100: Train Loss: 0.0095 Acc: 0.8746 | Val Loss: 0.0138 Acc: 0.8038 | time elapsed: 0m 3s
+Epoch 006/100: Train Loss: 0.0086 Acc: 0.8858 | Val Loss: 0.0132 Acc: 0.8129 | time elapsed: 0m 3s
+Epoch 007/100: Train Loss: 0.0078 Acc: 0.9006 | Val Loss: 0.0128 Acc: 0.8425 | time elapsed: 0m 3s
+Epoch 008/100: Train Loss: 0.0071 Acc: 0.9097 | Val Loss: 0.0133 Acc: 0.8392 | time elapsed: 0m 3s
+Epoch 009/100: Train Loss: 0.0066 Acc: 0.9151 | Val Loss: 0.0202 Acc: 0.7585 | time elapsed: 0m 3s
+Epoch 010/100: Train Loss: 0.0064 Acc: 0.9202 | Val Loss: 0.0122 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 011/100: Train Loss: 0.0052 Acc: 0.9336 | Val Loss: 0.0127 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 012/100: Train Loss: 0.0048 Acc: 0.9410 | Val Loss: 0.0129 Acc: 0.8392 | time elapsed: 0m 3s
+Epoch 013/100: Train Loss: 0.0043 Acc: 0.9472 | Val Loss: 0.0142 Acc: 0.8434 | time elapsed: 0m 3s
+Epoch 014/100: Train Loss: 0.0039 Acc: 0.9540 | Val Loss: 0.0164 Acc: 0.8137 | time elapsed: 0m 3s
+Epoch 015/100: Train Loss: 0.0029 Acc: 0.9676 | Val Loss: 0.0147 Acc: 0.8351 | time elapsed: 0m 3s
+Epoch 016/100: Train Loss: 0.0036 Acc: 0.9548 | Val Loss: 0.0155 Acc: 0.8261 | time elapsed: 0m 3s
+Epoch 017/100: Train Loss: 0.0029 Acc: 0.9687 | Val Loss: 0.0156 Acc: 0.8458 | time elapsed: 0m 3s
+Epoch 018/100: Train Loss: 0.0023 Acc: 0.9744 | Val Loss: 0.0155 Acc: 0.8302 | time elapsed: 0m 3s
+Epoch 019/100: Train Loss: 0.0019 Acc: 0.9800 | Val Loss: 0.0199 Acc: 0.8120 | time elapsed: 0m 3s
+Epoch 020/100: Train Loss: 0.0016 Acc: 0.9831 | Val Loss: 0.0183 Acc: 0.8409 | time elapsed: 0m 3s
+Epoch 021/100: Train Loss: 0.0016 Acc: 0.9829 | Val Loss: 0.0181 Acc: 0.8516 | time elapsed: 0m 3s
+Epoch 022/100: Train Loss: 0.0017 Acc: 0.9794 | Val Loss: 0.0172 Acc: 0.8376 | time elapsed: 0m 3s
+Epoch 023/100: Train Loss: 0.0022 Acc: 0.9744 | Val Loss: 0.0215 Acc: 0.8129 | time elapsed: 0m 3s
+Epoch 024/100: Train Loss: 0.0015 Acc: 0.9837 | Val Loss: 0.0298 Acc: 0.7939 | time elapsed: 0m 3s
+Epoch 025/100: Train Loss: 0.0011 Acc: 0.9882 | Val Loss: 0.0195 Acc: 0.8417 | time elapsed: 0m 3s
+Epoch 026/100: Train Loss: 0.0008 Acc: 0.9924 | Val Loss: 0.0181 Acc: 0.8508 | time elapsed: 0m 3s
+Epoch 027/100: Train Loss: 0.0018 Acc: 0.9792 | Val Loss: 0.0204 Acc: 0.8195 | time elapsed: 0m 3s
+Epoch 028/100: Train Loss: 0.0028 Acc: 0.9658 | Val Loss: 0.0206 Acc: 0.8516 | time elapsed: 0m 3s
+Epoch 029/100: Train Loss: 0.0016 Acc: 0.9806 | Val Loss: 0.0196 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 030/100: Train Loss: 0.0008 Acc: 0.9903 | Val Loss: 0.0216 Acc: 0.8434 | time elapsed: 0m 3s
+Epoch 031/100: Train Loss: 0.0009 Acc: 0.9909 | Val Loss: 0.0190 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 032/100: Train Loss: 0.0007 Acc: 0.9926 | Val Loss: 0.0229 Acc: 0.8392 | time elapsed: 0m 3s
+Epoch 033/100: Train Loss: 0.0015 Acc: 0.9814 | Val Loss: 0.0224 Acc: 0.8112 | time elapsed: 0m 3s
+Epoch 034/100: Train Loss: 0.0020 Acc: 0.9775 | Val Loss: 0.0210 Acc: 0.8566 | time elapsed: 0m 3s
+Epoch 035/100: Train Loss: 0.0011 Acc: 0.9868 | Val Loss: 0.0225 Acc: 0.8574 | time elapsed: 0m 3s
+Epoch 036/100: Train Loss: 0.0009 Acc: 0.9901 | Val Loss: 0.0213 Acc: 0.8434 | time elapsed: 0m 3s
+Epoch 037/100: Train Loss: 0.0012 Acc: 0.9876 | Val Loss: 0.0230 Acc: 0.8252 | time elapsed: 0m 3s
+Epoch 038/100: Train Loss: 0.0008 Acc: 0.9913 | Val Loss: 0.0248 Acc: 0.8343 | time elapsed: 0m 3s
+Epoch 039/100: Train Loss: 0.0007 Acc: 0.9920 | Val Loss: 0.0220 Acc: 0.8434 | time elapsed: 0m 3s
+Epoch 040/100: Train Loss: 0.0007 Acc: 0.9920 | Val Loss: 0.0240 Acc: 0.8203 | time elapsed: 0m 3s
+Epoch 041/100: Train Loss: 0.0019 Acc: 0.9775 | Val Loss: 0.0229 Acc: 0.8516 | time elapsed: 0m 3s
+Epoch 042/100: Train Loss: 0.0015 Acc: 0.9827 | Val Loss: 0.0220 Acc: 0.8409 | time elapsed: 0m 3s
+Epoch 043/100: Train Loss: 0.0010 Acc: 0.9899 | Val Loss: 0.0222 Acc: 0.8500 | time elapsed: 0m 3s
+Epoch 044/100: Train Loss: 0.0007 Acc: 0.9918 | Val Loss: 0.0230 Acc: 0.8384 | time elapsed: 0m 3s
+Epoch 045/100: Train Loss: 0.0008 Acc: 0.9920 | Val Loss: 0.0236 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 046/100: Train Loss: 0.0011 Acc: 0.9882 | Val Loss: 0.0242 Acc: 0.8500 | time elapsed: 0m 3s
+Epoch 047/100: Train Loss: 0.0008 Acc: 0.9926 | Val Loss: 0.0232 Acc: 0.8541 | time elapsed: 0m 3s
+Epoch 048/100: Train Loss: 0.0005 Acc: 0.9967 | Val Loss: 0.0253 Acc: 0.8483 | time elapsed: 0m 3s
+Epoch 049/100: Train Loss: 0.0005 Acc: 0.9951 | Val Loss: 0.0258 Acc: 0.8409 | time elapsed: 0m 3s
+Epoch 050/100: Train Loss: 0.0006 Acc: 0.9936 | Val Loss: 0.0223 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 051/100: Train Loss: 0.0008 Acc: 0.9897 | Val Loss: 0.0259 Acc: 0.8442 | time elapsed: 0m 3s
+Epoch 052/100: Train Loss: 0.0014 Acc: 0.9833 | Val Loss: 0.0278 Acc: 0.8203 | time elapsed: 0m 3s
+Epoch 053/100: Train Loss: 0.0008 Acc: 0.9922 | Val Loss: 0.0264 Acc: 0.8384 | time elapsed: 0m 3s
+Epoch 054/100: Train Loss: 0.0008 Acc: 0.9918 | Val Loss: 0.0265 Acc: 0.8516 | time elapsed: 0m 3s
+Epoch 055/100: Train Loss: 0.0008 Acc: 0.9913 | Val Loss: 0.0258 Acc: 0.8376 | time elapsed: 0m 3s
+Epoch 056/100: Train Loss: 0.0005 Acc: 0.9963 | Val Loss: 0.0254 Acc: 0.8269 | time elapsed: 0m 3s
+Epoch 057/100: Train Loss: 0.0009 Acc: 0.9901 | Val Loss: 0.0261 Acc: 0.8500 | time elapsed: 0m 3s
+Epoch 058/100: Train Loss: 0.0008 Acc: 0.9918 | Val Loss: 0.0278 Acc: 0.8401 | time elapsed: 0m 3s
+Epoch 059/100: Train Loss: 0.0012 Acc: 0.9845 | Val Loss: 0.0259 Acc: 0.8384 | time elapsed: 0m 3s
+Epoch 060/100: Train Loss: 0.0005 Acc: 0.9955 | Val Loss: 0.0247 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 061/100: Train Loss: 0.0004 Acc: 0.9967 | Val Loss: 0.0240 Acc: 0.8500 | time elapsed: 0m 3s
+Epoch 062/100: Train Loss: 0.0005 Acc: 0.9944 | Val Loss: 0.0248 Acc: 0.8368 | time elapsed: 0m 3s
+Epoch 063/100: Train Loss: 0.0004 Acc: 0.9944 | Val Loss: 0.0251 Acc: 0.8442 | time elapsed: 0m 3s
+Epoch 064/100: Train Loss: 0.0005 Acc: 0.9944 | Val Loss: 0.0263 Acc: 0.8409 | time elapsed: 0m 3s
+Epoch 065/100: Train Loss: 0.0006 Acc: 0.9940 | Val Loss: 0.0364 Acc: 0.8203 | time elapsed: 0m 3s
+Epoch 066/100: Train Loss: 0.0007 Acc: 0.9934 | Val Loss: 0.0288 Acc: 0.8112 | time elapsed: 0m 3s
+Epoch 067/100: Train Loss: 0.0013 Acc: 0.9831 | Val Loss: 0.0252 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 068/100: Train Loss: 0.0010 Acc: 0.9874 | Val Loss: 0.0293 Acc: 0.8071 | time elapsed: 0m 3s
+Epoch 069/100: Train Loss: 0.0006 Acc: 0.9940 | Val Loss: 0.0242 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 070/100: Train Loss: 0.0005 Acc: 0.9963 | Val Loss: 0.0266 Acc: 0.8467 | time elapsed: 0m 3s
+Epoch 071/100: Train Loss: 0.0005 Acc: 0.9959 | Val Loss: 0.0271 Acc: 0.8549 | time elapsed: 0m 3s
+Epoch 072/100: Train Loss: 0.0002 Acc: 0.9984 | Val Loss: 0.0258 Acc: 0.8458 | time elapsed: 0m 3s
+Epoch 073/100: Train Loss: 0.0006 Acc: 0.9940 | Val Loss: 0.0313 Acc: 0.8359 | time elapsed: 0m 3s
+Epoch 074/100: Train Loss: 0.0007 Acc: 0.9926 | Val Loss: 0.0293 Acc: 0.8310 | time elapsed: 0m 3s
+Epoch 075/100: Train Loss: 0.0016 Acc: 0.9827 | Val Loss: 0.0284 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 076/100: Train Loss: 0.0006 Acc: 0.9953 | Val Loss: 0.0254 Acc: 0.8566 | time elapsed: 0m 3s
+Epoch 077/100: Train Loss: 0.0007 Acc: 0.9930 | Val Loss: 0.0265 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 078/100: Train Loss: 0.0008 Acc: 0.9899 | Val Loss: 0.0231 Acc: 0.8500 | time elapsed: 0m 3s
+Epoch 079/100: Train Loss: 0.0004 Acc: 0.9959 | Val Loss: 0.0260 Acc: 0.8401 | time elapsed: 0m 3s
+Epoch 080/100: Train Loss: 0.0008 Acc: 0.9911 | Val Loss: 0.0258 Acc: 0.8236 | time elapsed: 0m 3s
+Epoch 081/100: Train Loss: 0.0009 Acc: 0.9901 | Val Loss: 0.0346 Acc: 0.8153 | time elapsed: 0m 3s
+Epoch 082/100: Train Loss: 0.0004 Acc: 0.9969 | Val Loss: 0.0251 Acc: 0.8434 | time elapsed: 0m 3s
+Epoch 083/100: Train Loss: 0.0003 Acc: 0.9969 | Val Loss: 0.0272 Acc: 0.8450 | time elapsed: 0m 3s
+Epoch 084/100: Train Loss: 0.0001 Acc: 0.9992 | Val Loss: 0.0289 Acc: 0.8549 | time elapsed: 0m 3s
+Epoch 085/100: Train Loss: 0.0002 Acc: 0.9990 | Val Loss: 0.0291 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 086/100: Train Loss: 0.0003 Acc: 0.9984 | Val Loss: 0.0274 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 087/100: Train Loss: 0.0003 Acc: 0.9961 | Val Loss: 0.0287 Acc: 0.8277 | time elapsed: 0m 3s
+Epoch 088/100: Train Loss: 0.0013 Acc: 0.9845 | Val Loss: 0.0279 Acc: 0.8491 | time elapsed: 0m 3s
+Epoch 089/100: Train Loss: 0.0011 Acc: 0.9878 | Val Loss: 0.0300 Acc: 0.8508 | time elapsed: 0m 3s
+Epoch 090/100: Train Loss: 0.0006 Acc: 0.9936 | Val Loss: 0.0257 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 091/100: Train Loss: 0.0006 Acc: 0.9926 | Val Loss: 0.0300 Acc: 0.8483 | time elapsed: 0m 3s
+Epoch 092/100: Train Loss: 0.0004 Acc: 0.9961 | Val Loss: 0.0268 Acc: 0.8475 | time elapsed: 0m 3s
+Epoch 093/100: Train Loss: 0.0003 Acc: 0.9971 | Val Loss: 0.0265 Acc: 0.8533 | time elapsed: 0m 3s
+Epoch 094/100: Train Loss: 0.0002 Acc: 0.9981 | Val Loss: 0.0266 Acc: 0.8508 | time elapsed: 0m 3s
+Epoch 095/100: Train Loss: 0.0004 Acc: 0.9953 | Val Loss: 0.0284 Acc: 0.8599 | time elapsed: 0m 3s
+Epoch 096/100: Train Loss: 0.0012 Acc: 0.9891 | Val Loss: 0.0317 Acc: 0.8401 | time elapsed: 0m 3s
+Epoch 097/100: Train Loss: 0.0011 Acc: 0.9870 | Val Loss: 0.0348 Acc: 0.8277 | time elapsed: 0m 3s
+Epoch 098/100: Train Loss: 0.0005 Acc: 0.9953 | Val Loss: 0.0251 Acc: 0.8467 | time elapsed: 0m 3s
+Epoch 099/100: Train Loss: 0.0004 Acc: 0.9951 | Val Loss: 0.0267 Acc: 0.8417 | time elapsed: 0m 3s
+Epoch 100/100: Train Loss: 0.0003 Acc: 0.9967 | Val Loss: 0.0266 Acc: 0.8475 | time elapsed: 0m 3s
+Training complete in 4m 22s
+Best accuracy on epoch 95: 0.859852

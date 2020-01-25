@@ -1,0 +1,340 @@
+OctFiResNet(
+  (first_block): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(7, 7), stride=(1, 1), padding=(3, 3), bias=False)
+    (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  )
+  (residual_blocks): Sequential(
+    (0): OctconvBottleneck(
+      (conv1): Sequential(
+        (0): OctConv2d(in_channels=(low: 0, high: 64), out_channels=(low: 16, high: 48),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.0, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 16, high: 48),
+                  kernel_size=(3, 3), stride=(1, 1),
+                  padding=1, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 64, high: 192),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (0): OctConv2d(in_channels=(low: 0, high: 64), out_channels=(low: 64, high: 192),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.0, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (1): OctconvBottleneck(
+      (conv1): Sequential(
+        (0): OctConv2d(in_channels=(low: 64, high: 192), out_channels=(low: 16, high: 48),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 16, high: 48),
+                  kernel_size=(3, 3), stride=(1, 1),
+                  padding=1, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 64, high: 192),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (2): OctconvBottleneck(
+      (conv1): Sequential(
+        (0): OctConv2d(in_channels=(low: 64, high: 192), out_channels=(low: 16, high: 48),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 16, high: 48),
+                  kernel_size=(3, 3), stride=(1, 1),
+                  padding=1, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 64, high: 192),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (3): OctconvBottleneck(
+      (conv1): Sequential(
+        (0): OctConv2d(in_channels=(low: 64, high: 192), out_channels=(low: 16, high: 48),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 16, high: 48),
+                  kernel_size=(3, 3), stride=(1, 1),
+                  padding=1, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): OctConv2d(in_channels=(low: 16, high: 48), out_channels=(low: 64, high: 192),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+  )
+  (final_blocks): Sequential(
+    (0): OctconvBottleneck(
+      (conv1): Sequential(
+        (0): OctConv2d(in_channels=(low: 64, high: 192), out_channels=(low: 32, high: 96),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): OctConv2d(in_channels=(low: 32, high: 96), out_channels=(low: 32, high: 96),
+                  kernel_size=(3, 3), stride=(2, 2),
+                  padding=1, alphas=(0.25, 0.25), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+        (2): _ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): OctConv2d(in_channels=(low: 32, high: 96), out_channels=(low: 0, high: 512),
+                  kernel_size=(1, 1), stride=(1, 1),
+                  padding=0, alphas=(0.25, 0.0), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(0, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (downsample): Sequential(
+        (0): OctConv2d(in_channels=(low: 64, high: 192), out_channels=(low: 0, high: 512),
+                  kernel_size=(1, 1), stride=(2, 2),
+                  padding=0, alphas=(0.25, 0.0), dilation=1, groups=1,
+                  bias=False)
+        (1): _BatchNorm2d(
+          (bnh): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (bnl): BatchNorm2d(0, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+    )
+    (1): Bottleneck(
+      (conv1): Sequential(
+        (0): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (conv2): Sequential(
+        (0): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (conv3): Sequential(
+        (0): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=2, bias=True)
+)
+data_lengths {'train': 1696, 'val': 729}
+Epoch 001/100: Train Loss: 0.0154 Acc: 0.7636 | Val Loss: 0.0232 Acc: 0.6200 | time elapsed: 0m 8s
+Epoch 002/100: Train Loss: 0.0107 Acc: 0.8520 | Val Loss: 0.0104 Acc: 0.8697 | time elapsed: 0m 8s
+Epoch 003/100: Train Loss: 0.0091 Acc: 0.8862 | Val Loss: 0.0091 Acc: 0.8971 | time elapsed: 0m 8s
+Epoch 004/100: Train Loss: 0.0075 Acc: 0.9074 | Val Loss: 0.0098 Acc: 0.8807 | time elapsed: 0m 8s
+Epoch 005/100: Train Loss: 0.0065 Acc: 0.9257 | Val Loss: 0.0195 Acc: 0.8189 | time elapsed: 0m 8s
+Epoch 006/100: Train Loss: 0.0052 Acc: 0.9381 | Val Loss: 0.0078 Acc: 0.8999 | time elapsed: 0m 8s
+Epoch 007/100: Train Loss: 0.0044 Acc: 0.9428 | Val Loss: 0.0128 Acc: 0.8752 | time elapsed: 0m 8s
+Epoch 008/100: Train Loss: 0.0042 Acc: 0.9540 | Val Loss: 0.0068 Acc: 0.9273 | time elapsed: 0m 8s
+Epoch 009/100: Train Loss: 0.0036 Acc: 0.9558 | Val Loss: 0.0171 Acc: 0.8532 | time elapsed: 0m 8s
+Epoch 010/100: Train Loss: 0.0039 Acc: 0.9546 | Val Loss: 0.0101 Acc: 0.9108 | time elapsed: 0m 8s
+Epoch 011/100: Train Loss: 0.0029 Acc: 0.9640 | Val Loss: 0.0073 Acc: 0.9328 | time elapsed: 0m 8s
+Epoch 012/100: Train Loss: 0.0028 Acc: 0.9688 | Val Loss: 0.0098 Acc: 0.9191 | time elapsed: 0m 8s
+Epoch 013/100: Train Loss: 0.0022 Acc: 0.9752 | Val Loss: 0.0073 Acc: 0.9232 | time elapsed: 0m 8s
+Epoch 014/100: Train Loss: 0.0015 Acc: 0.9811 | Val Loss: 0.0064 Acc: 0.9369 | time elapsed: 0m 8s
+Epoch 015/100: Train Loss: 0.0014 Acc: 0.9870 | Val Loss: 0.0094 Acc: 0.9053 | time elapsed: 0m 8s
+Epoch 016/100: Train Loss: 0.0011 Acc: 0.9906 | Val Loss: 0.0090 Acc: 0.9095 | time elapsed: 0m 8s
+Epoch 017/100: Train Loss: 0.0019 Acc: 0.9817 | Val Loss: 0.0126 Acc: 0.8985 | time elapsed: 0m 8s
+Epoch 018/100: Train Loss: 0.0017 Acc: 0.9788 | Val Loss: 0.0059 Acc: 0.9438 | time elapsed: 0m 8s
+Epoch 019/100: Train Loss: 0.0019 Acc: 0.9800 | Val Loss: 0.0233 Acc: 0.8422 | time elapsed: 0m 8s
+Epoch 020/100: Train Loss: 0.0015 Acc: 0.9841 | Val Loss: 0.0246 Acc: 0.8505 | time elapsed: 0m 8s
+Epoch 021/100: Train Loss: 0.0009 Acc: 0.9935 | Val Loss: 0.0100 Acc: 0.9259 | time elapsed: 0m 8s
+Epoch 022/100: Train Loss: 0.0019 Acc: 0.9752 | Val Loss: 0.0092 Acc: 0.9191 | time elapsed: 0m 8s
+Epoch 023/100: Train Loss: 0.0015 Acc: 0.9847 | Val Loss: 0.0069 Acc: 0.9396 | time elapsed: 0m 8s
+Epoch 024/100: Train Loss: 0.0016 Acc: 0.9853 | Val Loss: 0.0077 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 025/100: Train Loss: 0.0012 Acc: 0.9864 | Val Loss: 0.0078 Acc: 0.9355 | time elapsed: 0m 8s
+Epoch 026/100: Train Loss: 0.0013 Acc: 0.9853 | Val Loss: 0.0158 Acc: 0.8916 | time elapsed: 0m 8s
+Epoch 027/100: Train Loss: 0.0009 Acc: 0.9935 | Val Loss: 0.0088 Acc: 0.9383 | time elapsed: 0m 8s
+Epoch 028/100: Train Loss: 0.0005 Acc: 0.9953 | Val Loss: 0.0159 Acc: 0.8957 | time elapsed: 0m 8s
+Epoch 029/100: Train Loss: 0.0008 Acc: 0.9941 | Val Loss: 0.0088 Acc: 0.9396 | time elapsed: 0m 8s
+Epoch 030/100: Train Loss: 0.0003 Acc: 0.9982 | Val Loss: 0.0086 Acc: 0.9520 | time elapsed: 0m 8s
+Epoch 031/100: Train Loss: 0.0012 Acc: 0.9858 | Val Loss: 0.0110 Acc: 0.9300 | time elapsed: 0m 8s
+Epoch 032/100: Train Loss: 0.0019 Acc: 0.9758 | Val Loss: 0.0152 Acc: 0.9012 | time elapsed: 0m 8s
+Epoch 033/100: Train Loss: 0.0005 Acc: 0.9965 | Val Loss: 0.0081 Acc: 0.9410 | time elapsed: 0m 8s
+Epoch 034/100: Train Loss: 0.0008 Acc: 0.9906 | Val Loss: 0.0296 Acc: 0.7874 | time elapsed: 0m 8s
+Epoch 035/100: Train Loss: 0.0009 Acc: 0.9906 | Val Loss: 0.0062 Acc: 0.9534 | time elapsed: 0m 8s
+Epoch 036/100: Train Loss: 0.0007 Acc: 0.9917 | Val Loss: 0.0144 Acc: 0.9053 | time elapsed: 0m 8s
+Epoch 037/100: Train Loss: 0.0007 Acc: 0.9959 | Val Loss: 0.0074 Acc: 0.9438 | time elapsed: 0m 8s
+Epoch 038/100: Train Loss: 0.0007 Acc: 0.9929 | Val Loss: 0.0094 Acc: 0.9314 | time elapsed: 0m 8s
+Epoch 039/100: Train Loss: 0.0006 Acc: 0.9941 | Val Loss: 0.0100 Acc: 0.9355 | time elapsed: 0m 8s
+Epoch 040/100: Train Loss: 0.0004 Acc: 0.9971 | Val Loss: 0.0089 Acc: 0.9438 | time elapsed: 0m 8s
+Epoch 041/100: Train Loss: 0.0002 Acc: 0.9976 | Val Loss: 0.0082 Acc: 0.9506 | time elapsed: 0m 8s
+Epoch 042/100: Train Loss: 0.0002 Acc: 0.9988 | Val Loss: 0.0084 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 043/100: Train Loss: 0.0004 Acc: 0.9971 | Val Loss: 0.0089 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 044/100: Train Loss: 0.0002 Acc: 0.9976 | Val Loss: 0.0100 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 045/100: Train Loss: 0.0008 Acc: 0.9917 | Val Loss: 0.0084 Acc: 0.9438 | time elapsed: 0m 8s
+Epoch 046/100: Train Loss: 0.0009 Acc: 0.9900 | Val Loss: 0.0103 Acc: 0.9342 | time elapsed: 0m 8s
+Epoch 047/100: Train Loss: 0.0004 Acc: 0.9971 | Val Loss: 0.0080 Acc: 0.9520 | time elapsed: 0m 8s
+Epoch 048/100: Train Loss: 0.0003 Acc: 0.9982 | Val Loss: 0.0085 Acc: 0.9396 | time elapsed: 0m 8s
+Epoch 049/100: Train Loss: 0.0015 Acc: 0.9853 | Val Loss: 0.0134 Acc: 0.9191 | time elapsed: 0m 8s
+Epoch 050/100: Train Loss: 0.0014 Acc: 0.9864 | Val Loss: 0.0082 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 051/100: Train Loss: 0.0005 Acc: 0.9953 | Val Loss: 0.0069 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 052/100: Train Loss: 0.0005 Acc: 0.9965 | Val Loss: 0.0087 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 053/100: Train Loss: 0.0003 Acc: 0.9976 | Val Loss: 0.0064 Acc: 0.9520 | time elapsed: 0m 8s
+Epoch 054/100: Train Loss: 0.0001 Acc: 0.9994 | Val Loss: 0.0089 Acc: 0.9369 | time elapsed: 0m 8s
+Epoch 055/100: Train Loss: 0.0001 Acc: 0.9988 | Val Loss: 0.0095 Acc: 0.9369 | time elapsed: 0m 8s
+Epoch 056/100: Train Loss: 0.0001 Acc: 1.0000 | Val Loss: 0.0073 Acc: 0.9465 | time elapsed: 0m 8s
+Epoch 057/100: Train Loss: 0.0001 Acc: 0.9994 | Val Loss: 0.0065 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 058/100: Train Loss: 0.0001 Acc: 1.0000 | Val Loss: 0.0072 Acc: 0.9506 | time elapsed: 0m 8s
+Epoch 059/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0081 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 060/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0076 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 061/100: Train Loss: 0.0001 Acc: 1.0000 | Val Loss: 0.0068 Acc: 0.9520 | time elapsed: 0m 8s
+Epoch 062/100: Train Loss: 0.0003 Acc: 0.9965 | Val Loss: 0.0140 Acc: 0.9259 | time elapsed: 0m 8s
+Epoch 063/100: Train Loss: 0.0007 Acc: 0.9912 | Val Loss: 0.0311 Acc: 0.8491 | time elapsed: 0m 8s
+Epoch 064/100: Train Loss: 0.0006 Acc: 0.9923 | Val Loss: 0.0089 Acc: 0.9410 | time elapsed: 0m 8s
+Epoch 065/100: Train Loss: 0.0005 Acc: 0.9953 | Val Loss: 0.0088 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 066/100: Train Loss: 0.0008 Acc: 0.9912 | Val Loss: 0.0069 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 067/100: Train Loss: 0.0007 Acc: 0.9935 | Val Loss: 0.0106 Acc: 0.9273 | time elapsed: 0m 8s
+Epoch 068/100: Train Loss: 0.0009 Acc: 0.9876 | Val Loss: 0.0183 Acc: 0.9122 | time elapsed: 0m 8s
+Epoch 069/100: Train Loss: 0.0010 Acc: 0.9864 | Val Loss: 0.0108 Acc: 0.9108 | time elapsed: 0m 8s
+Epoch 070/100: Train Loss: 0.0005 Acc: 0.9953 | Val Loss: 0.0106 Acc: 0.9273 | time elapsed: 0m 8s
+Epoch 071/100: Train Loss: 0.0004 Acc: 0.9953 | Val Loss: 0.0091 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 072/100: Train Loss: 0.0002 Acc: 0.9976 | Val Loss: 0.0085 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 073/100: Train Loss: 0.0002 Acc: 0.9965 | Val Loss: 0.0131 Acc: 0.9396 | time elapsed: 0m 8s
+Epoch 074/100: Train Loss: 0.0006 Acc: 0.9941 | Val Loss: 0.0137 Acc: 0.9053 | time elapsed: 0m 8s
+Epoch 075/100: Train Loss: 0.0007 Acc: 0.9929 | Val Loss: 0.0076 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 076/100: Train Loss: 0.0004 Acc: 0.9965 | Val Loss: 0.0125 Acc: 0.9342 | time elapsed: 0m 8s
+Epoch 077/100: Train Loss: 0.0004 Acc: 0.9965 | Val Loss: 0.0097 Acc: 0.9438 | time elapsed: 0m 8s
+Epoch 078/100: Train Loss: 0.0001 Acc: 0.9982 | Val Loss: 0.0110 Acc: 0.9410 | time elapsed: 0m 8s
+Epoch 079/100: Train Loss: 0.0004 Acc: 0.9959 | Val Loss: 0.0117 Acc: 0.9465 | time elapsed: 0m 8s
+Epoch 080/100: Train Loss: 0.0002 Acc: 0.9988 | Val Loss: 0.0085 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 081/100: Train Loss: 0.0001 Acc: 0.9988 | Val Loss: 0.0075 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 082/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0089 Acc: 0.9451 | time elapsed: 0m 8s
+Epoch 083/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0087 Acc: 0.9465 | time elapsed: 0m 8s
+Epoch 084/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0097 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 085/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0088 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 086/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0075 Acc: 0.9534 | time elapsed: 0m 8s
+Epoch 087/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0085 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 088/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0089 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 089/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0083 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 090/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0093 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 091/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0084 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 092/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0093 Acc: 0.9479 | time elapsed: 0m 8s
+Epoch 093/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0090 Acc: 0.9492 | time elapsed: 0m 8s
+Epoch 094/100: Train Loss: 0.0000 Acc: 1.0000 | Val Loss: 0.0117 Acc: 0.9465 | time elapsed: 0m 8s
+Epoch 095/100: Train Loss: 0.0008 Acc: 0.9894 | Val Loss: 0.0150 Acc: 0.9218 | time elapsed: 0m 8s
+Epoch 096/100: Train Loss: 0.0041 Acc: 0.9587 | Val Loss: 0.0285 Acc: 0.8450 | time elapsed: 0m 8s
+Epoch 097/100: Train Loss: 0.0016 Acc: 0.9823 | Val Loss: 0.0101 Acc: 0.9396 | time elapsed: 0m 8s
+Epoch 098/100: Train Loss: 0.0009 Acc: 0.9906 | Val Loss: 0.0206 Acc: 0.9136 | time elapsed: 0m 8s
+Epoch 099/100: Train Loss: 0.0006 Acc: 0.9953 | Val Loss: 0.0093 Acc: 0.9328 | time elapsed: 0m 8s
+Epoch 100/100: Train Loss: 0.0007 Acc: 0.9923 | Val Loss: 0.0123 Acc: 0.9259 | time elapsed: 0m 8s
+Training complete in 13m 35s
+Best accuracy on epoch 35: 0.953361
+Evaluating model
+Evaluating model
+Evaluating model
+Evaluating model
+Completed in 0m 1s
+target_names ['NoFire', 'Fire']
+Accuracy of the network on the test images: 88.17%
+Classification Report
+              precision    recall  f1-score   support
+
+      NoFire       0.80      0.84      0.82       278
+        Fire       0.92      0.90      0.91       593
+
+    accuracy                           0.88       871
+   macro avg       0.86      0.87      0.87       871
+weighted avg       0.88      0.88      0.88       871
+
