@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import pandas as pd
 
-def read_and_preprocess(img_path, resize=(224, 224), color_fix=True):
+def read_and_resize(img_path, resize=(224, 224), color_fix=True):
     img = cv2.imread(img_path)
     if color_fix:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -13,33 +13,7 @@ def read_and_preprocess(img_path, resize=(224, 224), color_fix=True):
     else:
         raise ValueError('resize must be a tuple (width, height)')
     return img
-# end read_and_preprocess
-
-def read_test_dataset_from_csv(dataset_path, csv_name='dataset.csv', resize=None, debug=False):
-    # dataset storage
-    x_test, y_test = [], []
-
-    # csv read
-    dataset_df = pd.read_csv(os.path.join(dataset_path, csv_name))
-    dataset_df = dataset_df.loc[dataset_df['purpose'] == 'test']
-
-    print('Loading test images...')
-    # rows iterate and image load
-    for index, row in dataset_df.iterrows():
-        path = os.path.join(dataset_path, row['folder_path'], row['image_id'])
-        if debug:
-            print(path, end=' ')
-        img = read_and_preprocess(path, resize=resize)
-        target = 1 if row['class'] == 'fire' else 0
-
-        x_test.append(img)
-        y_test.append(target)
-
-        if debug:
-            print('ok')
-
-    return np.array(x_test), np.array(y_test)
-# end read_test_dataset_from_csv
+# end read_and_resize
 
 def read_dataset_from_csv(dataset_path, csv_name='dataset.csv', resize=None, val_split=True, debug=False):
     # dataset storage
@@ -56,10 +30,10 @@ def read_dataset_from_csv(dataset_path, csv_name='dataset.csv', resize=None, val
         path = os.path.join(dataset_path, row['folder_path'], row['image_id'])
         if debug:
             print(path, end=' ')
-        img = read_and_preprocess(path, resize=resize)
+        img = read_and_resize(path, resize=resize)
         target = 1 if row['class'] == 'fire' else 0
 
-        if val_split and row['purpose'] == 'test':
+        if val_split and row['purpose'] == 'val':
             x_test.append(img)
             y_test.append(target)
         else:
@@ -85,23 +59,15 @@ def load_fismo_dataset(fismo_path, val_split=True, resize=(224, 224), debug=Fals
                             debug=debug)
 # end load_fismo_dataset
 
-def load_firesense_dataset(firesense_path, val_split=True, resize=(224, 224), debug=False):
+def load_fismo_black_dataset(fismo_path, val_split=True, resize=(224, 224), debug=False):
     # load images
-    print('Loading FireSense with', resize, 'dimension')
-    return read_dataset_from_csv(firesense_path,
-                                val_split=val_split,
-                                resize=resize,
-                                debug=debug)
-# end load_firesense_dataset
-
-def load_cairfire_dataset(cairfire_path, val_split=True, resize=(224, 224), debug=False):
-    # load images
-    print('Loading CairFire with', resize, 'dimension')
-    return read_dataset_from_csv(cairfire_path,
-                                val_split=val_split,
-                                resize=resize,
-                                debug=debug)
-# end load_cairfire_dataset
+    print('Loading FiSmoA with', resize, 'dimension')
+    return read_dataset_from_csv(fismo_path,
+                            val_split=val_split,
+                            resize=resize,
+                            csv_name='dataset_black.csv',
+                            debug=debug)
+# end load_fismo_black_dataset
 
 def load_firenet_dataset(firenet_path, val_split=True, resize=(224, 224), debug=False):
     # load images
@@ -120,7 +86,26 @@ def load_firenet_test_dataset(firenet_path, val_split=False, resize=(224, 224), 
                                 resize=resize,
                                 csv_name='dataset_test.csv',
                                 debug=debug)
-# end load_firenet_dataset
+# end load_firenet_test_dataset
+
+def load_dataset(dt_id='firenet'):
+    if dt_id == 'firenet':
+        dt_folder = 'FireNetDataset'
+        dt_fn = load_firenet_dataset
+    elif 'fismo' in dt_id:
+        dt_folder = 'FiSmoDataset'
+        if dt_id == 'fismo_black':
+            dt_fn = load_fismo_black_dataset
+        elif dt_id == 'fismo':
+            dt_fn = load_fismo_dataset
+        else:
+            raise ValueError('The dataset must be fismo or fismo_black')
+    else:
+        raise ValueError('The dataset must be firenet, fismo or fismo_black')
+
+    return dt_folder, dt_fn
+
+# end load_dataset
 
 def preprocess(batch):
     return batch.astype('float32') / 255.

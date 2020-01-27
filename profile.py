@@ -27,7 +27,7 @@ def profile_model(base_model, num_classes=2, extra_params=None):
     print(config['model_name'], img_dims, 'flops, params', flops, params)
 
 # FireNet
-profile_model('firenet')
+# profile_model('firenet')
 # OctFiResNet
 profile_model('octfiresnet')
 # ResNet

@@ -1,8 +1,3 @@
-"""
-Training complete in _m _s
-Best val Acc: 0.93553
-Test Acc: 0.91389
-"""
 import os
 import time
 import numpy as np
@@ -12,7 +7,7 @@ from keras.models import load_model
 
 from sklearn.metrics import classification_report
 from models.firenet_tf import firenet_tf
-from utils.dataset import load_fismo_dataset
+from utils.dataset import load_dataset
 from utils.dataset import load_firenet_test_dataset
 from utils.dataset import preprocess
 from utils.training import plot_history
@@ -42,16 +37,17 @@ K.set_session(sess)
 must_train = True
 must_test = True
 base_model = 'firenet_tf'
-tmsp = 'fismo' # int(time.time())
-save_path = os.path.join('.', 'models', 'saved', '{}_{}'.format(base_model, tmsp))
+dataset = 'fismo_black' # int(time.time())
+ds_folder, get_dataset = load_dataset(dataset)
+save_path = os.path.join('.', 'models', 'saved', base_model, dataset)
 if not os.path.exists(save_path):
     os.makedirs(save_path)
 
 ### Training
 if must_train:
 
-    fismo_path = os.path.join('.', 'datasets', 'FiSmoDataset')
-    x_train, y_train, x_val, y_val = load_fismo_dataset(fismo_path, resize=(64,64))
+    ds_path = os.path.join('.', 'datasets', ds_folder)
+    x_train, y_train, x_val, y_val = get_dataset(ds_path, resize=(64,64))
 
     # Normalize data.
     x_train = preprocess(x_train)
@@ -159,12 +155,12 @@ if must_test:
     score = model.evaluate(x_test, y_test, verbose=2)
 
     #Confusion Matrix and Classification Report
-    y_pred = model.predict(x_test, verbose=0)
-    y_pred = np.argmax(y_pred, axis=1)
+    y_score = model.predict(x_test, verbose=0)
+    y_class = np.argmax(y_score, axis=1)
     # Y_test = np.argmax(y_test, axis=1)
 
     target_names = ['No Fire', 'Fire']
-    class_report = classification_report(y_test, y_pred,
+    class_report = classification_report(y_test, y_class,
                             target_names=target_names)#, output_dict=True)
 
     with open(os.path.join(save_path, 'test.log'), 'a+') as f:
