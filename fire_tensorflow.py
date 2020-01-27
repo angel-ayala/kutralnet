@@ -167,7 +167,7 @@ if must_test:
     class_report = classification_report(y_test, y_pred,
                             target_names=target_names)#, output_dict=True)
 
-    with open(os.path.join(save_path, 'training.log'), 'a+') as f:
+    with open(os.path.join(save_path, 'test.log'), 'a+') as f:
         with redirect_stdout(f):
             print(score)
             print('Classification Report')

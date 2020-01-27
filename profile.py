@@ -24,7 +24,7 @@ def profile_model(base_model, num_classes=2, extra_params=None):
             inputs=(input, ),
             custom_ops={torch.nn.Dropout2d: None})
     flops, params = clever_format([flops, params], "%.3f")
-    print(config['class_name'], img_dims, 'flops, params', flops, params)
+    print(config['model_name'], img_dims, 'flops, params', flops, params)
 
 # FireNet
 profile_model('firenet')
