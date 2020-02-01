@@ -64,7 +64,7 @@ if base_model in models_conf:
     fire_model = getattr(module, config['class_name'])
     model = fire_model(classes=num_classes)
 else:
-    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and portable variations)]')
 
 model_path = os.path.join(folder_path, model_path)
 print('Loading model {}'.format(model_path))

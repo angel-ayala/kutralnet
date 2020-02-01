@@ -66,7 +66,7 @@ if base_model in models_conf:
     fire_model = getattr(module, config['class_name'])
     model = fire_model(classes=num_classes)
 else:
-    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and lite variations)]')
+    raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet (and portable variations)]')
 
 # optimizers
 criterion = config['criterion'] #nn.CrossEntropyLoss()
