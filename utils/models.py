@@ -1,8 +1,7 @@
 from torch.nn import CrossEntropyLoss
 from torch import optim
-from .nadam_optim import Nadam
 from torchvision import transforms
-from datasets import CustomNormalize
+from .nadam_optim import Nadam
 
 models_conf = {
     'firenet': {

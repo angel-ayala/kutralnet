@@ -10,5 +10,10 @@
 # saved models folder
 /models/saved/**.pdf
 /models/saved/**/*.png
+/models/results/*.pdf
+# best on-training model
+/models/saved/**/best_model_*.pth
 
-*/__pycache__/*
+# editors and cache folders
+/.spyproject
+**/__pycache__

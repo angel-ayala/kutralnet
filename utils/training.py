@@ -2,17 +2,78 @@ import os
 import time
 import copy
 import torch
+import importlib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from .models import models_conf
+
+
+class SaveCallback:
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+    # end __init__
+
+    def __call__(self, model, epoch):
+        file_path = os.path.join(self.folder_path, 'best_model_ep{:03d}.pth'.format(epoch))
+        print('Epoch: {:03d} -> Saving model {}'.format(epoch, file_path))
+        torch.save(model, self.file_path)
+    # end __call__
+# end SaveCallback
+
+def add_bool_arg(parser, name, default=False, **kwargs):
+    group = parser.add_mutually_exclusive_group(required=False)
+    group.add_argument('--' + name, dest=name.replace('-', '_'), action='store_true', **kwargs)
+    group.add_argument('--no-' + name, dest=name.replace('-', '_'), action='store_false', **kwargs)
+    parser.set_defaults(**{name.replace('-', '_'):default})
+# end add_bool_arg
+
+def get_paths(root_path):
+    models_root = os.path.join(root_path, 'models')
+    models_save_path = os.path.join(root_path, 'models', 'saved')
+    models_results_path = os.path.join(root_path, 'models', 'results')
+    
+    # save models folder
+    if not os.path.exists(models_save_path):
+        os.mkdir(models_save_path)
+    
+    # results models folder
+    if not os.path.exists(models_results_path):
+        os.mkdir(models_results_path)
+    
+    print('Root path:', root_path)
+    print('Models path:', models_root)
+    print('Models saved path:', models_save_path)
+    print('Models results path:', models_results_path)
+    
+    return models_root, models_save_path, models_results_path
+# end get_paths
+
+def get_model(base_model='kutralnet', num_classes=2, extra_params=None):
+    model, config = None, None
+    if base_model in models_conf:
+        config = models_conf[base_model]
+        module = importlib.import_module(config['module_name'])        
+        fire_model = getattr(module, config['class_name'])
+        params = {'classes': num_classes }
+
+        if extra_params is not None:
+            params.update(extra_params)
+
+        model = fire_model(**params)
+    else:
+        raise ValueError('Must choose a model first [firenet, octfiresnet, resnet, kutralnet]')
+
+    return model, config
+# end get_model
 
 def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, batch_size=32,
-                shuffle_dataset=True, scheduler=None, use_cuda=True):
+                shuffle_dataset=True, scheduler=None, use_cuda=True, pin_memory=False, callbacks=None):
     # prepare dataset
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,
-                                                shuffle=shuffle_dataset, num_workers=2)
+                            pin_memory=pin_memory, shuffle=shuffle_dataset, num_workers=2)
     validation_loader = torch.utils.data.DataLoader(val_data, batch_size=batch_size,
-                                                shuffle=shuffle_dataset, num_workers=2)
+                            pin_memory=pin_memory, shuffle=shuffle_dataset, num_workers=2)
 
     if use_cuda:
         model.cuda()
@@ -89,6 +150,9 @@ def train_model(model, criterion, optimizer, train_data, val_data, epochs=100, b
                 best_acc = epoch_acc
                 best_ep = epoch +1
                 best_model_wts = copy.deepcopy(model.state_dict())
+                if callbacks is not None:
+                    for c in callbacks:
+                        c(best_model_wts, best_ep)
 
         if scheduler is not None:
             scheduler.step()

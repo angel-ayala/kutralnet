@@ -7,31 +7,39 @@ from .fire_images_dataset import FiSmoBalancedDataset
 from .fire_images_dataset import FiSmoBlackDataset
 from .fire_images_dataset import FiSmoBalancedBlackDataset
 
-__all__ = ['FireImagesDataset', 'CustomNormalize', 'FireNetDataset', 'FireNetTestDataset', 'FiSmoDataset', 'FiSmoBalancedDataset', 'FiSmoBlackDataset', 'FiSmoBalancedBlackDataset']
+__all__ = [ 'FireImagesDataset', 'FireNetDataset', 'FireNetTestDataset',
+            'FiSmoDataset', 'FiSmoBalancedDataset', 'FiSmoBlackDataset', 'FiSmoBalancedBlackDataset',
+            'CustomNormalize' ]
 
 available_datasets = {
     'firenet': {
         'name': 'FireNet',
-        'class': FireNetDataset
+        'class': FireNetDataset,
+        'num_classes': 2
     },
     'firenet_test': {
         'name': 'FireNet Test',
-        'class': FireNetTestDataset
+        'class': FireNetTestDataset,
+        'num_classes': 2
     },
     'fismo': {
         'name': 'FiSmo',
-        'class': FiSmoDataset
+        'class': FiSmoDataset,
+        'num_classes': 2
     },
     'fismo_balanced': {
         'name': 'FiSmoB',
-        'class': FiSmoBalancedDataset
+        'class': FiSmoBalancedDataset,
+        'num_classes': 2
     },
     'fismo_black': {
         'name': 'FiSmoA',
-        'class': FiSmoBlackDataset
+        'class': FiSmoBlackDataset,
+        'num_classes': 2
     },
     'fismo_balanced_black': {
         'name': 'FiSmoBA',
-        'class': FiSmoBalancedBlackDataset
+        'class': FiSmoBalancedBlackDataset,
+        'num_classes': 2
     }
 }
