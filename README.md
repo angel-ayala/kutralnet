@@ -57,8 +57,10 @@ Also, some variations from the dataset were used, for use with the source code, 
 
 The available code can be executed on Google Colab using the following examples for training the models.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1T6FuLalbQc6uRX37eIdgzjDFxLZ-_YFq)
+
 For training the FireNet model, another Google Colab is implemented due to the model is developed in Keras.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DJ62C0Rdj6b1DBzltw2Ak6hpUqm-J8ft)
+
 And another one, for testing the models and graphics the results.
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1mhF-xfBtvAfvIo7CfcS3jCl8m9OMIVoV)
 
