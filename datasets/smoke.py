@@ -40,7 +40,7 @@ class SmokeImages(BaseDataset):
                 'name': 'None'
             },
             'smoke': {
-                'idx': 1,
+                'idx': 2,
                 'label': 'smoke',
                 'name': 'Smoke'
             }

@@ -12,7 +12,7 @@ import pandas as pd
 
 if __name__ == '__main__':
     for ds in datasets.keys():
-        if ds in ['imagenet', 'fismo_balanced_relabeled', 'fismo_balanced_black_relabeled']:
+        if ds in ['imagenet']:
             continue
         d = get_dataset(ds, params=dict(purpose=None))
         d.labels_describe(True)

@@ -492,8 +492,8 @@ if __name__ == '__main__':
     # fire only
     filename = 'fire_experiment.csv'
     fire_models = [# state-of-the-art models
-          'firenet', 'octfiresnet', 'resnet', 
-          'resnet18', 'efficientnet', 'fire_detection',
+          # 'firenet', 'octfiresnet', 'resnet', 
+          'efficientnet', 'fire_detection', 'resnet18',
           # proposal 
           'kutralnet', 'kutralnet_pre', 'kutralnetoct',
           'kutralnet_mobile', 'kutralnet_mobileoct', 'kutralnet_mobileoct_pre']
@@ -589,12 +589,21 @@ if __name__ == '__main__':
     # ROC curve plot
     for ds in datasets:
         plot_roc(metrics, models, dataset=ds, label='Fire',
-                 filename=os.path.join(results_path, 'fire_smoke_roc_' + ds +'.pdf')
+                 filename=os.path.join(results_path, 'fire_smoke_roc_' + ds +'_fire.pdf')
+                 ).show()
+        plot_roc(metrics, models, dataset=ds, label='Smoke',
+                 filename=os.path.join(results_path, 'fire_smoke_roc_' + ds +'_smoke.pdf')
                  ).show()
         
     # AUROC values comparison
     plot_bars(metrics, models, datasets,
               title='ROC AUC Fire label', column='auroc', 
               yrange=[.40, 1.01], label='Fire',
-              filename=os.path.join(results_path, 'fire_smoke_auroc.pdf')
+              filename=os.path.join(results_path, 'fire_smoke_auroc_fire.pdf')
+              ).show()
+              
+    plot_bars(metrics, models, datasets,
+              title='ROC AUC Smoke label', column='auroc', 
+              yrange=[.40, 1.01], label='Smoke',
+              filename=os.path.join(results_path, 'fire_smoke_auroc_smoke.pdf')
               ).show()

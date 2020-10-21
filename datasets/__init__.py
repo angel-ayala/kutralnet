@@ -21,8 +21,8 @@ from .fire import FiSmoBalancedRDataset
 from .fire import FiSmoBlackRDataset
 from .fire import FiSmoBalancedBlackRDataset
 
-from .smoke import SmokeDataset
-from .smoke import SmokeTestDataset
+# from .smoke import SmokeDataset
+# from .smoke import SmokeTestDataset
 
 from .fire_smoke import FireNetV2Dataset
 from .fire_smoke import FireNetTestV2Dataset
@@ -50,7 +50,7 @@ __all__ = [ 'ImagePreprocess', 'CustomNormalize',
             'FiSmoV2Dataset', 'FiSmoBlackV2Dataset',
             'FiSmoBalancedV2Dataset', 'FiSmoBalancedBlackV2Dataset', 
             'FireFlameDataset', 'FireFlameTestDataset',
-            'SmokeDataset', 'SmokeTestDataset',
+            # 'SmokeDataset', 'SmokeTestDataset',
             'FireFlameV2Dataset', 'FireFlameTestV2Dataset']
 
 # registered preprocess
@@ -91,8 +91,8 @@ datasets['fismo_black_relabeled'] = FiSmoBlackRDataset
 datasets['fismo_balanced_relabeled'] = FiSmoBalancedRDataset
 datasets['fismo_balanced_black_relabeled'] = FiSmoBalancedBlackRDataset
 # smoke datasets
-datasets['smokeset']= SmokeDataset
-datasets['smokeset_test']= SmokeTestDataset
+# datasets['smokeset']= SmokeDataset
+# datasets['smokeset_test']= SmokeTestDataset
 # fire and smoke datasets
 datasets['firenet_v2']= FireNetV2Dataset
 datasets['firenet_testv2']= FireNetTestV2Dataset
